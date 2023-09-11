@@ -3,21 +3,20 @@ import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer
-      className="bg-blue-500 rounded-lg shadow dark:bg-gray-900 fixed bottom-0 left-0 right-0"
-      style={{ zIndex: 1000 }}
-    >
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+    <footer className="bg-blue-500 rounded-lg shadow dark:bg-gray-900 -ml-96  -mr-96 -mb-10 " >
+      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 left-0 ">
         <div className="sm:flex sm:items-center sm:justify-between">
-          <a href="https://flowbite.com/" className="flex items-center mb-4 sm:mb-0">
+          <a className="flex items-center mb-4 sm:mb-0">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src="https://www.svgrepo.com/show/139/traffic-light.svg"
               className="h-8 mr-3"
               alt="Flowbite Logo"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
-            </span>
+             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="text-green-500">Traffic</span>
+            <span className="text-yellow-500">Today</span>{" "}
+            <span className="text-red-500">System</span>{" "}
+          </span>
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
