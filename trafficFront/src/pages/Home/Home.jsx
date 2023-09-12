@@ -14,10 +14,10 @@ function Home() {
   return (
     <div className="App">
         <div className="flex items-center">
-    <div className=" mt-36">
+    <div className=" mt-24">
       <img src="https://www.svgrepo.com/show/139/traffic-light.svg" alt="farol" class="h-auto w-full" />
     </div>
-    <div className="ml-10">
+    <div className="ml-10 mt-20">
       <div className="text-2xl font-semibold ">
         <h1 className="">Traffic Today</h1>
       </div>
