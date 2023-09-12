@@ -14,7 +14,7 @@ function Home() {
   return (
     <div className="App">
         <div className="flex items-center">
-    <div className=" mt-20">
+    <div className=" mt-36">
       <img src="https://www.svgrepo.com/show/139/traffic-light.svg" alt="farol" class="h-auto w-full" />
     </div>
     <div className="ml-10">
@@ -32,11 +32,11 @@ function Home() {
 
        {/* Aqui começa card1 */}
 
-       <div className="flex space-x-4 ">
+       <div className="flex space-x-4  mb-32">
 
        <Card className="mt-16 w-96 border border-indigo-100 rounded-lg">
         <CardBody>
-          <div className='w-20 ml-32 mb-3'>    <img src="https://www.svgrepo.com/show/5438/cone.svg" alt="" /></div>
+          <div className='w-20 ml-36 mb-3 mt-4'>    <img src="https://www.svgrepo.com/show/5438/cone.svg" alt="" /></div>
        
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Dados Gerais Sobre Tráfego
@@ -73,7 +73,7 @@ function Home() {
         
        <Card className="mt-16 w-96 border border-indigo-100 rounded-lg">
         <CardBody>
-        <div className='w-20 ml-32 mb-3'>    <img src="https://www.svgrepo.com/show/271899/injury.svg" alt="" /></div>
+        <div className='w-20 ml-36 mb-3 mt-4'>     <img src="https://www.svgrepo.com/show/271899/injury.svg" alt="" /></div>
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Dados Gerais Sobre Acidentes
           </Typography>
@@ -108,7 +108,7 @@ function Home() {
 
          <Card className="mt-16 w-96 border border-indigo-100 rounded-lg">
         <CardBody>
-        <div className='w-20 ml-32 mb-3'>    <img src="https://pic.onlinewebfonts.com/thumbnails/icons_208095.svg" alt="" /></div>
+        <div className='w-20 ml-36 mb-3 mt-4'>      <img src="https://pic.onlinewebfonts.com/thumbnails/icons_208095.svg" alt="" /></div>
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Dados Gerais Sobre Infrações
           </Typography>

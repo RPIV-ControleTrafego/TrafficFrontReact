@@ -77,10 +77,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="text-2xl font-bold mb-4 bg-blue">Test</h1>
       
-
-      <div id="accordion-collapse" data-accordion="collapse">
+      
+      
+   
+    <h1 className='text-5xl mb-12 mt-16'> Informações de Tráfego</h1>
+      <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
         <h2 id="accordion-collapse-heading-1">
           <button
             type="button"
@@ -250,7 +252,7 @@ function App() {
 
    
 
-      
+     
     </div>
   );
 }

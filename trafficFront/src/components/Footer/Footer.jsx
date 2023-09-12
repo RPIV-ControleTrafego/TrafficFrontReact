@@ -3,18 +3,21 @@ import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
-
+    
     
     <footer
-    className="bg-blue-500 rounded-lg shadow dark:bg-gray-900 "
+    className="bg-blue-500 rounded-lg shadow dark:bg-gray-900  -mb-96 "
     style={{
-      position: 'absolute',
+      display: 'flex',
       bottom: 0,
       left: 0,
       right: 0,
-      width: '100%',
-      zIndex: 9999, // Ajuste o valor conforme necessário
-      margin: '0 auto -260px',
+
+      zIndex: 222, // Ajuste o valor conforme necessário
+      justifyContent: 'space-between',
+     width: 1910,
+     marginLeft: -350,
+     
     
     }}
   >
