@@ -9,7 +9,7 @@ import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Stats from './pages/Stats/Stats';
-
+import About from './pages/about/About';
 
 function App() {
   
@@ -21,7 +21,7 @@ function App() {
         <div className="container"> 
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* {/* <Route path="/mars" element={<Mars />} /> */}
+            <Route path="/About" element={<About />} />
             <Route path="/Stats" element={<Stats />} /> 
           </Routes>
         </div>

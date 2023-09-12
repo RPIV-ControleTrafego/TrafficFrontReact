@@ -14,17 +14,17 @@ const Footer = () => {
       right: 0,
       width: '100%',
       zIndex: 9999, // Ajuste o valor conforme necessário
-      margin: '0 auto -100px',
+      margin: '0 auto -260px',
     
     }}
   >
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 left-0 ">
+      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 left-0  ">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a className="flex items-center mb-4 sm:mb-0">
             <img
               src="https://www.svgrepo.com/show/139/traffic-light.svg"
               className="h-8 mr-3"
-              alt="Flowbite Logo"
+              alt="Traffic Light"
             />
              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             <span className="text-green-500">Traffic</span>
@@ -32,21 +32,25 @@ const Footer = () => {
             <span className="text-red-500">System</span>{" "}
           </span>
           </a>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 ">
+
+          <li>
+              <NavLink
+                to="/stats"
+                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent  mr-6"
+                activeClassName="bg-blue-700" // Classe aplicada quando o link está ativo
+              >
+                Stats
+              </NavLink>
+            </li>
             <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">
+              <NavLink
+                to="/stats"
+                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent mr-6"
+                activeClassName="bg-blue-700" // Classe aplicada quando o link está ativo
+              >
                 About
-              </a>
-            </li>
-            <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">
-                Licensing
-              </a>
+              </NavLink>
             </li>
             <li>
               <a href="#" className="hover:underline">
@@ -57,7 +61,7 @@ const Footer = () => {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2023 <a href="https://flowbite.com/" className="hover:underline">Flowbite™</a>. All Rights Reserved.
+          © 2023 <a href="https://flowbite.com/" className="hover:underline">Traffic Today System™</a>. All Rights Reserved.
         </span>
       </div>
     </footer>
