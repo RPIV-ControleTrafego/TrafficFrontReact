@@ -3,7 +3,21 @@ import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-500 rounded-lg shadow dark:bg-gray-900 -ml-96  -mr-96 -mb-10 " >
+
+    
+    <footer
+    className="bg-blue-500 rounded-lg shadow dark:bg-gray-900 "
+    style={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      width: '100%',
+      zIndex: 9999, // Ajuste o valor conforme necessário
+      margin: '0 auto -100px',
+    
+    }}
+  >
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 left-0 ">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a className="flex items-center mb-4 sm:mb-0">
