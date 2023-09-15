@@ -8,8 +8,10 @@ function App() {
   const [accordionExpanded, setAccordionExpanded] = useState(false);
   const [accordionExpanded2, setAccordionExpanded2] = useState(false); 
   const [accordionExpanded3, setAccordionExpanded3] = useState(false); 
+  const [accordionExpanded4, setAccordionExpanded4] = useState(false);
   const [brandsData, setBrandsData] = useState([]);
   const [carTypesData, setCarTypesData] = useState([]);
+
 
 
   function fetchData() {
@@ -73,6 +75,11 @@ function App() {
   const toggleAccordion3 = () => {
     setAccordionExpanded3(!accordionExpanded3);
   };
+
+  const toggleAccordion4 = () => {
+    setAccordionExpanded4(!accordionExpanded4);
+  }
+
 
 
   return (
@@ -184,21 +191,21 @@ function App() {
   className={accordionExpanded2 ? "p-5 border border-b-0 border-gray-200 dark:border-gray-700" : "hidden"}
   aria-labelledby="accordion-collapse-heading-2"
 >
-  <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-  <table className="table">
-  <thead>
-    <tr>
-      <th>Car Brands</th>
-    </tr>
-  </thead>
-  <tbody>
-    {brandsData.map((item, index) => (
-      <tr key={index} className="tr">
-        <td className="border border-slate-500">{item}</td> {/* Alterado para {item} */}
-      </tr>
-    ))}
-  </tbody>
-</table>   
+<div className="flex justify-center items-center p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+
+
+  <iframe
+    style={{
+      background: '#FFFFFF',
+      border: 'none',
+      borderRadius: '2px',
+      boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+    }}
+    width="1200"
+    height="630"
+    src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65023917-a83c-4d99-8c0b-ffcd4285f4c6&maxDataAge=3600&theme=light&autoRefresh=true"
+  ></iframe>
+
   </div>
 </div>
         
@@ -231,26 +238,79 @@ function App() {
   className={accordionExpanded3 ? "p-5 border border-b-0 border-gray-200 dark:border-gray-700" : "hidden"}
   aria-labelledby="accordion-collapse-heading-2"
 >
-  <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-  <table className="table">
-  <thead>
-    <tr>
-      <th>Car Colors</th>
-    </tr>
-  </thead>
-  <tbody>
-    {carTypesData.map((item, index) => (
-      <tr key={index} className="tr">
-        <td className="border border-slate-500">{item}</td> {/* Alterado para {item} */}
-      </tr>
-    ))}
-  </tbody>
-</table>   
+<div className="flex justify-center items-center p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+    
+      <iframe
+      style={{
+        background: '#FFFFFF',
+        border: 'none',
+        borderRadius: '2px',
+        boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+      }}
+      width="1200"
+      height="630"
+      src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65023b00-9bed-4870-8a60-4722b5d657a9&maxDataAge=3600&theme=light&autoRefresh=true"
+    ></iframe>
+
   </div>
 </div>
+
+
+
+
+
+
+<h2 id="accordion-collapse-heading-4">
+  <button
+    type="button"
+    className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+    data-accordion-target="#accordion-collapse-body-4"
+    aria-expanded={accordionExpanded4} 
+    aria-controls="accordion-collapse-body-4"
+    onClick={toggleAccordion4}
+  >
+    <span>Quantas cores foram registradas?</span>
+    <svg
+      data-accordion-icon
+      className={`w-3 h-3 rotate-${accordionExpanded4 ? '180' : '0'} shrink-0`}
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 10 6"
+    >
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5"/>
+    </svg>
+  </button>
+</h2>
+<div
+  id="accordion-collapse-body-4"
+  className={accordionExpanded4 ? "p-5 border border-b-0 border-gray-200 dark:border-gray-700" : "hidden"}
+  aria-labelledby="accordion-collapse-heading-2"
+>
+<div className="flex justify-center items-center p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+    
+      <iframe
+      style={{
+        background: '#FFFFFF',
+        border: 'none',
+        borderRadius: '2px',
+        boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+      }}
+      width="1200"
+      height="630"
+      src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65023b20-c954-44bf-89be-5daa9d31be66&maxDataAge=300&theme=light&autoRefresh=true"
+    ></iframe>
+
+  </div>
+</div>
+
+
+
+
+
       </div>
 
-   
+        
 
      
     </div>
