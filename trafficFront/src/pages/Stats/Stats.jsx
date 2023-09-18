@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+ // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
+
+  import { FileText } from 'react-feather';
 function App() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
@@ -11,7 +15,7 @@ function App() {
   const [accordionExpanded4, setAccordionExpanded4] = useState(false);
   const [brandsData, setBrandsData] = useState([]);
   const [carTypesData, setCarTypesData] = useState([]);
-
+ 
 
 
   function fetchData() {
@@ -80,8 +84,19 @@ function App() {
     setAccordionExpanded4(!accordionExpanded4);
   }
 
-
-
+  const downloadCSV = () => {
+    let csvContent = "carPlate,carType,carColor,carBrand,veiculeOwnerName,veiculeOwneCPF,time,date,address,speed,maxSpeed,direction,streetDirection\n";
+    data.forEach((item) => {
+      const rowData = `${item.carPlate},${item.carType},${item.carColor},${item.carBrand},${item.veiculeOwnerName},${item.veiculeOwneCPF},${item.time},${item.date},${item.address},${item.speed},${item.maxSpeed},${item.direction},${item.streetDirection}\n`;
+      csvContent += rowData;
+    });
+  
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'data.csv';
+    link.click();
+  };
   return (
     <div className="App">
       
@@ -118,50 +133,11 @@ function App() {
           aria-labelledby="accordion-collapse-heading-1"
         >
           <div>
-            <h1 className="text-2xl font-bold mb-4 bg-blue">Test</h1>
-            <div className="table-container">
-              {/* Conteúdo do item do acordeão aqui */}
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Car Plate</th>
-                    <th>Car Type</th>
-                    <th>Car Color</th>
-                    <th>Car Brand</th>
-                    <th>Vehicle Owner Name</th>
-                    <th>Vehicle Owner CPF</th>
-                    <th>Time</th>
-                    <th>Date</th>
-                    <th>Address</th>
-                    <th>Speed</th>
-                    <th>Max Speed</th>
-                    <th>Direction</th>
-                    <th>Street Direction</th>
-                    {/* Adicione outras colunas do cabeçalho aqui */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, index) => (
-                    <tr key={index} className="tr">
-                      <td className="border border-slate-500">{item.carPlate}</td>
-                      <td className="border border-slate-500">{item.carType}</td>
-                      <td className="border border-slate-500">{item.carColor}</td>
-                      <td className="border border-slate-500">{item.carBrand}</td>
-                      <td className="border border-slate-500">{item.veiculeOwnerName}</td>
-                      <td className="border border-slate-500">{item.veiculeOwneCPF}</td>
-                      <td className="border border-slate-500">{item.time}</td>
-                      <td className="border border-slate-500">{item.date}</td>
-                      <td className="border border-slate-500">{item.address}</td>
-                      <td className="border border-slate-500">{item.speed}</td>
-                      <td className="border border-slate-500">{item.maxSpeed}</td>
-                      <td className="border border-slate-500">{item.direction}</td>
-                      <td className="border border-slate-500">{item.streetDirection}</td>
-                   
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+              
+            <button onClick={downloadCSV} className='flex items-center ml-'>
+              Baixar CSV
+              <FileText size={20} style={{ marginLeft: '0.5em' }} />
+            </button>
           </div>
         </div>
         <h2 id="accordion-collapse-heading-2">
