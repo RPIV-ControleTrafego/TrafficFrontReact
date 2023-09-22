@@ -136,7 +136,8 @@ function App() {
               <p className='flex'>
                 Baixe os registros de tráfego em formato CSV.
               </p>
-            <button onClick={downloadCSV} className='flex items-center mt-5'>
+            <button onClick={downloadCSV} className='flex items-center mt-5
+            '>
               Baixar CSV
               <FileText size={20} style={{ marginLeft: '0.5em' }} />
             </button>
