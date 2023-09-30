@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import SpeedSearchLworGt from '../../components/SpeedSearch/SpeedSearch';
+import SearchInfractionByDate from '../../components/SearchByDate/SearchInfractionByDate';
  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,55 +19,7 @@ function Infraction() {
  
 
 
-  function fetchData() {
-    axios.get('http://localhost:8082/service/traffic/car-plate/list')
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  
 
-
-  function fetchBrandsData() {
-    axios.get('http://localhost:8082/service/traffic/car/brands')
-      .then((response) => {
-        setBrandsData(response.data); // Alterado para setBrandsData
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function fetchCarTypesData() {
-    axios.get('http://localhost:8082/service/traffic/car/types')
-      .then((response) => {
-        setCarTypesData(response.data); // Alterado para setCarTypesData
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-  }
-
-
-  useEffect(() => {
-    fetchCarTypesData();
-  }, []);
-
-  
-  
-  useEffect(() => {
-    fetchBrandsData();
-  }, []);
-
-  
-  useEffect(() => {
-    fetchData(); 
-  }, []);
-  
 
   const toggleAccordion = () => {
     setAccordionExpanded(!accordionExpanded);
@@ -284,8 +237,8 @@ function Infraction() {
 </div>
 
 
-
-
+      <SpeedSearchLworGt />
+      <SearchInfractionByDate />
 
       </div>
 
