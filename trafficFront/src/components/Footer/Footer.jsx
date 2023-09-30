@@ -15,8 +15,8 @@ const Footer = () => {
 
       zIndex: 222, // Ajuste o valor conforme necessário
       justifyContent: 'space-between',
-     width: 1910,
-     marginLeft: -350,
+     width: 1730,
+     
      
     
     }}
