@@ -5,8 +5,10 @@ import arrowImg from "../../assets/arrow.svg";
 import logoImg from "../../assets/logo.svg";
 import { auth } from "../../service/firebaseConfig";
 import "./styles.css";
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +17,17 @@ export function Login() {
 
   function handleSignIn(e) {
     e.preventDefault();
-    signInWithEmailAndPassword(email, password);
+    signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log('Usuário autenticado:', user);
+
+      // Redirecione o usuário para a página de dashboard
+      navigate('/');
+    })
+    .catch((error) => {
+      console.error('Erro de login:', error);
+    });
   }
 
   if (loading) {
