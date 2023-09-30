@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
- // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
+
+  // modelo tabela de acidentes
+  // _id 650f5fe2ec37b863fb51acb5
+  // date "2019-08-16"
+  // hasInjuries false
+  // hasFatalities false
+  // address "Oak Lane, New York, NY 33101"
+  // hasInfraction false
+  // _class "com.accident.serviceaccident.Entity.AccidentEntity"
 
   import { FileText } from 'react-feather';
 function Accident() {
@@ -27,8 +36,6 @@ function Accident() {
         console.log(error);
       });
   }
-  
-
 
   function fetchBrandsData() {
     axios.get('http://localhost:8082/service/traffic/car/brands')
@@ -51,22 +58,17 @@ function Accident() {
 
   }
 
-
   useEffect(() => {
     fetchCarTypesData();
   }, []);
 
-  
-  
   useEffect(() => {
     fetchBrandsData();
   }, []);
 
-  
   useEffect(() => {
     fetchData(); 
   }, []);
-  
 
   const toggleAccordion = () => {
     setAccordionExpanded(!accordionExpanded);
@@ -85,9 +87,9 @@ function Accident() {
   }
 
   const downloadCSV = () => {
-    let csvContent = "carPlate,carType,carColor,carBrand,veiculeOwnerName,veiculeOwneCPF,time,date,address,speed,maxSpeed,direction,streetDirection\n";
+    let csvContent = "date,hasInjuries,hasFatalities,address,hasInfraction\n";
     data.forEach((item) => {
-      const rowData = `${item.carPlate},${item.carType},${item.carColor},${item.carBrand},${item.veiculeOwnerName},${item.veiculeOwneCPF},${item.time},${item.date},${item.address},${item.speed},${item.maxSpeed},${item.direction},${item.streetDirection}\n`;
+      const rowData = `${item.data},${item.hasInjuries},${item.hasFatalities},${item.address},${item.hasInfraction}\n`;
       csvContent += rowData;
     });
   
@@ -100,9 +102,6 @@ function Accident() {
   return (
     <div className="App">
       
-      
-      
-   
     <h1 className='text-5xl mb-12 mt-16'> Informações de Acidentes</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
         <h2 id="accordion-collapse-heading-1">
@@ -134,7 +133,7 @@ function Accident() {
         >
           <div>
               <p className='flex'>
-                Baixe os registros de tráfego em formato CSV.
+                Baixe os registros dos acidentes em formato CSV.
               </p>
             <button onClick={downloadCSV} className='flex items-center mt-5
             '>
@@ -187,8 +186,6 @@ function Accident() {
 
   </div>
 </div>
-        
-
 
 <h2 id="accordion-collapse-heading-3">
   <button
@@ -233,11 +230,6 @@ function Accident() {
 
   </div>
 </div>
-
-
-
-
-
 
 <h2 id="accordion-collapse-heading-4">
   <button
