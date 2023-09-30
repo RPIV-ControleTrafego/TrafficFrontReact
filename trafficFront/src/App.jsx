@@ -9,6 +9,8 @@ import Stats from './pages/Stats/Stats';
 import About from './pages/about/About';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
+import Accident from './pages/Accident/Accident';
+import Infraction from './pages/Infraction/Infraction';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
               {/* Use ProtectedRoute for routes you want to protect */}
               <Route path="/Login" element={<Login />} />
               <Route path="/Register" element={<Register />} />
+              <Route path="Accident" element={<Accident />} />
+              <Route path='Infraction' element={<Infraction />} />
             </Routes>
           </div>
         </main>

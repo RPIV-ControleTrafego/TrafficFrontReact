@@ -13,16 +13,16 @@ function Home() {
 
   return (
     <div className="App">
-        <div className="flex items-center">
-    <div className=" mt-24">
+        <div className="flex items-center ml-10">
+    <div className=" mt-64">
       <img src="https://www.svgrepo.com/show/139/traffic-light.svg" alt="farol" class="h-auto w-full" />
     </div>
-    <div className="ml-10 mt-20">
+    <div className="ml-10 mt-44 ">
       <div className="text-2xl font-semibold ">
         <h1 className="">Traffic Today</h1>
       </div>
       <div>
-        <p className="text-base  bg-slate-100 rounded-sm mr-10">
+        <p className="text-base  bg-slate-100 rounded-sm mr-32">
           Bem-vindo à Traffic Today System, a principal autoridade em soluções de gerenciamento de tráfego para empresas que buscam alcançar eficiência, segurança e crescimento em suas operações. Somos apaixonados por ajudar nossos clientes a navegar pelo complexo mundo do tráfego de forma suave e eficaz, e estamos empenhados em impulsionar seu sucesso.
         </p>
       </div>
@@ -32,7 +32,7 @@ function Home() {
 
        {/* Aqui começa card1 */}
 
-       <div className="flex space-x-4  mb-32">
+       <div className="flex space-x-4  mb-64 ml-52" >
 
        <Card className="mt-16 w-96 border border-indigo-100 rounded-lg">
         <CardBody>

@@ -5,7 +5,7 @@ import axios from 'axios';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
 
   import { FileText } from 'react-feather';
-function App() {
+function Infraction() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
  
@@ -103,7 +103,7 @@ function App() {
       
       
    
-    <h1 className='text-5xl mb-12 mt-16'> Informações de Tráfego</h1>
+    <h1 className='text-5xl mb-12 mt-16'> Informações de Infração</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
         <h2 id="accordion-collapse-heading-1">
           <button
@@ -296,4 +296,4 @@ function App() {
   );
 }
 
-export default App;
+export default Infraction;
