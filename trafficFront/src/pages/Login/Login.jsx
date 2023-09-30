@@ -11,39 +11,35 @@ export function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, user, loading] =
     useSignInWithEmailAndPassword(auth);
 
-  function handleSignIn(e) {
+  async function handleSignIn(e) {
     e.preventDefault();
-    signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log('Usuário autenticado:', user);
+    setError("");
 
-      // Redirecione o usuário para a página de dashboard
-      navigate('/');
-    })
-    .catch((error) => {
-      console.error('Erro de login:', error);
-    });
+    try {
+      await signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      setError("Usuário não encontrado ou senha incorreta.");
+    }
   }
 
-  if (loading) {
-    return <p>carregando...</p>;
-  }
   if (user) {
-    return console.log(user);
+      // Redirecione o usuário para a página inicial
+      navigate('/');
   }
+  
   return (
     <div className="container">
       <header className="header">
         <img src={logoImg} alt="Workflow" className="logoImg" />
-        <span>Por favor digite suas informações de login</span>
       </header>
 
       <form>
+        {error && <p className="error-message">{error}</p>} 
         <div className="inputContainer">
           <label htmlFor="email">E-mail</label>
           <input
@@ -66,7 +62,7 @@ export function Login() {
           />
         </div>
 
-        <a href="#">Esqueceu sua senha ?</a>
+        <a href="#">Esqueceu sua senha?</a>
 
         <button className="button" onClick={handleSignIn}>
           Entrar <img src={arrowImg} alt="->" />

@@ -18,9 +18,6 @@ export function Register() {
     createUserWithEmailAndPassword(email, password);
   }
 
-  if (loading) {
-    return <p>carregando...</p>;
-  }
   return (
     <div className="container">
       <header className="header">
