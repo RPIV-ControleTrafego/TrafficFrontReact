@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SpeedSearchLworGt from '../../components/SpeedSearch/SpeedSearch';
 import SearchInfractionByDate from '../../components/SearchByDate/SearchInfractionByDate';
+import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
 
@@ -239,6 +240,7 @@ function Infraction() {
 
       <SpeedSearchLworGt />
       <SearchInfractionByDate />
+      <SearchFinePriceCPF />
 
       </div>
 
