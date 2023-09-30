@@ -22,13 +22,13 @@ function Accident() {
   const [accordionExpanded2, setAccordionExpanded2] = useState(false); 
   const [accordionExpanded3, setAccordionExpanded3] = useState(false); 
   const [accordionExpanded4, setAccordionExpanded4] = useState(false);
-  const [brandsData, setBrandsData] = useState([]);
-  const [carTypesData, setCarTypesData] = useState([]);
+  const [addressData, setAddressData] = useState([]);
+  const [severityData, setSeverityData] = useState([]);
  
 
 
   function fetchData() {
-    axios.get('http://localhost:8082/service/traffic/car-plate/list')
+    axios.get('http://localhost:8082/service/accident/')
       .then((response) => {
         setData(response.data);
       })
@@ -37,20 +37,20 @@ function Accident() {
       });
   }
 
-  function fetchBrandsData() {
-    axios.get('http://localhost:8082/service/traffic/car/brands')
+  function fetchAddressData() {
+    axios.get('http://localhost:8082/service/acident/address')
       .then((response) => {
-        setBrandsData(response.data); // Alterado para setBrandsData
+        setAddress(response.data); 
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  function fetchCarTypesData() {
-    axios.get('http://localhost:8082/service/traffic/car/types')
+  function fetchSeverityData() {
+    axios.get('http://localhost:8082/service/acident/severity')
       .then((response) => {
-        setCarTypesData(response.data); // Alterado para setCarTypesData
+        setSeverityData(response.data); 
       })
       .catch((error) => {
         console.log(error);
@@ -59,11 +59,11 @@ function Accident() {
   }
 
   useEffect(() => {
-    fetchCarTypesData();
+    fetchSeverityData();
   }, []);
 
   useEffect(() => {
-    fetchBrandsData();
+    fetchAddressData();
   }, []);
 
   useEffect(() => {
@@ -87,9 +87,9 @@ function Accident() {
   }
 
   const downloadCSV = () => {
-    let csvContent = "date,hasInjuries,hasFatalities,address,hasInfraction\n";
+    let csvContent = "date,hasInjuries,hasFatalities,address,hasInfraction,severity,type,description\n";
     data.forEach((item) => {
-      const rowData = `${item.data},${item.hasInjuries},${item.hasFatalities},${item.address},${item.hasInfraction}\n`;
+      const rowData = `${item.data},${item.hasInjuries},${item.hasFatalities},${item.address},${item.hasInfraction},${item.severity},${item.type},${item.description}\n`;
       csvContent += rowData;
     });
   
