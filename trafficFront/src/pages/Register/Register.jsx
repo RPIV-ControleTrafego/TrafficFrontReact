@@ -13,14 +13,11 @@ export function Register() {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
-  function handleSignOut(e) {
+  function handleSignUp(e) {
     e.preventDefault();
     createUserWithEmailAndPassword(email, password);
   }
 
-  if (loading) {
-    return <p>carregando...</p>;
-  }
   return (
     <div className="container">
       <header className="header">
@@ -51,7 +48,7 @@ export function Register() {
           />
         </div>
 
-        <button onClick={handleSignOut} className="button">
+        <button onClick={handleSignUp} className="button">
           Cadastrar <img src={arrowImg} alt="->" />
         </button>
         <div className="footer">
