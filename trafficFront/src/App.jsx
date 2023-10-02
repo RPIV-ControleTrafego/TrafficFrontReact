@@ -11,6 +11,8 @@ import Stats from './pages/Stats/Stats';
 import About from './pages/about/About';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
+import Accident  from './pages/Accident/Accident'
+import Infraction from "./pages/Infraction/Infraction"
 
 function ProtectedRoute({ children, ...rest }) {
   const [user] = useAuthState(auth);
@@ -51,6 +53,24 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Stats />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/accident"
+                element={
+                  <ProtectedRoute>
+                    <Accident />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/infraction"
+                element={
+                  <ProtectedRoute>
+                    <Infraction />
                   </ProtectedRoute>
                 }
               />
