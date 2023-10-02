@@ -47,17 +47,17 @@ const DateSearch = () => {
   };
 
   return (
-    <div className="mt-10">
-      <h1 className="text-2xl font-bold mb-4">Pesquisa de Infrações por Data</h1>
+    <div className="mt-10   ">
+      <h1 className="text-2xl font-bold mb-4 text-center">Pesquisa de Infrações por Data</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <label className="block mb-2">
-          Insira a data (dd/mm/yyyy):
+          Insira a data:
           <input
             type="text"
             value={date}
             onChange={handleDateChange}
             className="border p-2"
-            placeholder="dd/mm/yyyy"
+            placeholder="yyyy/mm/dd"
           />
         </label>
 

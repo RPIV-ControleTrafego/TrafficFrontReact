@@ -39,7 +39,7 @@ const SearchFinePriceCPF = () => {
 
   return (
     <div className="mt-10">
-      <h1 className="text-2xl font-bold mb-4">Pesquisa de Total de Multas por CPF</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Pesquisa de Total de Multas por CPF</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <label className="block mb-2">
           Insira o CPF:

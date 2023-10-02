@@ -55,7 +55,7 @@ const SpeedSearchLworGt = () => {
 
   return (
     <div className="mt-10">
-      <h1 className="text-2xl font-bold mb-4">Pesquisa de Infrações por Velocidade</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Pesquisa de Infrações por Velocidade</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <label className="block mb-2">
           Insira a velocidade em km/h:
