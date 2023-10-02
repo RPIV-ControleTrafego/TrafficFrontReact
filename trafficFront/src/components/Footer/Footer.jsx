@@ -6,17 +6,18 @@ const Footer = () => {
     
     
     <footer
-    className="bg-blue-500 rounded-lg shadow dark:bg-gray-900  -mb-96 "
+    className="bg-blue-500 rounded-lg shadow dark:bg-gray-900  mt-96 "
     style={{
       display: 'flex',
       bottom: 0,
       left: 0,
       right: 0,
 
-      zIndex: 222, // Ajuste o valor conforme necessário
+      zIndex: 0, // Ajuste o valor conforme necessário
       justifyContent: 'space-between',
      width: 1730,
-     
+     marginTop:"200vh"
+    
      
     
     }}

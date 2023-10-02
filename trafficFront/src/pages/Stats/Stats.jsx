@@ -86,7 +86,7 @@ function App() {
 
   const downloadCSV = () => {
     let csvContent = "carPlate,carType,carColor,carBrand,veiculeOwnerName,veiculeOwneCPF,time,date,address,speed,maxSpeed,direction,streetDirection\n";
-    data.forEach((item) => {
+    infractionData.forEach((item) => {
       const rowData = `${item.carPlate},${item.carType},${item.carColor},${item.carBrand},${item.veiculeOwnerName},${item.veiculeOwneCPF},${item.time},${item.date},${item.address},${item.speed},${item.maxSpeed},${item.direction},${item.streetDirection}\n`;
       csvContent += rowData;
     });
@@ -97,6 +97,7 @@ function App() {
     link.download = 'data.csv';
     link.click();
   };
+  
   return (
     <div className="App">
       
