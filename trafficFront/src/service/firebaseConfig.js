@@ -1,20 +1,20 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDIB7iSDUxiTSIPoKXZ6CMDa82CXZD-cNU",
-  authDomain: "rpiv-a0892.firebaseapp.com",
-  projectId: "rpiv-a0892",
-  storageBucket: "rpiv-a0892.appspot.com",
-  messagingSenderId: "1064071646097",
-  appId: "1:1064071646097:web:769f8b355ee998d3946830",
-  measurementId: "G-K8RLJM7BQ0"
+    apiKey: "AIzaSyD7ktfs0-Ye9Mq_ILOSfgZCxqedQ4cUGvw",
+    authDomain: "trafficcontrol-26919.firebaseapp.com",
+    projectId: "trafficcontrol-26919",
+    storageBucket: "trafficcontrol-26919.appspot.com",
+    messagingSenderId: "394970323531",
+    appId: "1:394970323531:web:3ce213a66030117cc54bce",
+    measurementId: "G-Z0DPE3DR4Y"
 };
 
 // Initialize Firebase
