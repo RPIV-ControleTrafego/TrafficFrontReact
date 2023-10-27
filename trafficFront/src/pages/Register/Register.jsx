@@ -1,31 +1,57 @@
 import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import arrowImg from "../../assets/arrow.svg";
 import logoImg from "../../assets/logo.svg";
-import { auth } from "../../service/firebaseConfig";
 import "./styles.css";
 
 export function Register() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
-
-  function handleSignUp(e) {
+  async function handleSignUp(e) {
     e.preventDefault();
-    createUserWithEmailAndPassword(email, password);
+    setError("");
+
+    try {
+      const response = await axios.post("http://localhost:8082/user/register", {
+        username: email,
+        password: password,
+        email: email // assuming email is used for registration
+      });
+
+      if (response.status === 200) {
+        // Redirecione o usuário se o registro for bem-sucedido
+        navigate('/');
+      } else {
+        setError("Falha ao realizar o registro. Tente novamente.");
+      }
+    } catch (error) {
+      setError("Erro ao realizar o registro. Tente novamente mais tarde.");
+    }
   }
 
   return (
     <div className="container">
       <header className="header">
         <img src={logoImg} alt="Workflow" className="logoImg" />
-        <span>Por favor digite suas informações de cadastro</span>
+        <span>Por favor, digite suas informações de cadastro</span>
       </header>
 
       <form>
+        {error && <p className="error-message">{error}</p>}
+        <div className="inputContainer">
+          <label htmlFor="username">username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="johndoe"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
         <div className="inputContainer">
           <label htmlFor="email">E-mail</label>
           <input

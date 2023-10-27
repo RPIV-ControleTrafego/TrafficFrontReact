@@ -18,9 +18,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean login(String name, String password) {
+    public boolean login(String username, String password) {
         try {
-            User user = userRepository.findUserByUsername(name);
+            User user = userRepository.findUserByUsername(username);
 
             if (user != null && user.getPassword().equals(password)) {
                 return true;
@@ -32,15 +32,15 @@ public class UserService {
         }
     }
 
-    public boolean register(String name, String password, String email) {
+    public boolean register(String username, String password, String email) {
         try {
             // Verifique se o usuário já existe
-            if (userRepository.findUserByUsername(name) != null) {
+            if (userRepository.findUserByUsername(username) != null) {
                 return false; // Usuário já existe
             }
             String role = "user";
             // Crie um novo usuário com os detalhes fornecidos
-            User user = new User(name, password, email, role);
+            User user = new User(username, password, email, role);
             userRepository.save(user);
 
             return true;
@@ -54,9 +54,9 @@ public class UserService {
         return true;
     }
 
-    public boolean changePassword(String name, String password) {
+    public boolean changePassword(String username, String password) {
         try {
-            User user = userRepository.findUserByUsername(name);
+            User user = userRepository.findUserByUsername(username);
             user.setPassword(password);
             userRepository.save(user);
             return true;

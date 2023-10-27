@@ -1,37 +1,37 @@
 import { useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import arrowImg from "../../assets/arrow.svg";
 import logoImg from "../../assets/logo.svg";
-import { auth } from "../../service/firebaseConfig";
 import "./styles.css";
-import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const [signInWithEmailAndPassword, user, loading] =
-    useSignInWithEmailAndPassword(auth);
 
   async function handleSignIn(e) {
     e.preventDefault();
     setError("");
 
     try {
-      await signInWithEmailAndPassword(email, password);
+      const response = await axios.post("http://localhost:8082/user/login", {
+        username: username,
+        password: password
+      });
+
+      if (response.status === 200) {
+        // Redirecione o usuário se o login for bem-sucedido
+        navigate('/');
+      } else {
+        setError("Usuário não encontrado ou senha incorreta.");
+      }
     } catch (error) {
-      setError("Usuário não encontrado ou senha incorreta.");
+      setError("Erro ao fazer login. Tente novamente mais tarde.");
     }
   }
 
-  if (user) {
-      // Redirecione o usuário para a página inicial
-      navigate('/');
-  }
-  
   return (
     <div className="container">
       <header className="header">
@@ -39,15 +39,15 @@ export function Login() {
       </header>
 
       <form>
-        {error && <p className="error-message">{error}</p>} 
+        {error && <p className="error-message">{error}</p>}
         <div className="inputContainer">
-          <label htmlFor="email">E-mail</label>
+          <label htmlFor="username">E-mail</label>
           <input
             type="text"
-            name="email"
-            id="email"
+            name="username"
+            id="username"
             placeholder="johndoe@gmail.com"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
