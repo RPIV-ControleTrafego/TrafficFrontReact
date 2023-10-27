@@ -1,0 +1,147 @@
+package com.login.login.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Service;
+import com.login.login.model.User;
+import com.login.login.repository.UserRepository;
+import com.mongodb.client.result.UpdateResult;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public boolean login(String name, String password) {
+        try {
+            User user = userRepository.findUserByUsername(name);
+
+            if (user != null && user.getPassword().equals(password)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean register(String name, String password, String email) {
+        try {
+            // Verifique se o usuário já existe
+            if (userRepository.findUserByUsername(name) != null) {
+                return false; // Usuário já existe
+            }
+            String role = "user";
+            // Crie um novo usuário com os detalhes fornecidos
+            User user = new User(name, password, email, role);
+            userRepository.save(user);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean logout() {
+        // Implemente a lógica de logout, se necessário
+        return true;
+    }
+
+    public boolean changePassword(String name, String password) {
+        try {
+            User user = userRepository.findUserByUsername(name);
+            user.setPassword(password);
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean changeEmail(String name, String email) {
+        try {
+            User user = userRepository.findUserByUsername(name);
+            user.setEmail(email);
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+   @Autowired
+private MongoTemplate mongoTemplate;
+
+public boolean changeRole(String name, String role) {
+    try {
+        Query query = new Query(Criteria.where("username").is(name));
+        Update update = new Update().set("role", role);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, User.class);
+
+        return result.wasAcknowledged(); // Retorna true se a atualização foi bem-sucedida
+    } catch (Exception e) {
+        return false;
+    }
+}
+    public boolean deleteUser(String name) {
+        try {
+            userRepository.deleteUserByUsername(name);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean deleteAllUsers() {
+        try {
+            userRepository.deleteAll();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserByName(String name) {
+        return userRepository.findUserByUsername(name);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+
+    public User getRole(String username) {
+        try {
+            User user = userRepository.findUserByUsername(username);
+            if (user != null) {
+                System.err.println(user.getRole());
+                return user;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+
+    
+
+
+
+    
+
+
+}
