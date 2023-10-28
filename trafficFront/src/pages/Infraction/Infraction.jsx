@@ -57,7 +57,7 @@ function Infraction() {
         return class extends React.Component {
            render() {
            return (
-             <div style={{ fontWeight: 'bold', color: 'blue' }}>
+             <div style={{ fontWeight: 'bold', color: 'black' }}>
                <WrappedComponent {...this.props} />
              </div>
            );
