@@ -6,6 +6,24 @@ import logoImg from "../../assets/logo.svg";
 import { auth } from "../../service/firebaseConfig";
 import "./styles.css";
 
+const TextDecorator = (WrappedComponent) => {
+  return class extends React.Component {
+     render() {
+     return (
+       <div style={{ fontWeight: 'bold', color: 'blue' }}>
+         <WrappedComponent {...this.props} />
+       </div>
+     );
+   }
+ };
+};
+
+const TextComponent = ({ text }) => {
+ return <p>{text}</p>;
+};
+
+const DecoratedTextComponent = TextDecorator(TextComponent);
+
 export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
