@@ -53,10 +53,23 @@ function Infraction() {
     link.click();
   };
 
+      const TextDecorator = (WrappedComponent) => {
+        return class extends React.Component {
+           render() {
+           return (
+             <div style={{ fontWeight: 'bold', color: 'blue' }}>
+               <WrappedComponent {...this.props} />
+             </div>
+           );
+         }
+       };
+     };
 
-
-
-
+     const TextComponent = ({ text }) => {
+       return <p>{text}</p>;
+     };
+  
+     const DecoratedTextComponent = TextDecorator(TextComponent);
 
   return (
     <div className="App">
