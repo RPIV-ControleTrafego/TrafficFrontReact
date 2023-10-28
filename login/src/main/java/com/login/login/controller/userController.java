@@ -33,21 +33,28 @@ class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
-        String username = requestBody.get("username");
-        String password = requestBody.get("password");
+public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
+    String username = requestBody.get("username");
+    String password = requestBody.get("password");
 
-        User loggedInUser = userService.login(username, password);
+    // Obtém o papel do usuário
+    String role = userService.getRole(username).getRole();
 
-        if (loggedInUser != null) {
-            jakarta.servlet.http.HttpSession session = request.getSession();
-            session.setAttribute("loggedInUser", loggedInUser);
-            log.info("Novo usario logado" + password + username); // Associar o usuário à sessão
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
-        }
+    // Verifica se o login é bem-sucedido
+    User loggedInUser = userService.login(username, password);
+
+    if (loggedInUser != null) {
+        jakarta.servlet.http.HttpSession session = request.getSession();
+        session.setAttribute("loggedInUser", loggedInUser);
+        session.setAttribute("role", role);
+        log.info("Novo usuário logado: " + username + " - Role: " + role);
+        
+        // Retorne o papel do usuário como parte da resposta
+        return ResponseEntity.ok(role);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
     }
+}
     @GetMapping("/getUsers")
     public String getUsers() {
         return userService.getAllUsers().toString();

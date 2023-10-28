@@ -9,8 +9,9 @@ export function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState({ username: "", role: "" });
 
   async function handleSignIn(e) {
     e.preventDefault();
@@ -19,13 +20,17 @@ export function Login() {
     try {
       const response = await axios.post("http://localhost:8082/user/login", {
         username: username,
-        password: password
+        password: password,
+        role: role
       });
 
-      if (response.status === 200 && response.data === "Login successful") {
-        setLoggedInUser({ username }); // Armazenar dados do usuário no estado do componente
+      if (response.status === 200 && response.data !== "Login unsuccessful") {
+        // Atualize setLoggedInUser com o username e o role do usuário
+        setLoggedInUser({ username, role: response.data });
+        localStorage.setItem("loggedInUser", JSON.stringify({ username, role: response.data }));
         navigate('/');
       } else {
+     
         setError("Usuário não encontrado ou senha incorreta.");
       }
     } catch (error) {

@@ -3,27 +3,45 @@ import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-d
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
-import Stats from './pages/Stats/Stats';
-import About from './pages/about/About';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
-import Accident from './pages/Accident/Accident';
 import Infraction from './pages/Infraction/Infraction';
-
-function App() {
+import axios from 'axios';
+function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState('');
 
-  // Verifica se o usuário está autenticado
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem('loggedInUser');
+ useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
     if (loggedInUser) {
       setAuthenticated(true);
+      axios.get(`http://localhost:8082/user/getRole/${loggedInUser.username}`)
+        .then(response => {
+          setUserRole(response.data);
+          setAuthenticated(true);
+          console.log('Papel do usuário:', response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao obter papel do usuário:', error);
+          setAuthenticated(false);
+          setUserRole(''); // Limpe o papel do usuário se não estiver autenticado
+        });
     } else {
       setAuthenticated(false);
+      setUserRole(''); // Limpe o papel do usuário se não estiver autenticado
     }
+    
   }, []); // Execute somente ao montar o componente
 
 
+ const renderInfractionRoute = () => {
+  if (authenticated && loggedInUser && loggedInUser.role === 'user') {
+    return <Route path="/infraction" element={<Infraction />} />;
+  }
+  return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+};
+  
   return (
     <Router>
       <div className="App">
@@ -33,11 +51,11 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login setAuthenticated={setAuthenticated} />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/" element={authenticated ? <Home /> : <Navigate to="/login" />} />
-              <Route path="/about" element={authenticated ? <About /> : <Navigate to="/login" />} />
-              <Route path="/stats" element={authenticated ? <Stats /> : <Navigate to="/login" />} />
-              <Route path="/accident" element={authenticated ? <Accident /> : <Navigate to="/login" />} />
-              <Route path="/infraction" element={authenticated ? <Infraction /> : <Navigate to="/login" />} />
+              <Route
+                path="/"
+                element={authenticated ? <Home /> : <Navigate to="/login" />}
+              />
+             {renderInfractionRoute()}
             </Routes>
           </div>
         </main>
@@ -46,5 +64,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

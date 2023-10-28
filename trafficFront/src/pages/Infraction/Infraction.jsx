@@ -6,19 +6,20 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
 
  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-
+  import { Navigate,useNavigate } from 'react-router-dom'; // Importe o Navigate
   import { FileText } from 'react-feather';
 function Infraction() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
- 
+  const navigate = useNavigate();
   const [accordionExpanded, setAccordionExpanded] = useState(false);
   const [accordionExpanded2, setAccordionExpanded2] = useState(false); 
   const [accordionExpanded3, setAccordionExpanded3] = useState(false); 
   const [accordionExpanded4, setAccordionExpanded4] = useState(false);
   const [brandsData, setBrandsData] = useState([]);
   const [carTypesData, setCarTypesData] = useState([]);
- 
+  const [userRole, setUserRole] = useState('');
+
 
 
 
@@ -52,7 +53,6 @@ function Infraction() {
     link.download = 'data.csv';
     link.click();
   };
-
 
 
 
