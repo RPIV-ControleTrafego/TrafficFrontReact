@@ -10,6 +10,26 @@ import {
  
 function Home() {
 
+      // Componente de wrapper como um decorator
+      const TextDecorator = (WrappedComponent) => {
+        return class extends React.Component {
+           render() {
+           return (
+             <div style={{ fontWeight: 'bold', color: 'blue' }}>
+               <WrappedComponent {...this.props} />
+             </div>
+           );
+         }
+       };
+     };
+     
+     // Componente original com o texto
+     const TextComponent = ({ text }) => {
+       return <p>{text}</p>;
+     };
+     
+     // Aplicando o decorator ao componente original
+     const DecoratedTextComponent = TextDecorator(TextComponent);
 
   return (
     <div className="App">
@@ -28,7 +48,6 @@ function Home() {
       </div>
     </div>
   </div>
-
 
        {/* Aqui começa card1 */}
 
