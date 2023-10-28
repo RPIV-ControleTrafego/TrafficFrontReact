@@ -10,6 +10,7 @@ export function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   async function handleSignIn(e) {
     e.preventDefault();
@@ -21,8 +22,8 @@ export function Login() {
         password: password
       });
 
-      if (response.status === 200) {
-        // Redirecione o usuário se o login for bem-sucedido
+      if (response.status === 200 && response.data === "Login successful") {
+        setLoggedInUser({ username }); // Armazenar dados do usuário no estado do componente
         navigate('/');
       } else {
         setError("Usuário não encontrado ou senha incorreta.");

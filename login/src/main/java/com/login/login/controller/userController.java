@@ -1,9 +1,11 @@
-
-
 package com.login.login.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,48 +17,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.login.login.model.User;
 import com.login.login.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
+class UserController {
 
-class userController {
 
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
-
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody) {
-        String name = requestBody.get("username");
+    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
+        String username = requestBody.get("username");
         String password = requestBody.get("password");
-    
-        if (name != null && password != null && userService.login(name, password)) {
+
+        User loggedInUser = userService.login(username, password);
+
+        if (loggedInUser != null) {
+            jakarta.servlet.http.HttpSession session = request.getSession();
+            session.setAttribute("loggedInUser", loggedInUser);
+            log.info("Novo usario logado" + password + username); // Associar o usuário à sessão
             return ResponseEntity.ok("Login successful");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
     }
-    
-
-@PostMapping("/register")
-public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
-    String name = requestBody.get("username");
-    String password = requestBody.get("password");
-    String email = requestBody.get("email");
-
-    if (name != null && password != null && email != null && userService.register(name, password, email)) {
-        return ResponseEntity.ok("Registration successful");
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed");
-    }
-}
-
-
     @GetMapping("/getUsers")
     public String getUsers() {
         return userService.getAllUsers().toString();

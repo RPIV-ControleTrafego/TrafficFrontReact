@@ -12,25 +12,39 @@ import com.login.login.model.User;
 import com.login.login.repository.UserRepository;
 import com.mongodb.client.result.UpdateResult;
 
+import javax.servlet.http.HttpSession;
+
+
 @Service
+
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         try {
             User user = userRepository.findUserByUsername(username);
-
+    
             if (user != null && user.getPassword().equals(password)) {
-                return true;
+                return user;
             } else {
-                return false;
+                return null;
             }
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
+    // Método para verificar se um usuário está autenticado
+    public boolean isAuthenticated(HttpSession session) {
+        return session.getAttribute("user") != null;
+    }
+
+    // Método para encerrar a sessão do usuário
+    public void logout(HttpSession session) {
+        session.removeAttribute("user");
+        session.invalidate(); // Invalida a sessão
+    }
+
 
     public boolean register(String username, String password, String email) {
         try {
