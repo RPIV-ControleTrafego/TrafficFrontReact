@@ -7,6 +7,8 @@ import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
 import Infraction from './pages/Infraction/Infraction';
 import axios from 'axios';
+import Accident from './pages/Accident/Accident';
+import AdminPage from './pages/admin/AdminPage';
 function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('');
@@ -36,16 +38,35 @@ function App({loggedInUser}) {
 
 
  const renderInfractionRoute = () => {
-  if (authenticated && loggedInUser && loggedInUser.role === 'user') {
+  if (authenticated && loggedInUser && loggedInUser.role === 'police' || loggedInUser.role === 'admin') {
     return <Route path="/infraction" element={<Infraction />} />;
   }
   return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
 };
+
+
+const renderAccidentRoute = () => {
+  if (authenticated && loggedInUser && loggedInUser.role === 'fireman' || loggedInUser.role === 'admin') {
+    return <Route path="/accident" element={<Accident />} />;
+  }
+  return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+}
+
+
+const renderAdminRoute = () => {
+  if (authenticated && loggedInUser && loggedInUser.role === 'admin') {
+    return <Route path="/admin" element={<AdminPage />} />;
+  }
+  return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+}
+
+
+
   
   return (
     <Router>
       <div className="App">
-        <Navbar />
+      <Navbar loggedInUser={loggedInUser} />
         <main className="flex-grow">
           <div className="container">
             <Routes>
@@ -56,6 +77,8 @@ function App({loggedInUser}) {
                 element={authenticated ? <Home /> : <Navigate to="/login" />}
               />
              {renderInfractionRoute()}
+              {renderAccidentRoute()}
+              {renderAdminRoute()}
             </Routes>
           </div>
         </main>

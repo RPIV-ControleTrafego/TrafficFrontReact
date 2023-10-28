@@ -1,5 +1,6 @@
 package com.login.login.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -55,11 +56,12 @@ public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
     }
 }
-    @GetMapping("/getUsers")
-    public String getUsers() {
-        return userService.getAllUsers().toString();
-    }
-
+    
+@GetMapping("/getUsers")
+public ResponseEntity<List<User>> getUsers() {
+    List<User> users = userService.getAllUsers();
+    return ResponseEntity.ok(users);
+}
 
     @GetMapping("/getRole/{username}")
     public ResponseEntity<String> getRole(@PathVariable String username) {
