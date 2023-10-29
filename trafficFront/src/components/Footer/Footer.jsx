@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    
-    
     <footer
     className="bg-blue-500 rounded-lg shadow dark:bg-gray-900  mt-96 "
     style={{
@@ -12,14 +10,10 @@ const Footer = () => {
       bottom: 0,
       left: 0,
       right: 0,
-
       zIndex: 0, // Ajuste o valor conforme necessário
       justifyContent: 'space-between',
      width: 1730,
      marginTop:"200vh"
-    
-     
-    
     }}
   >
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 left-0  ">

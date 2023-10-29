@@ -38,10 +38,7 @@ export function Login() {
       setError("Erro ao fazer login. Tente novamente mais tarde.");
     }
   }
-
-
   
-
   return (
     <div className="container">
       <header className="header">

@@ -25,7 +25,6 @@ const DateSearch = () => {
     link.click();
   };
   
-
   const fetchInfractionsByDate = async () => {
     try {
       const response = await axios.get(`http://localhost:8086/infraction/date/${date}`);
@@ -60,7 +59,6 @@ const DateSearch = () => {
             placeholder="yyyy/mm/dd"
           />
         </label>
-
         <button
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"

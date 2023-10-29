@@ -1,7 +1,6 @@
 package com.login.login.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Service;
 import com.login.login.model.User;
 import com.login.login.repository.UserRepository;
 import com.mongodb.client.result.UpdateResult;
-
 import javax.servlet.http.HttpSession;
-
 
 @Service
 
@@ -46,7 +43,6 @@ public class UserService {
         session.removeAttribute("user");
         session.invalidate(); // Invalida a sessão
     }
-
 
     public boolean register(String username, String password, String email) {
         try {
@@ -136,7 +132,6 @@ public boolean changeRole(String name, String role) {
         return userRepository.findUserByEmail(email);
     }
 
-
     public User getRole(String username) {
         try {
             User user = userRepository.findUserByUsername(username);
@@ -150,17 +145,5 @@ public boolean changeRole(String name, String role) {
             return null;
         }
     }
-
-
-    
-
-
-
-    
-
-
-
-    
-
 
 }

@@ -2,9 +2,7 @@ package com.login.login.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.login.login.model.User;
 import com.login.login.service.UserService;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -29,13 +26,12 @@ import jakarta.servlet.http.HttpServletRequest;
 @CrossOrigin(origins = "*")
 class UserController {
 
-
     private final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
+    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
     String username = requestBody.get("username");
     String password = requestBody.get("password");
 
@@ -55,14 +51,14 @@ public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody
         return ResponseEntity.ok(role);
     } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        }
     }
-}
     
-@GetMapping("/getUsers")
-public ResponseEntity<List<User>> getUsers() {
-    List<User> users = userService.getAllUsers();
-    return ResponseEntity.ok(users);
-}
+    @GetMapping("/getUsers")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
 
     @GetMapping("/getRole/{username}")
     public ResponseEntity<String> getRole(@PathVariable String username) {
@@ -78,32 +74,26 @@ public ResponseEntity<List<User>> getUsers() {
         }
     }
     
-
-
-    @PutMapping("/changeRole")
-public ResponseEntity<String> changeRole(@RequestBody Map<String, String> requestBody) {
-    String name = requestBody.get("username");
-    String role = requestBody.get("role");
-
-    if (name != null && role != null && userService.changeRole(name, role)) {
-        return ResponseEntity.ok("Role changed");
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role change failed");
+    @PutMapping("/changeRole/{username}")
+    public ResponseEntity<String> changeRole(@PathVariable String username, @RequestBody Map<String, String> requestBody) {
+        String role = requestBody.get("role");
+        
+        if (role != null && userService.changeRole(username, role)) {
+            return ResponseEntity.ok("Role changed");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role change failed");
+        }
     }
-}
  
-
-@DeleteMapping("/deleteUser/{username}")
-public ResponseEntity<String> deleteUser(@PathVariable String username) {
-    if (userService.deleteUser(username)) {
-        log.info("Usuário deletado: " + username);
-        return ResponseEntity.ok("User deleted");
-    } else {
-        log.info("Usuário não deletado: " + username);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User deletion failed");
+    @DeleteMapping("/deleteUser/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable String username) {
+        if (userService.deleteUser(username)) {
+            log.info("Usuário deletado: " + username);
+            return ResponseEntity.ok("User deleted");
+        } else {
+            log.info("Usuário não deletado: " + username);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User deletion failed");
+        }
     }
-}
-
-
 
 }

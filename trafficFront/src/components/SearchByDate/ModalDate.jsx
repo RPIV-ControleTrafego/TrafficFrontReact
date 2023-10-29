@@ -2,9 +2,7 @@ import React from 'react';
 import { FileText } from 'react-feather';
 
 const Modal = ({ isOpen, onClose, onDownloadCSV, date }) => {
- 
-
-  const isValidDate = /^(\d{4})-(\d{2})-(\d{2})$/.test(date);
+const isValidDate = /^(\d{4})-(\d{2})-(\d{2})$/.test(date);
 
   return (
     <div className={`${isOpen ? 'block' : 'hidden'} fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center`}>

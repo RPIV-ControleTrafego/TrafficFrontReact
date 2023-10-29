@@ -4,11 +4,11 @@ import SpeedSearchLworGt from '../../components/SpeedSearch/SpeedSearch';
 import SearchInfractionByDate from '../../components/SearchByDate/SearchInfractionByDate';
 import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
 
- // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
   import { Navigate,useNavigate } from 'react-router-dom'; // Importe o Navigate
   import { FileText } from 'react-feather';
-function Infraction() {
+  function Infraction() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
   const navigate = useNavigate();
@@ -19,10 +19,6 @@ function Infraction() {
   const [brandsData, setBrandsData] = useState([]);
   const [carTypesData, setCarTypesData] = useState([]);
   const [userRole, setUserRole] = useState('');
-
-
-
-
 
   const toggleAccordion = () => {
     setAccordionExpanded(!accordionExpanded);
@@ -53,10 +49,6 @@ function Infraction() {
     link.download = 'data.csv';
     link.click();
   };
-
-
-
-
 
   return (
     <div className="App">

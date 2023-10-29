@@ -16,8 +16,6 @@ const SpeedSearchLworGt = () => {
     setGtorLw(event.target.value);
   };
 
-  
-
   const downloadCSV = () => {
     let csvContent = "carPlate,date,violation,carType,carColor,carBrand,veiculeOwnerName,veiculeOwneCPF,speed,maxSpeed,finePrice\n";
     infractionData.forEach((item) => {
@@ -31,7 +29,6 @@ const SpeedSearchLworGt = () => {
     link.download = 'data.csv';
     link.click();
   };
-  
   
   const fetchSpeedSearch = async () => {
     try {

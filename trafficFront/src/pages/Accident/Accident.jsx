@@ -3,7 +3,6 @@ import axios from 'axios';
 
   // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-
   // modelo tabela de acidentes
   // _id 650f5fe2ec37b863fb51acb5
   // date "2019-08-16"
@@ -14,10 +13,9 @@ import axios from 'axios';
   // _class "com.accident.serviceaccident.Entity.AccidentEntity"
 
   import { FileText } from 'react-feather';
-function Accident() {
+  function Accident() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
- 
   const [accordionExpanded, setAccordionExpanded] = useState(false);
   const [accordionExpanded2, setAccordionExpanded2] = useState(false); 
   const [accordionExpanded3, setAccordionExpanded3] = useState(false); 
@@ -25,7 +23,6 @@ function Accident() {
   const [brandsData, setBrandsData] = useState([]);
   const [carTypesData, setCarTypesData] = useState([]);
  
-
   const toggleAccordion = () => {
     setAccordionExpanded(!accordionExpanded);
   };
@@ -126,8 +123,6 @@ function Accident() {
   aria-labelledby="accordion-collapse-heading-2"
 >
 <div className="flex justify-center items-center p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-
-
   <iframe
     style={{
       background: '#FFFFFF',
@@ -139,7 +134,6 @@ function Accident() {
     height="630"
     src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65023917-a83c-4d99-8c0b-ffcd4285f4c6&maxDataAge=3600&theme=light&autoRefresh=true"
   ></iframe>
-
   </div>
 </div>
 
@@ -215,7 +209,6 @@ function Accident() {
   aria-labelledby="accordion-collapse-heading-2"
 >
 <div className="flex justify-center items-center p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-    
       <iframe
       style={{
         background: '#FFFFFF',
@@ -227,19 +220,9 @@ function Accident() {
       height="630"
       src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65023b20-c954-44bf-89be-5daa9d31be66&maxDataAge=300&theme=light&autoRefresh=true"
     ></iframe>
-
-  </div>
-</div>
-
-
-
-
-
+          </div>
+        </div>
       </div>
-
-        
-
-     
     </div>
   );
 }
