@@ -106,9 +106,9 @@ public boolean changeRole(String name, String role) {
         return false;
     }
 }
-    public boolean deleteUser(String name) {
+    public boolean deleteUser(String username) {
         try {
-            userRepository.deleteUserByUsername(name);
+            userRepository.deleteUserByUsername(username);
             return true;
         } catch (Exception e) {
             return false;
@@ -150,6 +150,9 @@ public boolean changeRole(String name, String role) {
             return null;
         }
     }
+
+
+    
 
 
 

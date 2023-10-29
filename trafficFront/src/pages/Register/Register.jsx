@@ -16,7 +16,7 @@ export function Register() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:8082/user/register", {
+      const response = await axios.post("http://localhost:7000/user/register", {
         username: email,
         password: password,
         email: email // assuming email is used for registration

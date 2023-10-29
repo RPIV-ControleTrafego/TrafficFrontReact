@@ -18,25 +18,29 @@ export function Login() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:8082/user/login", {
+      const response = await axios.post("http://localhost:7000/user/login", {
         username: username,
         password: password,
         role: role
       });
-
+  
       if (response.status === 200 && response.data !== "Login unsuccessful") {
         // Atualize setLoggedInUser com o username e o role do usuário
         setLoggedInUser({ username, role: response.data });
         localStorage.setItem("loggedInUser", JSON.stringify({ username, role: response.data }));
+        
+        // Redirecione para a página inicial após o login bem-sucedido
         navigate('/');
       } else {
-     
         setError("Usuário não encontrado ou senha incorreta.");
       }
     } catch (error) {
       setError("Erro ao fazer login. Tente novamente mais tarde.");
     }
   }
+
+
+  
 
   return (
     <div className="container">

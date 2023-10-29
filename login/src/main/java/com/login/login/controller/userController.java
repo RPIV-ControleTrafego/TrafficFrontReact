@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +91,19 @@ public ResponseEntity<String> changeRole(@RequestBody Map<String, String> reques
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role change failed");
     }
 }
-    
-    
+ 
+
+@DeleteMapping("/deleteUser/{username}")
+public ResponseEntity<String> deleteUser(@PathVariable String username) {
+    if (userService.deleteUser(username)) {
+        log.info("Usuário deletado: " + username);
+        return ResponseEntity.ok("User deleted");
+    } else {
+        log.info("Usuário não deletado: " + username);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User deletion failed");
+    }
+}
+
+
+
 }

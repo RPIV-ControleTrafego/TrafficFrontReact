@@ -18,7 +18,7 @@ function App({loggedInUser}) {
 
     if (loggedInUser) {
       setAuthenticated(true);
-      axios.get(`http://localhost:8082/user/getRole/${loggedInUser.username}`)
+      axios.get(`http://localhost:7000/user/getRole/${loggedInUser.username}`)
         .then(response => {
           setUserRole(response.data);
           setAuthenticated(true);
@@ -37,29 +37,26 @@ function App({loggedInUser}) {
   }, []); // Execute somente ao montar o componente
 
 
- const renderInfractionRoute = () => {
-  if (authenticated && loggedInUser && loggedInUser.role === 'police' || loggedInUser.role === 'admin') {
-    return <Route path="/infraction" element={<Infraction />} />;
-  }
-  return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
-};
-
-
-const renderAccidentRoute = () => {
-  if (authenticated && loggedInUser && loggedInUser.role === 'fireman' || loggedInUser.role === 'admin') {
-    return <Route path="/accident" element={<Accident />} />;
-  }
-  return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
-}
-
-
-const renderAdminRoute = () => {
-  if (authenticated && loggedInUser && loggedInUser.role === 'admin') {
-    return <Route path="/admin" element={<AdminPage />} />;
-  }
-  return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
-}
-
+  const renderInfractionRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'police' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' )) {
+      return <Route path="/infraction" element={<Infraction />} />;
+    }
+    return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+  };
+  
+  const renderAccidentRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'fireman' || loggedInUser.role === 'admin')) {
+      return <Route path="/accident" element={<Accident />} />;
+    }
+    return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+  };
+  
+  const renderAdminRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && loggedInUser.role === 'admin') {
+      return <Route path="/admin" element={<AdminPage />} />;
+    }
+    return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+  };
 
 
   

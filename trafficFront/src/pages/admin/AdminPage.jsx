@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Modal from './Modal'; // Importe o componente de modal
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [newRole, setNewRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar a exibição do modal
 
   useEffect(() => {
     loadUsers();
   }, []);
 
   const loadUsers = () => {
-    axios.get('http://localhost:8082/user/getUsers')
+    axios.get('http://localhost:7000/user/getUsers')
       .then(response => {
         setUsers(response.data);
       })
@@ -22,24 +24,25 @@ const AdminPage = () => {
   };
 
   const changeUserRole = () => {
-    const requestBody = {
-      username: selectedUser,
-      role: newRole,
-    };
+    if (selectedUser && selectedRole) {
+      const requestBody = {
+        username: selectedUser,
+        role: selectedRole,
+      };
 
-    axios.put('http://localhost:8082/user/changeRole', requestBody)
-      .then(response => {
-        console.log('Papel do usuário alterado:', response.data);
-        loadUsers();
-      })
-      .catch(error => {
-        console.error('Erro ao alterar o papel do usuário:', error);
-      });
+      axios.put('http://localhost:7000/user/changeRole', requestBody)
+        .then(response => {
+          console.log('Papel do usuário alterado:', response.data);
+          loadUsers();
+        })
+        .catch(error => {
+          console.error('Erro ao alterar o papel do usuário:', error);
+        });
+    }
   };
 
   const deleteUser = (username) => {
-    // Implemente a lógica para deletar o usuário com o username fornecido
-    axios.delete(`http://localhost:8082/user/deleteUser/${username}`)
+    axios.delete(`http://localhost:7000/user/deleteUser/${username}`)
       .then(response => {
         console.log('Usuário deletado:', username);
         loadUsers();
@@ -49,43 +52,64 @@ const AdminPage = () => {
       });
   };
 
-  return (
-    <div>
-      <h1>Admin Page</h1>
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-      {/* Campo de busca para filtrar usuários */}
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div className="p-4">
+      <h1 className="text-3xl font-bold mb-4">Admin Page</h1>
+
       <input
         type="text"
         placeholder="Buscar usuário"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        className="p-2 border border-gray-300 rounded mb-4"
       />
 
-      {/* Lista de usuários filtrada pelo termo de busca */}
-      {users
-        .filter(user => user.username.toLowerCase().includes(searchTerm.toLowerCase()))
-        .map(user => (
-          <div key={user.id}>
-            <p onClick={() => setSelectedUser(user.username)}>
-              {user.username} - Role: {user.role}
-            </p>
-            <button onClick={() => deleteUser(user.username)}>Deletar</button>
-          </div>
-        ))
-      }
+      <div className="overflow-x-auto">
+        <table className="min-w-full border rounded">
+          <thead>
+            <tr>
+              <th className="border bg-gray-200 p-2">Username</th>
+              <th className="border bg-gray-200 p-2">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users
+              .filter(user => user && user.username && user.username.toLowerCase().includes(searchTerm.toLowerCase()))
+              .map(user => (
+                <tr key={user.id} className="hover:bg-gray-100 cursor-pointer" onClick={() => { setSelectedUser(user.username); openModal(); }}>
+                  <td className="border p-2">{user.username}</td>
+                  <td className="border p-2">{user.role}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
 
-      {/* Formulário para alterar o papel do usuário selecionado */}
-      {selectedUser && (
-        <div>
-          <h2>Alterar Papel de Usuário</h2>
-          <input
-            type="text"
-            value={newRole}
-            onChange={(e) => setNewRole(e.target.value)}
-            placeholder="Novo Papel"
-          />
-          <button onClick={changeUserRole}>Alterar Papel</button>
-        </div>
+      {isModalOpen && selectedUser && (
+        <Modal closeModal={closeModal}>
+          <h2 className="text-xl font-semibold mb-2 mt-6">Detalhes do Usuário: {selectedUser}</h2>
+          <p>Nome: {selectedUser}</p>
+          <select
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value)}
+            className="p-2 border border-gray-300 rounded mr-2 mt-4"
+          >
+            <option value="">Selecionar Papel</option>
+            <option value="fireman">Fireman</option>
+            <option value="police">Police</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button onClick={changeUserRole} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">Alterar Papel</button>
+          <button onClick={() => deleteUser(selectedUser)} className="bg-red-500 text-white py-2 px-4 rounded mt-4 ml-2">Deletar</button>
+        </Modal>
       )}
     </div>
   );
