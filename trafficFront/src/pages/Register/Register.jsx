@@ -19,11 +19,11 @@ export function Register() {
       const response = await axios.post("http://localhost:7000/user/register", {
         username: email,
         password: password,
-        email: email // assuming email is used for registration
+        email: email
       });
 
       if (response.status === 200) {
-        // Redirecione o usuário se o registro for bem-sucedido
+     
         navigate('/');
       } else {
         setError("Falha ao realizar o registro. Tente novamente.");

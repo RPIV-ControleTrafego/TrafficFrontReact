@@ -20,11 +20,11 @@ const SearchFinePriceCPF = () => {
     try {
       const response = await axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${cpf}`);
       setTotalFinePrice(response.data);
-      setIsModalOpen(true); // Open the modal when the data is fetched
+      setIsModalOpen(true); 
     } catch (error) {
       console.error('Error fetching total fine price:', error);
       setTotalFinePrice(null);
-      setIsModalOpen(true); // Open the modal even if there's an error
+      setIsModalOpen(true);
     }
   };
 

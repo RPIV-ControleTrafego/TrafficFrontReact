@@ -30,14 +30,15 @@ const AdminPage = () => {
         role: selectedRole,
       };
 
-      axios.put('http://localhost:7000/user/changeRole', requestBody)
-        .then(response => {
-          console.log('Papel do usuário alterado:', response.data);
-          loadUsers();
-        })
-        .catch(error => {
-          console.error('Erro ao alterar o papel do usuário:', error);
-        });
+      axios.put(`http://localhost:7000/user/changeRole/${selectedUser}`, requestBody)
+  .then(response => {
+    console.log('Papel do usuário alterado:', response.data);
+    loadUsers();
+  })
+  .catch(error => {
+    console.error('Erro ao alterar o papel do usuário:', error);
+  });
+
     }
   };
 
@@ -76,8 +77,8 @@ const AdminPage = () => {
         <table className="min-w-full border rounded">
           <thead>
             <tr>
-              <th className="border bg-gray-200 p-2">Username</th>
-              <th className="border bg-gray-200 p-2">Role</th>
+              <th className="border bg-gray-200 p-2">Nome</th>
+              <th className="border bg-gray-200 p-2">Papel</th>
             </tr>
           </thead>
           <tbody>
@@ -103,9 +104,10 @@ const AdminPage = () => {
             className="p-2 border border-gray-300 rounded mr-2 mt-4"
           >
             <option value="">Selecionar Papel</option>
-            <option value="fireman">Fireman</option>
-            <option value="police">Police</option>
+            <option value="policial">Policial</option>
+            <option value="bombeiro">Bombeiro</option>
             <option value="admin">Admin</option>
+            <option value="user">Usuário</option>
           </select>
           <button onClick={changeUserRole} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">Alterar Papel</button>
           <button onClick={() => deleteUser(selectedUser)} className="bg-red-500 text-white py-2 px-4 rounded mt-4 ml-2">Deletar</button>

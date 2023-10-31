@@ -9,6 +9,7 @@ import Infraction from './pages/Infraction/Infraction';
 import axios from 'axios';
 import Accident from './pages/Accident/Accident';
 import AdminPage from './pages/admin/AdminPage';
+import Stats from './pages/Stats/Stats';
 function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('');
@@ -27,36 +28,46 @@ function App({loggedInUser}) {
         .catch(error => {
           console.error('Erro ao obter papel do usuário:', error);
           setAuthenticated(false);
-          setUserRole(''); // Limpe o papel do usuário se não estiver autenticado
+          setUserRole(''); 
         });
     } else {
       setAuthenticated(false);
-      setUserRole(''); // Limpe o papel do usuário se não estiver autenticado
+      setUserRole(''); 
     }
     
-  }, []); // Execute somente ao montar o componente
+  }, []); 
 
 
   const renderInfractionRoute = () => {
-    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'police' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' )) {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'policial' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' )) {
       return <Route path="/infraction" element={<Infraction />} />;
     }
-    return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+    return null; 
   };
   
   const renderAccidentRoute = () => {
-    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'fireman' || loggedInUser.role === 'admin')) {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
       return <Route path="/accident" element={<Accident />} />;
     }
-    return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+    return null; 
   };
   
   const renderAdminRoute = () => {
     if (authenticated && loggedInUser && loggedInUser.role && loggedInUser.role === 'admin') {
       return <Route path="/admin" element={<AdminPage />} />;
     }
-    return null; // ou redirecionamento para outra rota, ou uma mensagem de permissão negada
+    return null; 
   };
+
+
+  const renderStatsRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'admin' || loggedInUser.role === 'policial' || loggedInUser.role === 'bombeiro' || loggedInUser.role === 'user' )) {
+      return <Route path="/stats" element={<Stats />} />;
+    }
+    return null; 
+  }
+
+
 
 
   
@@ -76,6 +87,7 @@ function App({loggedInUser}) {
              {renderInfractionRoute()}
               {renderAccidentRoute()}
               {renderAdminRoute()}
+              {renderStatsRoute()}
             </Routes>
           </div>
         </main>

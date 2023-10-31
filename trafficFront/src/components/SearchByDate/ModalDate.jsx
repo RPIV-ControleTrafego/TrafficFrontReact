@@ -13,7 +13,7 @@ const isValidDate = /^(\d{4})-(\d{2})-(\d{2})$/.test(date);
         
         {isValidDate && (
           <button
-            onClick={onDownloadCSV} // Call onDownloadCSV when button is clicked
+            onClick={onDownloadCSV} 
             className="flex items-center mt-5 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
           >
             Baixar CSV

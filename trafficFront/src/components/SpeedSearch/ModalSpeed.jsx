@@ -15,7 +15,7 @@ const Modal = ({ isOpen, onClose, speed, onDownloadCSV }) => {
           <p>
             Velocidade selecionada: {speed} Km/h
           </p>
-          {/* Adicione mais conteúdo ao modal conforme necessário */}
+       
           <div className="mt-5">
             <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mr-2" onClick={onDownloadCSV}>
               Download CSV

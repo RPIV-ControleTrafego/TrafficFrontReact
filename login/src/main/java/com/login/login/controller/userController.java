@@ -23,7 +23,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
+
+
 class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -53,6 +55,27 @@ class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
     }
+
+    @PostMapping("/register")
+public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
+    String username = requestBody.get("username");
+    String password = requestBody.get("password");
+  
+
+    // Verifique se o usuário já existe
+    if (userService.userExists(username)) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
+    }
+    String role = "user"; 
+    // Crie o novo usuário
+    User newUser = userService.register(username, password, role); 
+
+    if (newUser != null) {
+        return ResponseEntity.ok("Usuário registrado com sucesso");
+    } else {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao registrar usuário");
+    }
+}
     
     @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getUsers() {

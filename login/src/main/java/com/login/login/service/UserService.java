@@ -38,26 +38,26 @@ public class UserService {
         return session.getAttribute("user") != null;
     }
 
-    // Método para encerrar a sessão do usuário
+   
     public void logout(HttpSession session) {
         session.removeAttribute("user");
-        session.invalidate(); // Invalida a sessão
+        session.invalidate(); 
     }
 
-    public boolean register(String username, String password, String email) {
+    public User register(String username, String password, String email) {
         try {
-            // Verifique se o usuário já existe
+           
             if (userRepository.findUserByUsername(username) != null) {
-                return false; // Usuário já existe
+                return null; // Usuário já existe, retorna null
             }
             String role = "user";
-            // Crie um novo usuário com os detalhes fornecidos
+          
             User user = new User(username, password, email, role);
             userRepository.save(user);
-
-            return true;
+    
+            return user; 
         } catch (Exception e) {
-            return false;
+            return null; 
         }
     }
 
@@ -145,5 +145,11 @@ public boolean changeRole(String name, String role) {
             return null;
         }
     }
+
+
+    public boolean userExists(String username) {
+        return userRepository.findUserByUsername(username) != null;
+    }
+
 
 }
