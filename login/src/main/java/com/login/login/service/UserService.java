@@ -51,8 +51,9 @@ public class UserService {
                 return null; // Usuário já existe, retorna null
             }
             String role = "user";
+            String cpf = "";
           
-            User user = new User(username, password, email, role);
+            User user = new User(username, password, email, role, cpf);
             userRepository.save(user);
     
             return user; 

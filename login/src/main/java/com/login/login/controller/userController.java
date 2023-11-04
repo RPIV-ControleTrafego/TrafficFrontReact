@@ -6,9 +6,13 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +21,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.http.HttpHeaders;
+
+import org.springframework.http.MediaType;
+
+
+
+
 import com.login.login.model.User;
 import com.login.login.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/user")
@@ -31,6 +46,9 @@ class UserController {
     private final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
@@ -119,4 +137,54 @@ public ResponseEntity<String> register(@RequestBody Map<String, String> requestB
         }
     }
 
+
+@GetMapping("/profile")
+public ResponseEntity<User> getProfile(HttpServletRequest request) {
+    jakarta.servlet.http.HttpSession session = request.getSession();
+    User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+    if (loggedInUser != null) {
+        return ResponseEntity.ok(loggedInUser);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+}
+
+
+private ResponseEntity<?> makeHttpRequest(String url, HttpMethod method, Object body, MultiValueMap<String, String> queryParams) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+
+    if (body != null) {
+        HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
+        return restTemplate.exchange(url, method, requestEntity, Object.class);
+    } else {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+
+        if (queryParams != null) {
+            builder.queryParams(queryParams);
+        }
+
+        url = builder.toUriString();
+        return restTemplate.exchange(url, method, new HttpEntity<>(headers), Object.class);
+    }
+}
+
+@GetMapping("/search-fines")
+public ResponseEntity<?> searchFines(@RequestParam("query") String query) {
+    String url = "http://localhost:8086/infraction/search-fines";
+    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+    queryParams.add("query", query);
+
+    return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
+}
+
+@GetMapping("/calculate-fines")
+public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
+    String url = "http://localhost:8086/infraction/calculate-fines";
+    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+    queryParams.add("query", query);
+
+    return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
+}
 }
