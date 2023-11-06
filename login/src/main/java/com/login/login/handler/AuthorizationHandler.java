@@ -25,8 +25,15 @@ public class AuthorizationHandler implements Handler {
         }
     }
 
-    private String getUserRole(String username) {
-        
+    public String getRole(String username) {
+        User user = userRepository.findUserByUsername(username);
+
+        if (user != null) {
+            return user.getRole();
+        }
+
+        return null; // Usuário não encontrado
     }
 }
+
 
