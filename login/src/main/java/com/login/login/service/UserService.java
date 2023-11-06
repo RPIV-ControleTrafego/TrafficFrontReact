@@ -105,7 +105,8 @@ public boolean changeRole(String name, String role) {
 }
     public boolean deleteUser(String username) {
         try {
-            userRepository.deleteUserByUsername(username);
+            userRepository.
+            deleteUserByUsername(username);
             return true;
         } catch (Exception e) {
             return false;
