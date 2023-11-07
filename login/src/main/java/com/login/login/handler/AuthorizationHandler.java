@@ -3,6 +3,8 @@ package com.login.login.handler;
 
 import java.util.Map;
 
+import com.login.login.model.User;
+
 public class AuthorizationHandler implements Handler {
     private Handler nextHandler;
 
@@ -13,7 +15,7 @@ public class AuthorizationHandler implements Handler {
     @Override
     public void handle(Map<String, String> request) {
         String username = request.get("username");
-        String role = getUserRole(username);
+        String role = getRole(username);
 
         if (role != null && role.equals("admin")) {
             System.out.println("Usuário autorizado com permissão de administrador: " + username);
@@ -26,6 +28,7 @@ public class AuthorizationHandler implements Handler {
     }
 
     public String getRole(String username) {
+        Object userRepository;
         User user = userRepository.findUserByUsername(username);
 
         if (user != null) {
