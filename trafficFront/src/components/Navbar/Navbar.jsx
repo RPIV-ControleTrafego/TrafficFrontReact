@@ -1,10 +1,22 @@
 import { NavLink } from "react-router-dom";
+import axios from 'axios';
 
 const Navbar = ({ loggedInUser }) => {
   const isAdmin = loggedInUser && loggedInUser.role === 'admin';
   const isPolice = loggedInUser && loggedInUser.role === 'policial';
   const isFireman = loggedInUser && loggedInUser.role === 'bombeiro';
 
+  const handleLogout = () => {
+    axios.post('http://localhost:7000/user/logout')
+      .then(() => {
+        // Redirecione para a tela de login
+        history.push("/login");
+      })
+      .catch(error => {
+        console.error('Erro durante o logout:', error);
+      });
+  };
+  
   return (
     <nav
       className="bg-blue-500 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 right-0 z-10 mb-80"
@@ -72,6 +84,18 @@ const Navbar = ({ loggedInUser }) => {
               >
                 stats
               </NavLink>
+
+              {/* Botão de Logout */}
+            {loggedInUser && (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                >
+                  Logout
+                </button>
+              </li>
+            )}
               
             </li>
             {isAdmin && (

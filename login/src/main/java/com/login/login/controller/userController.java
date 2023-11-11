@@ -28,13 +28,9 @@ import org.springframework.http.HttpHeaders;
 
 import org.springframework.http.MediaType;
 
-
-
-
 import com.login.login.model.User;
 import com.login.login.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-
 
 @Controller
 @RequestMapping("/user")
@@ -75,10 +71,9 @@ class UserController {
     }
 
     @PostMapping("/register")
-public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
     String username = requestBody.get("username");
     String password = requestBody.get("password");
-  
 
     // Verifique se o usuário já existe
     if (userService.userExists(username)) {
@@ -137,54 +132,72 @@ public ResponseEntity<String> register(@RequestBody Map<String, String> requestB
         }
     }
 
-
-@GetMapping("/profile")
-public ResponseEntity<User> getProfile(HttpServletRequest request) {
-    jakarta.servlet.http.HttpSession session = request.getSession();
-    User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-    if (loggedInUser != null) {
-        return ResponseEntity.ok(loggedInUser);
-    } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-    }
-}
-
-
-private ResponseEntity<?> makeHttpRequest(String url, HttpMethod method, Object body, MultiValueMap<String, String> queryParams) {
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-
-    if (body != null) {
-        HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
-        return restTemplate.exchange(url, method, requestEntity, Object.class);
-    } else {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-
-        if (queryParams != null) {
-            builder.queryParams(queryParams);
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        try {
+            // Verifica se o usuário está autenticado antes de fazer o logout
+            if (userService.isAuthenticated(session)) {
+                // Realiza o logout no serviço UserService
+                userService.logout(session);
+                return ResponseEntity.ok("Logout bem-sucedido");
+            } else {
+                // Se o usuário não estiver autenticado, retorna uma resposta adequada
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao fazer logout");
         }
-
-        url = builder.toUriString();
-        return restTemplate.exchange(url, method, new HttpEntity<>(headers), Object.class);
     }
-}
 
-@GetMapping("/search-fines")
-public ResponseEntity<?> searchFines(@RequestParam("query") String query) {
-    String url = "http://localhost:8086/infraction/search-fines";
-    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-    queryParams.add("query", query);
 
-    return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
-}
+    @GetMapping("/profile")
+    public ResponseEntity<User> getProfile(HttpServletRequest request) {
+        jakarta.servlet.http.HttpSession session = request.getSession();
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-@GetMapping("/calculate-fines")
-public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
-    String url = "http://localhost:8086/infraction/calculate-fines";
-    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-    queryParams.add("query", query);
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(loggedInUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
-    return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
-}
+
+    private ResponseEntity<?> makeHttpRequest(String url, HttpMethod method, Object body, MultiValueMap<String, String> queryParams) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        if (body != null) {
+            HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
+            return restTemplate.exchange(url, method, requestEntity, Object.class);
+        } else {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+
+            if (queryParams != null) {
+                builder.queryParams(queryParams);
+            }
+
+            url = builder.toUriString();
+            return restTemplate.exchange(url, method, new HttpEntity<>(headers), Object.class);
+        }
+    }
+
+    @GetMapping("/search-fines")
+    public ResponseEntity<?> searchFines(@RequestParam("query") String query) {
+        String url = "http://localhost:8086/infraction/search-fines";
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("query", query);
+
+        return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
+    }
+
+    @GetMapping("/calculate-fines")
+    public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
+        String url = "http://localhost:8086/infraction/calculate-fines";
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("query", query);
+
+        return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
+    }
 }

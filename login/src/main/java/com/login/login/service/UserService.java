@@ -62,11 +62,6 @@ public class UserService {
         }
     }
 
-    public boolean logout() {
-        // Implemente a lógica de logout, se necessário
-        return true;
-    }
-
     public boolean changePassword(String username, String password) {
         try {
             User user = userRepository.findUserByUsername(username);
