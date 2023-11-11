@@ -10,6 +10,7 @@ import axios from 'axios';
 import Accident from './pages/Accident/Accident';
 import AdminPage from './pages/admin/AdminPage';
 import Stats from './pages/Stats/Stats';
+import ProfilePage from './pages/profile/Profile';
 function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('');
@@ -67,6 +68,12 @@ function App({loggedInUser}) {
     return null; 
   }
 
+  const renderProfileRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'admin' || loggedInUser.role === 'policial' || loggedInUser.role === 'bombeiro' || loggedInUser.role === 'user' )) {
+      return <Route path="/profile" element={<ProfilePage loggedInUser={loggedInUser} />} />;
+    }
+    return null; 
+  }
 
 
 
@@ -88,6 +95,7 @@ function App({loggedInUser}) {
               {renderAccidentRoute()}
               {renderAdminRoute()}
               {renderStatsRoute()}
+              {renderProfileRoute()}  
             </Routes>
           </div>
         </main>

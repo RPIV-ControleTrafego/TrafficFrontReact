@@ -1,6 +1,8 @@
 package com.login.login.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -152,5 +154,13 @@ public boolean changeRole(String name, String role) {
         return userRepository.findUserByUsername(username) != null;
     }
 
-
+    public User findUser(String username) {
+        try {
+            return userRepository.findUserByUsername(username);
+        } catch (Exception e) {
+          
+            return null; 
+        }
+    }
+    
 }

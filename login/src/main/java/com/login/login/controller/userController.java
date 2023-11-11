@@ -106,6 +106,8 @@ public ResponseEntity<String> register(@RequestBody Map<String, String> requestB
         try {
             User role = userService.getRole(username);
             if (role != null) {
+                log.info("getrole method");
+                log.info("Username: " + username);
                 return ResponseEntity.ok("Role: " + role.getRole());
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -142,11 +144,15 @@ public ResponseEntity<String> register(@RequestBody Map<String, String> requestB
 public ResponseEntity<User> getProfile(HttpServletRequest request) {
     jakarta.servlet.http.HttpSession session = request.getSession();
     User loggedInUser = (User) session.getAttribute("loggedInUser");
-
+    
     if (loggedInUser != null) {
+        log.info("Profile accessed for user: " + loggedInUser.getUsername()); // Adicione esta linha
         return ResponseEntity.ok(loggedInUser);
     } else {
+        log.warn("Unauthorized access to profile"); // Adicione esta linha
+        log.info("Profile accessed for user: " + loggedInUser.getUsername()); // 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+       
     }
 }
 
@@ -187,4 +193,32 @@ public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
 
     return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
 }
+
+
+
+
+
+@GetMapping("/findUser")
+public ResponseEntity<?> findUser(@RequestParam("username") String username) {
+    try {
+        User user = userService.findUser(username);
+        if (user != null) {
+            log.info("User found: " + username);
+            return ResponseEntity.ok(user);
+        } else {
+            log.info("User not found: " + username);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    } catch (Exception e) {
+        log.error("Error occurred: " + username, e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+    }
 }
+
+
+
+
+}
+
+
+

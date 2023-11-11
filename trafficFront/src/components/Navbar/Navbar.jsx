@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-
+import { FaUser } from 'react-icons/fa'; 
 const Navbar = ({ loggedInUser }) => {
   const isAdmin = loggedInUser && loggedInUser.role === 'admin';
   const isPolice = loggedInUser && loggedInUser.role === 'policial';
@@ -99,6 +99,11 @@ const Navbar = ({ loggedInUser }) => {
                 <NavLink to="/Accident">Accident</NavLink>
               </li>
             )}
+             <li>
+              <NavLink to="/profile" className="flex items-center  py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" activeClassName="bg-blue-700" exact>
+                <FaUser className="mr-2" /> Profile
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>
