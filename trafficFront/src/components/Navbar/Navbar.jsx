@@ -6,16 +6,17 @@ const Navbar = ({ loggedInUser }) => {
   const isPolice = loggedInUser && loggedInUser.role === 'policial';
   const isFireman = loggedInUser && loggedInUser.role === 'bombeiro';
 
-  const handleLogout = () => {
-    axios.post('http://localhost:7000/user/logout')
-      .then(() => {
-        // Redirecione para a tela de login
+  const handleLogout = async () => {
+    try {
+        await axios.post('http://localhost:7000/user/logout');
+
+        // Redireciona para a tela de login
         history.push("/login");
-      })
-      .catch(error => {
+    } catch (error) {
         console.error('Erro durante o logout:', error);
-      });
-  };
+    }
+};
+
   
   return (
     <nav

@@ -2,7 +2,7 @@ package com.login.login.controller;
 
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +132,7 @@ class UserController {
         }
     }
 
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         try {
@@ -149,6 +150,7 @@ class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao fazer logout");
         }
     }
+
 
 
     @GetMapping("/profile")

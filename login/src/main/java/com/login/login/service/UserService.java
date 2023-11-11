@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.login.login.model.User;
 import com.login.login.repository.UserRepository;
 import com.mongodb.client.result.UpdateResult;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 
