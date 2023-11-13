@@ -75,18 +75,18 @@ class UserController {
     }
 
     @PostMapping("/register")
-public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
     String username = requestBody.get("username");
     String password = requestBody.get("password");
-  
-
+    String email = requestBody.get("email");
+    String cpf = requestBody.get("cpf");
     // Verifique se o usuário já existe
     if (userService.userExists(username)) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
     }
-    String role = "user"; 
+   
     // Crie o novo usuário
-    User newUser = userService.register(username, password, role); 
+    User newUser = userService.register(username, password,email, cpf); 
 
     if (newUser != null) {
         return ResponseEntity.ok("Usuário registrado com sucesso");
@@ -214,6 +214,7 @@ public ResponseEntity<?> findUser(@RequestParam("username") String username) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
     }
 }
+
 
 
 

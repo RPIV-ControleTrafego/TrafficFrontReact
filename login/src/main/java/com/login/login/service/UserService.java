@@ -46,14 +46,14 @@ public class UserService {
         session.invalidate(); 
     }
 
-    public User register(String username, String password, String email) {
+    public User register(String username, String password, String email, String cpf) {
         try {
            
             if (userRepository.findUserByUsername(username) != null) {
                 return null; // Usuário já existe, retorna null
             }
             String role = "user";
-            String cpf = "";
+            
           
             User user = new User(username, password, email, role, cpf);
             userRepository.save(user);
@@ -162,5 +162,8 @@ public boolean changeRole(String name, String role) {
             return null; 
         }
     }
+
+
+
     
 }
