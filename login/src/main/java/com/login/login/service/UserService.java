@@ -1,6 +1,8 @@
 package com.login.login.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.login.login.model.User;
 import com.login.login.repository.UserRepository;
 import com.mongodb.client.result.UpdateResult;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 
 @Service
 
@@ -44,14 +46,14 @@ public class UserService {
         session.invalidate(); 
     }
 
-    public User register(String username, String password, String email) {
+    public User register(String username, String password, String email, String cpf) {
         try {
            
             if (userRepository.findUserByUsername(username) != null) {
                 return null; // Usuário já existe, retorna null
             }
             String role = "user";
-            String cpf = "";
+            
           
             User user = new User(username, password, email, role, cpf);
             userRepository.save(user);
@@ -60,6 +62,11 @@ public class UserService {
         } catch (Exception e) {
             return null; 
         }
+    }
+
+    public boolean logout() {
+        // Implemente a lógica de logout, se necessário
+        return true;
     }
 
     public boolean changePassword(String username, String password) {
@@ -147,5 +154,16 @@ public boolean changeRole(String name, String role) {
         return userRepository.findUserByUsername(username) != null;
     }
 
+    public User findUser(String username) {
+        try {
+            return userRepository.findUserByUsername(username);
+        } catch (Exception e) {
+          
+            return null; 
+        }
+    }
 
+
+
+    
 }

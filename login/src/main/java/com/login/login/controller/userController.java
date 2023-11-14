@@ -2,6 +2,8 @@ package com.login.login.controller;
 
 import java.util.List;
 import java.util.Map;
+// import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +24,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.HttpHeaders;
 
 import org.springframework.http.MediaType;
-
 import com.login.login.model.User;
 import com.login.login.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
+@RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:5173")
-
-
 class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -71,24 +72,25 @@ class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
-    String username = requestBody.get("username");
-    String password = requestBody.get("password");
+        public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
+        String password = requestBody.get("password");
+        String email = requestBody.get("email");
+        String cpf = requestBody.get("cpf");
+        // Verifique se o usuário já existe
+        if (userService.userExists(username)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
+        }
+    
+        // Crie o novo usuário
+        User newUser = userService.register(username, password,email, cpf); 
 
-    // Verifique se o usuário já existe
-    if (userService.userExists(username)) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
+        if (newUser != null) {
+            return ResponseEntity.ok("Usuário registrado com sucesso");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao registrar usuário");
+        }
     }
-    String role = "user"; 
-    // Crie o novo usuário
-    User newUser = userService.register(username, password, role); 
-
-    if (newUser != null) {
-        return ResponseEntity.ok("Usuário registrado com sucesso");
-    } else {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao registrar usuário");
-    }
-}
     
     @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getUsers() {
@@ -101,6 +103,8 @@ class UserController {
         try {
             User role = userService.getRole(username);
             if (role != null) {
+                log.info("getrole method");
+                log.info("Username: " + username);
                 return ResponseEntity.ok("Role: " + role.getRole());
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -133,35 +137,19 @@ class UserController {
     }
 
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
-        try {
-            // Verifica se o usuário está autenticado antes de fazer o logout
-            if (userService.isAuthenticated(session)) {
-                // Realiza o logout no serviço UserService
-                userService.logout(session);
-                return ResponseEntity.ok("Logout bem-sucedido");
-            } else {
-                // Se o usuário não estiver autenticado, retorna uma resposta adequada
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao fazer logout");
-        }
-    }
-
-
-
     @GetMapping("/profile")
     public ResponseEntity<User> getProfile(HttpServletRequest request) {
         jakarta.servlet.http.HttpSession session = request.getSession();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
-
+        
         if (loggedInUser != null) {
+            log.info("Profile accessed for user: " + loggedInUser.getUsername()); // Adicione esta linha
             return ResponseEntity.ok(loggedInUser);
         } else {
+            log.warn("Unauthorized access to profile"); // Adicione esta linha
+            log.info("Profile accessed for user: " + loggedInUser.getUsername()); // 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        
         }
     }
 
@@ -202,4 +190,50 @@ class UserController {
 
         return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
     }
+
+
+    @GetMapping("/findUser")
+    public ResponseEntity<?> findUser(@RequestParam("username") String username) {
+        try {
+            User user = userService.findUser(username);
+            if (user != null) {
+                log.info("User found: " + username);
+                return ResponseEntity.ok(user);
+            } else {
+                log.info("User not found: " + username);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } catch (Exception e) {
+            log.error("Error occurred: " + username, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
+    }
+
+
+        @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            String username = null;
+
+            // Verifica se há um usuário logado na sessão
+            if (session.getAttribute("loggedInUser") != null) {
+                User loggedInUser = (User) session.getAttribute("loggedInUser");
+                username = loggedInUser.getUsername();
+                log.info("Usuário desconectado: " + username);
+            }
+
+            // Invalida a sessão
+            session.invalidate();
+
+            return ResponseEntity.ok("Logout realizado com sucesso para o usuário: " + username);
+        } catch (Exception e) {
+            log.error("Erro durante o logout", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro durante o logout");
+        }
+    }
 }
+
+
+
+

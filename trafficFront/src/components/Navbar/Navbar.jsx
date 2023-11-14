@@ -8,15 +8,23 @@ const Navbar = ({ loggedInUser }) => {
 
   const handleLogout = async () => {
     try {
-        await axios.post('http://localhost:7000/user/logout');
+      const response = await axios.get('http://localhost:7000/user/logout');
+      console.log(response.data);
 
-        // Redireciona para a tela de login
-        history.push("/login");
+      // history.push("/login");
+      window.location.href = '/login'; // Exemplo de redirecionamento para a página de login
     } catch (error) {
-        console.error('Erro durante o logout:', error);
+      // Lidar com erros, se necessário
+      console.error('Erro durante o logout', error);
     }
-};
+  };
 
+  function confirmLogout() {
+    const userConfirmed = window.confirm("Tem certeza de que deseja sair do sistema?");
+    if (userConfirmed) {
+      handleLogout();
+    }
+  }
   
   return (
     <nav
@@ -87,16 +95,16 @@ const Navbar = ({ loggedInUser }) => {
               </NavLink>
 
               {/* Botão de Logout */}
-            {loggedInUser && (
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                >
-                  Logout
-                </button>
-              </li>
-            )}
+              {loggedInUser && (
+                <li>
+                  <button
+                    onClick={confirmLogout}
+                    className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                  >
+                    Logout
+                  </button>
+                </li>
+              )}
               
             </li>
             {isAdmin && (
