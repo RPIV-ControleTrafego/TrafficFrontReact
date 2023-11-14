@@ -73,11 +73,18 @@ const fetchLatestInfraction = () => {
     });
 };
     
-      useEffect(() => {
-        fetchFineData();
-        console.log('Number of fines:', finesData.length);
-        console.log('Fines data:', finesData);
-      }, [finesData]);
+useEffect(() => {
+  fetchData();
+ 
+}, []);
+
+useEffect(() => {
+  fetchFineData();
+}, [selectedCurrency]);
+
+useEffect(() => {
+  fetchLatestInfraction();
+}, []);
     
       const handleCurrencyChange = () => {
         fetchFineData();
@@ -90,94 +97,87 @@ const fetchLatestInfraction = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-8 border rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Perfil do Usuário</h2>
-      <p><strong>Username:</strong> {user.username}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-
-      {/* <div className="mt-6 mb-4">
-        <label className="block text-sm font-medium text-gray-700">Data de Início:</label>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="mt-1 p-2 border rounded-md"
-        />
+    <div className="max-w-2xl mx-auto p-8 border rounded shadow-md bg-white mt-60">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800">Perfil do Usuário</h2>
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <p className="text-gray-700">
+            <span className="font-semibold">Username:</span> {user.username}
+          </p>
+          <p className="text-gray-700">
+            <span className="font-semibold">Email:</span> {user.email}
+          </p>
+        </div>
+        <div className="flex items-center justify-end">
+        </div>
       </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Data de Fim:</label>
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          className="mt-1 p-2 border rounded-md"
-        />
-      </div>
-
-      <button
-        onClick={fetchData}
-        className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-      >
-        Buscar Multas por Data
-      </button> */}
-
-      <h2 className="text-2xl font-bold mt-6 mb-4">Dados de Multas</h2>
-      
+  
+      <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Dados de Multas</h2>
+  
+              <div className="mb-8">
+          <h3 className="text-3xl font-bold mb-4 text-red-500">Última multa do CPF</h3>
+          <div className="mb-4">
+            <div className="flex items-center mb-2">
+              <p className="mr-2 font-semibold text-gray-700">Data:</p>
+              <p className="text-lg text-green-500">{latestInfraction?.date}</p>
+            </div>
+            <div className="flex items-center">
+              <p className="mr-2 font-semibold text-gray-700">Valor:</p>
+              <p className="text-lg text-green-500">{latestInfraction?.finePrice}</p>
+            </div>
+          </div>
+        </div>
+  
       <ul className="list-none p-0">
         {finesData.map(fine => (
-          <li key={fine.id} className="mb-2 flex justify-between items-center">
-            <span className="text-base">{fine.description}</span>
-            <button
-              onClick={() => payFine(fine.id)}
-              className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700"
-            >
-              Pagar Multa
-            </button>
+          <li key={fine.id} className="mb-4">
+            <div className="flex justify-between items-center">
+              <span className="text-lg font-semibold text-gray-800">{fine.description}</span>
+              <button
+                onClick={() => payFine(fine.id)}
+                className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700"
+              >
+                Pagar Multa
+              </button>
+            </div>
           </li>
         ))}
       </ul>
-
-      <div>
-          <h2>Dados</h2>
-          <p>Nome: {user.username}</p>
-          <p>Email: {user.email}</p>
-          <p>Role: {user.role}</p>
-          <p>CPF: {user.cpf}</p>
+  
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-2 text-gray-800">Dados</h2>
+        <p className="text-gray-700"><span className="font-semibold">Nome:</span> {user.username}</p>
+        <p className="text-gray-700"><span className="font-semibold">Email:</span> {user.email}</p>
+        <p className="text-gray-700"><span className="font-semibold">Role:</span> {user.role}</p>
+        <p className="text-gray-700"><span className="font-semibold">CPF:</span> {user.cpf}</p>
       </div>
-
-      <div>
-          
-      <div className="mt-4 mb-4">
-      <div className="mt-4 mb-4">
+  
+      <div className="mt-6 mb-4">
         <label className="block text-sm font-medium text-gray-700">Moeda:</label>
-        <select
-          value={selectedCurrency}
-          onChange={(e) => setSelectedCurrency(e.target.value)}
-          className="mt-1 p-2 border rounded-md"
-        >
-          <option value="real">Real</option>
-          <option value="dollar">Dollar</option>
-          <option value="euro">Euro</option>
-        </select>
-        <button
-          onClick={handleCurrencyChange}
-          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 ml-2"
-        >
-          Atualizar Moeda
-        </button>
-        
-        <p>Total a ser pago: {totalFinePrice}</p>
-        <button
-              onClick={() => payFine(fine.id)}
-              className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700"
-            >
-              Pagar Multa
-            </button>
+        <div className="flex items-center">
+          <select
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value)}
+            className="p-2 border rounded-md"
+          >
+            <option value="real">Real</option>
+            <option value="dollar">Dollar</option>
+            <option value="euro">Euro</option>
+          </select>
+          <button
+            onClick={handleCurrencyChange}
+            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 ml-2"
+          >
+            Atualizar Moeda
+          </button>
         </div>
-        
-      </div>
-      
+        <p className="mt-2 text-gray-700"><span className="font-semibold">Total a ser pago:</span> {totalFinePrice}</p>
+        <button
+          onClick={() => payFine(fine.id)}
+          className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-4"
+        >
+          Pagar Multa
+        </button>
       </div>
     </div>
   );
