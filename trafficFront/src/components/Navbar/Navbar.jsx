@@ -114,9 +114,11 @@ const Navbar = ({ loggedInUser }) => {
             )}
 
             {isPolice && !isAdmin && (
-              <li>
+              <><li>
                 <NavLink to="/infraction">Infraction</NavLink>
-              </li>
+              </li><li>
+                  <NavLink to="/Accident">Accident</NavLink>
+                </li></>
             )}
 
             {isFireman && !isAdmin && (

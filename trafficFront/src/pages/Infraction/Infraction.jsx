@@ -54,12 +54,12 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
     <div className="App">
       <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' > Informações de Infração</h1>
       
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop:'100vh' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop:'100vh' }}>
       <iframe
           src="http://localhost:3000/public/dashboard/df101022-641d-485d-bb51-9923f3355752"
           frameborder="0"
-          width="800"
-          height="400"
+          width="1200"
+          height="800"
           allowtransparency
         ></iframe>
       </div>
