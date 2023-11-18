@@ -50,26 +50,66 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
     link.click();
   };
 
-  const DashboardButtons = () => {
-    return (
-      <div className="dashboard-buttons">
-        <Link to="/graphics">
-          <button className="btn btn-primary mr-2">Gráficos</button>
-        </Link>
-        <Link to="/dashboard">
-          <button className="btn btn-primary">Dashboard</button>
-        </Link>
-      </div>
-    );
-  };
-
   return (
     <div className="App">
       <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' > Informações de Infração</h1>
-      <DashboardButtons />
-      <SpeedSearchLworGt />
-      <SearchInfractionByDate />
-      <SearchFinePriceCPF />
+      
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop:'100vh' }}>
+        <div style={{ minWidth: '640px',}}>
+          <iframe
+            style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '2px',
+              boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+              width: '100%',
+              height: '480px'
+            }}
+            src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=651889f7-8755-47b9-841e-b2418e28933a&maxDataAge=300&theme=light&autoRefresh=true"
+          ></iframe>
+        </div>
+        <div style={{  minWidth: '640px' }}>
+          <iframe
+            style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '2px',
+              boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+              width: '100%',
+              height: '480px'
+            }}
+            src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65188b17-92db-4fba-82ae-d973209fa5e6&maxDataAge=300&theme=light&autoRefresh=true"
+          ></iframe>
+        </div>
+      </div>
+      <div style={{ gap: '20px' }}>
+        <div style={{  minWidth: '640px' }}>
+          <iframe
+            style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '2px',
+              boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+              width: '100%',
+              height: '480px'
+            }}
+            src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65188b86-22d0-43da-8c9c-a903b4309ff0&maxDataAge=300&theme=light&autoRefresh=true"
+          ></iframe>
+        </div>
+        <div style={{  minWidth: '640px' }}>
+          <iframe
+            style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '2px',
+              boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
+              width: '100%',
+              height: '480px'
+            }}
+            src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65188dec-22d0-4915-81ba-a903b4337a48&maxDataAge=300&theme=light&autoRefresh=true"
+          ></iframe>
+        </div>
+      </div>
     </div>
   );
 }

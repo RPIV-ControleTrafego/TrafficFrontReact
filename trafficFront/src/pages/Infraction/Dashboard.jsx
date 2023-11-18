@@ -36,40 +36,18 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
     setAccordionExpanded4(!accordionExpanded4);
   }
 
-  const downloadCSV = () => {
-    let csvContent = "carPlate,carType,carColor,carBrand,veiculeOwnerName,veiculeOwneCPF,time,date,address,speed,maxSpeed,direction,streetDirection\n";
-    data.forEach((item) => {
-      const rowData = `${item.carPlate},${item.carType},${item.carColor},${item.carBrand},${item.veiculeOwnerName},${item.veiculeOwneCPF},${item.time},${item.date},${item.address},${item.speed},${item.maxSpeed},${item.direction},${item.streetDirection}\n`;
-      csvContent += rowData;
-    });
-  
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'data.csv';
-    link.click();
-  };
-
-  const DashboardButtons = () => {
-    return (
-      <div className="dashboard-buttons">
-        <Link to="/graphics">
-          <button className="btn btn-primary mr-2">Gráficos</button>
-        </Link>
-        <Link to="/dashboard">
-          <button className="btn btn-primary">Dashboard</button>
-        </Link>
-      </div>
-    );
-  };
-
   return (
     <div className="App">
       <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' > Informações de Infração</h1>
-      <DashboardButtons />
-      <SpeedSearchLworGt />
-      <SearchInfractionByDate />
-      <SearchFinePriceCPF />
+      
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop:'100vh' }}>
+      <iframe
+          src="http://localhost:3000/public/dashboard/df101022-641d-485d-bb51-9923f3355752"
+          frameborder="0"
+          width="1200"
+          height="800"
+        ></iframe>
+      </div>
     </div>
   );
 }

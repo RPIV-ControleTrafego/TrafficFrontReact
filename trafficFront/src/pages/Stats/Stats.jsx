@@ -100,12 +100,13 @@ function App() {
   
   return (
     <div className="App">
-      
-      
-      
    
     <h1 className='text-5xl mb-12 mt-16'> Informações de Tráfego</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop:'100vh' }}>
+      </div>
+
         <h2 id="accordion-collapse-heading-1">
           <button
             type="button"
@@ -267,30 +268,15 @@ function App() {
   className={accordionExpanded4 ? "p-5 border border-b-0 border-gray-200 dark:border-gray-700" : "hidden"}
   aria-labelledby="accordion-collapse-heading-2"
 >
-<div className="flex justify-center items-center p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-    
-      <iframe
-      style={{
-        background: '#FFFFFF',
-        border: 'none',
-        borderRadius: '2px',
-        boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)',
-      }}
-      width="1200"
-      height="630"
-      src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65023b20-c954-44bf-89be-5daa9d31be66&maxDataAge=300&theme=light&autoRefresh=true"
-    ></iframe>
-
-  </div>
 </div>
-
-
-
-
-
       </div>
 
-        
+      <iframe
+    src="http://localhost:3000/public/dashboard/da6a70a3-5475-498e-90bc-8e97c4c27062"
+    frameborder="0"
+    width="1200"
+    height="800"
+    ></iframe>
 
      
     </div>
