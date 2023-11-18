@@ -54,15 +54,23 @@ import axios from 'axios';
     link.click();
   };
 
+  const DashboardButtons = () => {
+    return (
+      <div className="dashboard-buttons">
+        <Link to="/graphics">
+          <button className="btn btn-primary mr-2">Gráficos</button>
+        </Link>
+        <Link to="/dashboard">
+          <button className="btn btn-primary">Dashboard</button>
+        </Link>
+      </div>
+    );
+  };
+
   return (
     <div className="App">
-      <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' > Informações de Infração</h1>
-        <iframe
-          src="http://localhost:3000/public/dashboard/23dc06fe-be1f-4f07-ad25-d95fa1cb14f3"
-          frameBorder="0"
-          width="1200"
-          height="1000"
-        ></iframe>
+      <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' >Informações de Infração</h1>
+      <DashboardButtons />
     </div>
   );
 }
