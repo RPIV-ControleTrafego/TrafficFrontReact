@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.HttpHeaders;
-
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 
 
@@ -33,6 +33,9 @@ import org.springframework.http.MediaType;
 
 import com.login.login.model.User;
 import com.login.login.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -51,6 +54,11 @@ class UserController {
     private RestTemplate restTemplate;
 
     @PostMapping("/login")
+    @Operation(summary = "User Login", description = "Authenticate user and return user role")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful login"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized")
+})
     public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
     String username = requestBody.get("username");
     String password = requestBody.get("password");
@@ -75,6 +83,7 @@ class UserController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "User Registration", description = "Register new user")
     public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
     String username = requestBody.get("username");
     String password = requestBody.get("password");
@@ -96,12 +105,14 @@ class UserController {
 }
     
     @GetMapping("/getUsers")
+    @Operation(summary = "Get users", description = "Get all users")
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/getRole/{username}")
+    @Operation(summary = "Get role", description = "Get role of user by username")
     public ResponseEntity<String> getRole(@PathVariable String username) {
         try {
             User role = userService.getRole(username);
@@ -118,6 +129,7 @@ class UserController {
     }
     
     @PutMapping("/changeRole/{username}")
+    @Operation(summary = "Change role", description = "Change role of user by username")
     public ResponseEntity<String> changeRole(@PathVariable String username, @RequestBody Map<String, String> requestBody) {
         String role = requestBody.get("role");
         
@@ -129,6 +141,7 @@ class UserController {
     }
  
     @DeleteMapping("/deleteUser/{username}")
+    @Operation(summary = "Delete user", description = "Delete user by username")
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
         if (userService.deleteUser(username)) {
             log.info("Usuário deletado: " + username);
@@ -141,6 +154,7 @@ class UserController {
 
 
 @GetMapping("/profile")
+@Operation(summary = "Get profile", description = "Get profile of logged in user")
 public ResponseEntity<User> getProfile(HttpServletRequest request) {
     jakarta.servlet.http.HttpSession session = request.getSession();
     User loggedInUser = (User) session.getAttribute("loggedInUser");
@@ -186,6 +200,7 @@ public ResponseEntity<?> searchFines(@RequestParam("query") String query) {
 }
 
 @GetMapping("/calculate-fines")
+@Operation(summary = "Calculate fines", description = "Calculate fines for a given query")
 public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
     String url = "http://localhost:8086/infraction/calculate-fines";
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -198,7 +213,10 @@ public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
 
 
 
+
+
 @GetMapping("/findUser")
+@Operation(summary = "Find user", description = "Find user by username")
 public ResponseEntity<?> findUser(@RequestParam("username") String username) {
     try {
         User user = userService.findUser(username);

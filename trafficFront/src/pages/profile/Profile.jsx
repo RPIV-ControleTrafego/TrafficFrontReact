@@ -6,6 +6,7 @@ const Profile = () => {
   const [finesData, setFinesData] = useState([]);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [infractions, setInfractions] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('real');
   const [totalFinePrice, setTotalFinePrice] = useState(0);
   const [latestInfraction, setLatestInfraction] = useState(null);
@@ -63,6 +64,19 @@ const Profile = () => {
 };
 
 
+  const fetchFines = () => {
+  axios.get(`http://localhost:8086/infraction/list-by-cpf/${selectedCurrency}/${user.cpf}`)
+    .then(response => {
+      setFinesData(response.data);
+    })
+    .catch(error => {
+      console.error('Erro ao obter multas:', error);
+    });
+  }
+
+
+
+
 const fetchLatestInfraction = () => {
   axios.get(`http://localhost:8086/infraction/latest/${user.cpf}`)
     .then(response => {
@@ -81,6 +95,13 @@ useEffect(() => {
 useEffect(() => {
   fetchFineData();
 }, [selectedCurrency]);
+
+
+useEffect(() => {
+  fetchFines();
+}
+, [selectedCurrency]);
+
 
 useEffect(() => {
   fetchLatestInfraction();
@@ -178,7 +199,25 @@ useEffect(() => {
         >
           Pagar Multa
         </button>
+
+        {infractions.map(infraction => (
+          <div key={infraction.id} className="bg-gray-200 p-4 m-4 rounded-md">
+            <p className="font-bold mb-2">Descrição: {infraction.description}</p>
+            <p className="mb-2">Valor da Multa: {infraction.finePrice}</p>
+            <div className="additional-info">
+              <p>Placa do Carro: {infraction.carPlate}</p>
+              <p>Data: {infraction.date}</p>
+              <p>Tipo de Carro: {infraction.carType}</p>
+              {/* Adicione outras informações conforme necessário */}
+            </div>
+          </div>
+        ))}
+
       </div>
+
+        
+
+
     </div>
   );
 };
