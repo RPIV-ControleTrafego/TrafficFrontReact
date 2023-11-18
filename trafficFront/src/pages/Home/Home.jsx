@@ -56,43 +56,68 @@ const Card = ({ title, content }) => {
   );
 };
 
-function Home() {
+function Home({ authenticationHandler, authorizationHandler }) {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!authenticationHandler || !authorizationHandler) {
+      navigate('/error');
+      return;
+    }
+
+    const isAuthenticated = authenticationHandler.isAuthenticated(token);
+
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else {
+      const isAuthorized = authorizationHandler.isAuthorized(token);
+
+      if (!isAuthorized) {
+        navigate('/access-denied');
+      } else {
+        setIsAuthenticated(true);
+      }
+    }
+  }, [navigate, authenticationHandler, authorizationHandler]);
+
   return (
     <div className="App">
       <div className="flex items-center ml-10">
         <div className=" mt-64">
-          <img
-            src="https://www.svgrepo.com/show/139/traffic-light.svg"
-            alt="farol"
-            className="h-auto w-full"
-          />
+          {/* Conteúdo da imagem */}
         </div>
-        <div className="ml-10 mt-44 ">
-          <div className="text-2xl font-semibold ">
+        <div className="ml-10 mt-44">
+          <div className="text-2xl font-semibold">
             <h1 className="">Traffic Today</h1>
           </div>
           <div>
             <p className="text-base bg-slate-100 rounded-sm mr-32">
-              Bem-vindo à Traffic Today System, a principal autoridade em soluções de gerenciamento de tráfego para empresas que buscam alcançar eficiência, segurança e crescimento em suas operações. Somos apaixonados por ajudar nossos clientes a navegar pelo complexo mundo do tráfego de forma suave e eficaz, e estamos empenhados em impulsionar seu sucesso.
+              {/* Conteúdo do texto de boas-vindas */}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="flex space-x-4  mb-64 ml-52">
-        <CardWithStyling
-          title="Dados Gerais Sobre Tráfego"
-          content="Aqui voce pode encontrar dados gerais sobre o tráfego de veículos, como quais as cores, marcas e tipos de carros registrados."
-        />
-        <CardWithStyling
-          title="Dados Gerais Sobre Acidentes"
-          content="Aqui voce pode encontrar dados gerais sobre os acidentes registrados no trânsito, com qual gravidade ferido e endereço."
-        />
-        <CardWithStyling
-          title="Dados Gerais Sobre Infrações"
-          content="Aqui voce pode encontrar dados gerais sobre as infrações cometidas no trânsito, como quais as cores, marcas e tipos de carros registrados."
-        />
-      </div>
+      {isAuthenticated && (
+        <div className="flex space-x-4  mb-64 ml-52">
+          {/* Cards renderizados se autenticado e autorizado */}
+          <CardWithStyling
+            title="Dados Gerais Sobre Tráfego"
+            content="Aqui você pode encontrar dados gerais sobre o tráfego de veículos."
+          />
+          <CardWithStyling
+            title="Dados Gerais Sobre Acidentes"
+            content="Aqui você pode encontrar dados gerais sobre acidentes de trânsito."
+          />
+          <CardWithStyling
+            title="Dados Gerais Sobre Infrações"
+            content="Aqui você pode encontrar dados gerais sobre infrações de trânsito."
+          />
+        </div>
+      )}
     </div>
   );
 }
