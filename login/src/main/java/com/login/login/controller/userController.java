@@ -93,7 +93,12 @@ class UserController {
     if (userService.userExists(username)) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
     }
-   
+    
+    if(username == null || password == null || email == null || cpf == null){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Campos não podem ser nulos");
+    }
+
+    
     // Crie o novo usuário
     User newUser = userService.register(username, password,email, cpf); 
 
