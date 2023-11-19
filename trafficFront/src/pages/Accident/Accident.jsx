@@ -54,7 +54,7 @@ import axios from 'axios';
 
     const checkAuthorization = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/user/authorization');
+        const response = await axios.get('http://localhost:7000/user/checkAuthorization');
         const isAdmin = response.data.isAdmin; 
         return isAdmin;
       } catch (error) {
