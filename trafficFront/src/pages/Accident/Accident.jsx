@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-  // modelo tabela de acidentes
-  // _id 650f5fe2ec37b863fb51acb5
-  // date "2019-08-16"
-  // hasInjuries false
-  // hasFatalities false
-  // address "Oak Lane, New York, NY 33101"
-  // hasInfraction false
-  // _class "com.accident.serviceaccident.Entity.AccidentEntity"
-
   import { FileText } from 'react-feather';
   function Accident() {
   const [data, setData] = useState([]);

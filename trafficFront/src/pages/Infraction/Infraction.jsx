@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import SpeedSearchLworGt from '../../components/SpeedSearch/SpeedSearch';
-import SearchInfractionByDate from '../../components/SearchByDate/SearchInfractionByDate';
-import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
-
-  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-  import { Navigate,useNavigate } from 'react-router-dom'; // Importe o Navigate
+  import React, { useEffect, useState } from 'react';
+  import axios from 'axios';
+  import SpeedSearchLworGt from '../../components/SpeedSearch/SpeedSearch';
+  import SearchInfractionByDate from '../../components/SearchByDate/SearchInfractionByDate';
+  import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
+  import { Navigate,useNavigate } from 'react-router-dom'; 
   import { FileText } from 'react-feather';
+
   function Infraction() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
