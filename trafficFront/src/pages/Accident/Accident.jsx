@@ -51,6 +51,28 @@ import axios from 'axios';
     link.href = window.URL.createObjectURL(blob);
     link.download = 'data.csv';
     link.click();
+
+    const checkAuthorization = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/user/authorization');
+        const isAdmin = response.data.isAdmin; 
+        return isAdmin;
+      } catch (error) {
+        console.error('Erro ao verificar autorização:', error);
+        return false;
+      }
+    };
+  
+    useEffect(() => {
+      checkAuthorization().then((isAdmin) => {
+        if (isAdmin) {
+          console.log('Usuário é um administrador');
+        } else {
+          console.log('Usuário NÃO é um administrador');
+        }
+      });
+    }, []);
+  
   };
   return (
     <div className="App">
