@@ -67,12 +67,18 @@ const Profile = () => {
   const fetchFines = () => {
   axios.get(`http://localhost:8086/infraction/list-by-cpf/${selectedCurrency}/${user.cpf}`)
     .then(response => {
-      setFinesData(response.data);
+      setInfractions(response.data);
     })
     .catch(error => {
       console.error('Erro ao obter multas:', error);
     });
   }
+
+
+  useEffect(() => {
+    fetchFines();
+  }
+  , [selectedCurrency]);
 
 
 
@@ -97,10 +103,7 @@ useEffect(() => {
 }, [selectedCurrency]);
 
 
-useEffect(() => {
-  fetchFines();
-}
-, [selectedCurrency]);
+
 
 
 useEffect(() => {
@@ -200,21 +203,29 @@ useEffect(() => {
           Pagar Multa
         </button>
 
-        {infractions.map(infraction => (
-          <div key={infraction.id} className="bg-gray-200 p-4 m-4 rounded-md">
-            <p className="font-bold mb-2">Descrição: {infraction.description}</p>
-            <p className="mb-2">Valor da Multa: {infraction.finePrice}</p>
-            <div className="additional-info">
-              <p>Placa do Carro: {infraction.carPlate}</p>
-              <p>Data: {infraction.date}</p>
-              <p>Tipo de Carro: {infraction.carType}</p>
-              {/* Adicione outras informações conforme necessário */}
-            </div>
-          </div>
-        ))}
 
       </div>
 
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {infractions.map(infraction => (
+        <div key={infraction.id} className="bg-gray-200 p-4 rounded-md">
+          <p className="font-bold mb-2">Descrição: {infraction.description}</p>
+          <p className="mb-2">Valor da Multa: {infraction.finePrice}</p>
+          <div className="additional-info">
+            <p>Placa do Carro: {infraction.carPlate}</p>
+            <p>Data: {infraction.date}</p>
+            <p>Tipo de Carro: {infraction.carType}</p>
+          </div>
+          <button
+            onClick={() => payFine(infraction.id)}
+            className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-2"
+          >
+            Pagar Multa
+          </button>
+        </div>
+      ))}
+    </div>
         
 
 
