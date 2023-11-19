@@ -7,6 +7,8 @@ const Profile = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [infractions, setInfractions] = useState([]);
+  const [selectedFines, setSelectedFines] = useState([]);
+  const [selectedGridFines, setSelectedGridFines] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('real');
   const [totalFinePrice, setTotalFinePrice] = useState(0);
   const [latestInfraction, setLatestInfraction] = useState(null);
@@ -18,6 +20,27 @@ const Profile = () => {
       fetchData();
     }
   }, []);
+
+  function toggleSelect(fineId, isGrid) {
+    if (isGrid) {
+      setSelectedGridFines((prevSelectedFines) => {
+        if (prevSelectedFines.includes(fineId)) {
+          return prevSelectedFines.filter((id) => id !== fineId);
+        } else {
+          return [...prevSelectedFines, fineId];
+        }
+      });
+    } else {
+      setSelectedFines((prevSelectedFines) => {
+        if (prevSelectedFines.includes(fineId)) {
+          return prevSelectedFines.filter((id) => id !== fineId);
+        } else {
+          return [...prevSelectedFines, fineId];
+        }
+      });
+    }
+  }
+
 
   const fetchData = () => {
     // axios.get(`http://localhost:7000/user/profile`)
@@ -207,30 +230,38 @@ useEffect(() => {
       </div>
 
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {infractions.map(infraction => (
-        <div key={infraction.id} className="bg-gray-200 p-4 rounded-md">
-          <p className="font-bold mb-2">Descrição: {infraction.description}</p>
-          <p className="mb-2">Valor da Multa: {infraction.finePrice}</p>
-          <div className="additional-info">
-            <p>Placa do Carro: {infraction.carPlate}</p>
-            <p>Data: {infraction.date}</p>
-            <p>Tipo de Carro: {infraction.carType}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {infractions.map((infraction) => (
+            <div
+              key={infraction.id}
+              className={`bg-gray-200 p-4 rounded-md ${
+                selectedGridFines.includes(infraction.id) ? 'border-2 border-blue-500' : ''
+              }`}
+              onClick={() => toggleSelect(infraction.id, true)}
+            >
+            <p className="font-bold mb-2">Descrição: {infraction.description}</p>
+            <p className="mb-2">Valor da Multa: {infraction.finePrice}</p>
+            <div className="additional-info">
+              <p>Placa do Carro: {infraction.carPlate}</p>
+              <p>Data: {infraction.date}</p>
+              <p>Tipo de Carro: {infraction.carType}</p>
+            </div>
+            <button
+              onClick={() => payFine(infraction.id)}
+              className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-2"
+            >
+              Pagar Multa
+            </button>
           </div>
-          <button
-            onClick={() => payFine(infraction.id)}
-            className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-2"
-          >
-            Pagar Multa
-          </button>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
         
 
 
     </div>
   );
 };
+
+
 
 export default Profile;
