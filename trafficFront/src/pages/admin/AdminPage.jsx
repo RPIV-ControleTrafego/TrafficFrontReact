@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Modal from './Modal'; // Importe o componente de modal
+import Modal from './Modal';
+import AuthorizationHandler from '/home/arthur/Documentos/GitHub/TrafficFrontReact/login/src/main/java/com/login/login/handler/AuthorizationHandler.java';
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar a exibição do modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    const username = 'username';
+    const authHandler = new AuthorizationHandler(); 
+    const request = { username };
+    authHandler.handle(requescaminho/para/AuthorizationHandlert);
+
     loadUsers();
   }, []);
 
@@ -31,14 +37,13 @@ const AdminPage = () => {
       };
 
       axios.put(`http://localhost:7000/user/changeRole/${selectedUser}`, requestBody)
-  .then(response => {
-    console.log('Papel do usuário alterado:', response.data);
-    loadUsers();
-  })
-  .catch(error => {
-    console.error('Erro ao alterar o papel do usuário:', error);
-  });
-
+        .then(response => {
+          console.log('Papel do usuário alterado:', response.data);
+          loadUsers();
+        })
+        .catch(error => {
+          console.error('Erro ao alterar o papel do usuário:', error);
+        });
     }
   };
 
