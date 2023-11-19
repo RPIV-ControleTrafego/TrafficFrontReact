@@ -98,7 +98,7 @@ class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Campos não podem ser nulos");
     }
 
-    
+
     // Crie o novo usuário
     User newUser = userService.register(username, password,email, cpf); 
 
@@ -203,22 +203,32 @@ public ResponseEntity<?> searchFines(@RequestParam("query") String query) {
 
     return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
 }
-
-@GetMapping("/calculate-fines")
+@GetMapping("/total-fine-price/{currency}/{cpf}")
 @Operation(summary = "Calculate fines", description = "Calculate fines for a given query")
-public ResponseEntity<?> calculateFines(@RequestParam("query") String query) {
-    String url = "http://localhost:8086/infraction/calculate-fines";
-    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-    queryParams.add("query", query);
+public ResponseEntity<String> calculateFines(
+        @PathVariable("currency") String currency,
+        @PathVariable("cpf") String cpf) {
 
-    return makeHttpRequest(url, HttpMethod.GET, null, queryParams);
+    // Construir a URL sem o parâmetro de consulta
+    String url = String.format("http://localhost:8086/infraction/total-fine-price/%s/%s", currency, cpf);
+
+    ResponseEntity<String> responseEntity = makeHttpRequest(url, HttpMethod.GET, null, String.class);
+
+    // Verificar se a solicitação foi bem-sucedida
+    if (responseEntity.getStatusCode().is2xxSuccessful()) {
+        // A resposta já é uma string, não há necessidade de conversão
+        return ResponseEntity.ok(responseEntity.getBody());
+    } else {
+        // Se não foi bem-sucedida, encaminhar o status e a mensagem de erro
+        return ResponseEntity.status(responseEntity.getStatusCode()).body(responseEntity.getBody());
+    }
 }
 
-
-
-
-
-
+// Método makeHttpRequest com tipo de resposta genérico
+private <T> ResponseEntity<T> makeHttpRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType) {
+    RestTemplate restTemplate = new RestTemplate();
+    return restTemplate.exchange(url, method, requestEntity, responseType);
+}
 
 @GetMapping("/findUser")
 @Operation(summary = "Find user", description = "Find user by username")
