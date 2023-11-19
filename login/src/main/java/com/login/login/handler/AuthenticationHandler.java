@@ -13,6 +13,10 @@ public class AuthenticationHandler implements Handler {
         this.nextHandler = handler;
     }
 
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public void handle(Map<String, String> request) {
         String username = request.get("username");
@@ -29,13 +33,14 @@ public class AuthenticationHandler implements Handler {
     }
 
     public boolean isValidUser(String username, String password) {
-        User user = userRepository.findUserByUsername(username);
+        if (userRepository != null) {
+            User user = userRepository.findUserByUsername(username);
 
-        if (user != null) {
-            return user.getPassword().equals(password);
+            if (user != null) {
+                return user.getPassword().equals(password);
+            }
         }
 
         return false;
     }
 }
-
