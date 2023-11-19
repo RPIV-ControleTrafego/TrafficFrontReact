@@ -36,6 +36,27 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
     setAccordionExpanded4(!accordionExpanded4);
   }
 
+  const checkAuthorization = async () => {
+    try {
+      const response = await axios.get('http://localhost:7000/user/checkAuthorization');
+      const isAdmin = response.data.isAdmin; 
+      return isAdmin;
+    } catch (error) {
+      console.error('Erro ao verificar autorização:', error);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    checkAuthorization().then((isAdmin) => {
+      if (isAdmin) {
+        console.log('Usuário é um administrador');
+      } else {
+        console.log('Usuário NÃO é um administrador');
+      }
+    });
+  }, []);
+
   const downloadCSV = () => {
     let csvContent = "carPlate,carType,carColor,carBrand,veiculeOwnerName,veiculeOwneCPF,time,date,address,speed,maxSpeed,direction,streetDirection\n";
     data.forEach((item) => {
