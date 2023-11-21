@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-d
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
-import { Login } from './pages/Login/Login';
+import Login from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
 import Infraction from './pages/Infraction/Infraction';
 import axios from 'axios';

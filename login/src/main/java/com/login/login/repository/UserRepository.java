@@ -9,6 +9,9 @@ public interface UserRepository  extends MongoRepository<User, String> {
     User findUserByEmail(String email);
     boolean deleteUserByUsername(String username);
     boolean deleteUserByEmail(String email);
+    static UserRepository getInstance() {
+        return null;
+    }
     
 
 }   

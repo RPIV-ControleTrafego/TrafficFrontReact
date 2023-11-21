@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import arrowImg from '../../assets/arrow.svg';
 import logoImg from '../../assets/logo.svg';
-import LogInHandler from './LogInHandler'; // Importe a classe LogInHandler ou sua implementação correspondente
 import './styles.css';
 
 function Login() {
@@ -24,7 +23,6 @@ function Login() {
 
     if (loginSuccessful) {
       try {
-        // Aqui você poderia realizar a chamada para o servidor com axios ou fetch
         const response = await axios.post('http://localhost:7000/user/login', {
           username: username,
           password: password,

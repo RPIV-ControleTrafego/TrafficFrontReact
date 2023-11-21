@@ -140,12 +140,15 @@ public boolean changeRole(String name, String role) {
             if (user != null) {
                 System.err.println(user.getRole());
                 return user;
-            } else {
-                return null;
             }
+            return null;
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public User getInstance() {
+        return new User();
     }
 
 
