@@ -8,7 +8,6 @@ public abstract class LogInHandler {
     }
 
     public boolean handleLogin(String username, String password) {
-        // Lógica de autenticação de exemplo
         if (authenticate(username, password)) {
             System.out.println("Login bem-sucedido para o usuário: " + username);
             return true;
