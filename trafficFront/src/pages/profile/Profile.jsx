@@ -19,7 +19,18 @@ const Profile = () => {
       setUser(loggedInUser);
       fetchData();
     }
+
+
+    // Cleanup function to clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+
+
   }, []);
+  
+  const intervalId = setInterval(() => {
+    fetchData();
+  }, 10000);
+  
 
   function toggleSelect(fineId, isGrid) {
     if (isGrid) {
@@ -43,32 +54,10 @@ const Profile = () => {
 
 
   const fetchData = () => {
-    // axios.get(`http://localhost:7000/user/profile`)
-    //   .then(response => {
-    //     setUser(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Erro ao obter informações do usuário:', error);
-    //   });
-
-    // axios.get(`http://localhost:7000/user/search-fines?query=example&startDate=${startDate}&endDate=${endDate}`)
-    //   .then(response => {
-    //     setFinesData(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Erro ao obter dados de multas:', error);
-    //   });
-
-    // axios.get(`http://localhost:7000/user/calculate-fines?query=example&startDate=${startDate}&endDate=${endDate}`)
-    //   .then(response => {
-    //     console.log('Resposta do cálculo de multas:', response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Erro ao calcular multas:', error);
-    //   });
+ 
     axios.get(`http://localhost:7000/user/findUser?username=${user.username}`)
     .then(response => {
-      setUser(response.data);
+      setUser(prevUser => ({ ...prevUser, ...response.data }));
     })
     .catch(error => {
       console.error('Erro ao obter informações do usuário:', error);
@@ -94,6 +83,7 @@ const Profile = () => {
     })
     .catch(error => {
       console.error('Erro ao obter multas:', error);
+
     });
   }
 
@@ -102,7 +92,6 @@ const Profile = () => {
     fetchFines();
   }
   , [selectedCurrency]);
-
 
 
 

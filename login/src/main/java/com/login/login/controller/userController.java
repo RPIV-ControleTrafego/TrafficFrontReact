@@ -250,6 +250,53 @@ public ResponseEntity<?> findUser(@RequestParam("username") String username) {
 
 
 
+// @GetMapping("/total-fine-price/{currency}/{cpf}")
+// @Operation(summary = "Calculate fines", description = "Calculate fines for a given query")
+// public ResponseEntity<String> calculateFines(
+//         @PathVariable("currency") String currency,
+//         @PathVariable("cpf") String cpf) {
+
+//     // Construir a URL sem o parâmetro de consulta
+//     String url = String.format("http://localhost:8086/infraction/total-fine-price/%s/%s", currency, cpf);
+
+//     ResponseEntity<String> responseEntity = makeHttpRequest(url, HttpMethod.GET, null, String.class);
+
+//     // Verificar se a solicitação foi bem-sucedida
+//     if (responseEntity.getStatusCode().is2xxSuccessful()) {
+//         // A resposta já é uma string, não há necessidade de conversão
+//         return ResponseEntity.ok(responseEntity.getBody());
+//     } else {
+//         // Se não foi bem-sucedida, encaminhar o status e a mensagem de erro
+//         return ResponseEntity.status(responseEntity.getStatusCode()).body(responseEntity.getBody());
+//     }
+// }
+
+@GetMapping("/NotPaid/{cpf}")
+@Operation(summary = "Payment", description = "Payment of fines")
+public ResponseEntity<String> payment(@PathVariable("cpf") String cpf) {
+
+    try{
+       String url = String.format("/list-non-paid/%s", cpf);
+         ResponseEntity<String> responseEntity = makeHttpRequest(url, HttpMethod.GET, null, String.class);
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // A resposta já é uma string, não há necessidade de conversão
+            return ResponseEntity.ok(responseEntity.getBody());
+
+        } else {
+            // Se não foi bem-sucedida, encaminhar o status e a mensagem de erro
+            return ResponseEntity.status(responseEntity.getStatusCode()).body(responseEntity.getBody());
+        }
+
+
+
+    }catch(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred in finding not paid fines");
+    }
+
+  
+
+}
+
 
 
 }
