@@ -6,10 +6,15 @@ import Home from './pages/Home/Home';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
 import Infraction from './pages/Infraction/Infraction';
+import InfractionDashboard from './pages/Infraction/Dashboard'; // Adjust the path accordingly
+import InfractionGraphics from './pages/Infraction/Graphics'; // Adjust the path accordingly
 import axios from 'axios';
 import Accident from './pages/Accident/Accident';
+import AccidentGraphics from './pages/Accident/Dashboard';
+import AccidentDashboard from './pages/Accident/Graphics';
 import AdminPage from './pages/admin/AdminPage';
 import Stats from './pages/Stats/Stats';
+
 function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('');
@@ -44,10 +49,38 @@ function App({loggedInUser}) {
     }
     return null; 
   };
+
+  const renderInfractionGraphicsRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'policial' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' )) {
+      return <Route path="/infraction/graphics" element={<InfractionGraphics />} />;
+    }
+    return null; 
+  };
+
+  const renderInfractionDashboardRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'policial' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' )) {
+      return <Route path="/infraction/dashboard" element={<InfractionDashboard />} />;
+    }
+    return null; 
+  };
   
   const renderAccidentRoute = () => {
     if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
       return <Route path="/accident" element={<Accident />} />;
+    }
+    return null; 
+  };
+
+  const renderAccidentGraphicRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
+      return <Route path="/accident/graphics" element={<AccidentGraphics />} />;
+    }
+    return null; 
+  };
+
+  const renderAccidentDashboardRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
+      return <Route path="/accident/dashboard" element={<AccidentDashboard />} />;
     }
     return null; 
   };
@@ -59,7 +92,6 @@ function App({loggedInUser}) {
     return null; 
   };
 
-
   const renderStatsRoute = () => {
     if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'admin' || loggedInUser.role === 'policial' || loggedInUser.role === 'bombeiro' || loggedInUser.role === 'user' )) {
       return <Route path="/stats" element={<Stats />} />;
@@ -67,10 +99,6 @@ function App({loggedInUser}) {
     return null; 
   }
 
-
-
-
-  
   return (
     <Router>
       <div className="App">
@@ -84,10 +112,14 @@ function App({loggedInUser}) {
                 path="/"
                 element={authenticated ? <Home /> : <Navigate to="/login" />}
               />
-             {renderInfractionRoute()}
-              {renderAccidentRoute()}
-              {renderAdminRoute()}
-              {renderStatsRoute()}
+            {renderInfractionRoute()}
+            {renderInfractionGraphicsRoute()}
+            {renderInfractionDashboardRoute()}
+            {renderAccidentRoute()}
+            {renderAccidentGraphicRoute()}
+            {renderAccidentDashboardRoute()}
+            {renderAdminRoute()}
+            {renderStatsRoute()}
             </Routes>
           </div>
         </main>
@@ -96,4 +128,5 @@ function App({loggedInUser}) {
     </Router>
   );
 }
+
 export default App;

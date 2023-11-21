@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-  // modelo tabela de acidentes
-  // _id 650f5fe2ec37b863fb51acb5
-  // date "2019-08-16"
-  // hasInjuries false
-  // hasFatalities false
-  // address "Oak Lane, New York, NY 33101"
-  // hasInfraction false
-  // _class "com.accident.serviceaccident.Entity.AccidentEntity"
-
   import { Navigate,useNavigate } from 'react-router-dom'; // Importe o Navigate
   import { FileText } from 'react-feather';
+  import { Link } from 'react-router-dom';
   function Accident() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
@@ -56,20 +46,21 @@ import axios from 'axios';
 
   const DashboardButtons = () => {
     return (
-      <div className="dashboard-buttons">
-        <Link to="/graphics">
-          <button className="btn btn-primary mr-2">Gráficos</button>
+      <div className="dashboard-buttons flex justify-center items-center">
+        <Link to="/accident/graphics">
+          <button className="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded btn-primary mr-2">Dashboard</button>
         </Link>
-        <Link to="/dashboard">
-          <button className="btn btn-primary">Dashboard</button>
+        
+        <Link to="/accident/dashboard">
+          <button className="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded btn-primary">Consultas</button>
         </Link>
       </div>
     );
   };
-
+  
   return (
+    
     <div className="App">
-      <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' >Informações de Infração</h1>
       <DashboardButtons />
     </div>
   );

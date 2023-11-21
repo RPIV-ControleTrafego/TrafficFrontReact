@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import SpeedSearchLworGt from '../../components/SpeedSearch/SpeedSearch';
-import SearchInfractionByDate from '../../components/SearchByDate/SearchInfractionByDate';
-import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
+import { Navigate,useNavigate } from 'react-router-dom'; // Importe o Navigate
+import { FileText } from 'react-feather';
 
-  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-  import { Navigate,useNavigate } from 'react-router-dom'; // Importe o Navigate
-  import { FileText } from 'react-feather';
-  function Infraction() {
+function InfractionGraphics() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
   const navigate = useNavigate();
@@ -51,9 +45,7 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
   };
 
   return (
-    <div className="App">
-      <h1 className='text-5xl mb-32 mt-16 px-5 min-h-screen ' > Informações de Infração</h1>
-      
+    <div className="App">      
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop:'100vh' }}>
         <div style={{ minWidth: '640px',}}>
           <iframe
@@ -114,4 +106,4 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
   );
 }
 
-export default Infraction;
+export default InfractionGraphics;

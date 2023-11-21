@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FileText } from 'react-feather';
+import { Link } from 'react-router-dom'; // Add this line
 
-  // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-  // modelo tabela de acidentes
-  // _id 650f5fe2ec37b863fb51acb5
-  // date "2019-08-16"
-  // hasInjuries false
-  // hasFatalities false
-  // address "Oak Lane, New York, NY 33101"
-  // hasInfraction false
-  // _class "com.accident.serviceaccident.Entity.AccidentEntity"
-
-  import { FileText } from 'react-feather';
-  function Accident() {
+  function AccidentGraphics() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
   const [accordionExpanded, setAccordionExpanded] = useState(false);
@@ -52,9 +42,11 @@ import axios from 'axios';
     link.download = 'data.csv';
     link.click();
   };
+  
   return (
     <div className="App">
       
+      <br /><br /><br /><br /><br /><br />
     <h1 className='text-5xl mb-12 mt-16'> Informações de Acidentes</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
         <h2 id="accordion-collapse-heading-1">
@@ -227,4 +219,4 @@ import axios from 'axios';
   );
 }
 
-export default Accident;
+export default AccidentGraphics;
