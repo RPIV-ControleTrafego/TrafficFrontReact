@@ -13,6 +13,12 @@ export function Login() {
   const [error, setError] = useState("");
   const [loggedInUser, setLoggedInUser] = useState({ username: "", role: "" });
 
+  const [loginAttempts, setLoginAttempts] = useState(0);
+
+  const resetLoginAttempts = () => {
+    setLoginAttempts(0);
+  };
+
   async function handleSignIn(e) {
     e.preventDefault();
     setError("");
@@ -35,9 +41,16 @@ export function Login() {
         setError("Usuário não encontrado ou senha incorreta.");
       }
     } catch (error) {
-      setError("Erro ao fazer login. Tente novamente mais tarde.");
-    }
+      setLoginAttempts(loginAttempts + 1);
+        if (loginAttempts >= 3) {
+          setError("Conta bloqueada devido a múltiplas tentativas malsucedidas. Tente novamente mais tarde.");
+        } else {
+          setError("Erro ao fazer login. Tente novamente mais tarde.");
+        }
+      }
   }
+
+  setTimeout(resetLoginAttempts, 30000);
   
   return (
     <div className="container">
