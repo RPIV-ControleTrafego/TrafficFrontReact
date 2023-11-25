@@ -78,7 +78,10 @@ export function Login() {
             name="password"
             id="password"
             placeholder="********************"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              checkPasswordStrength(e.target.value);
+            }}
           />
         </div>
 

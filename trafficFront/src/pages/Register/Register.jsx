@@ -11,6 +11,29 @@ export function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [passwordStrength, setPasswordStrength] = useState("");
+
+  const checkPasswordStrength = (password) => {
+    // Critérios de força da senha
+    const minLength = 8;
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+  
+    if (password.length < minLength) {
+        setPasswordStrength("A senha deve ter no mínimo " + minLength + " caracteres.");
+    } else if (!hasNumber) {
+        setPasswordStrength("A senha deve conter pelo menos um número.");
+    } else if (!hasSpecialChar) {
+        setPasswordStrength("A senha deve conter pelo menos um caractere especial.");
+    } else if (!hasUpperCase) {
+        setPasswordStrength("A senha deve conter pelo menos uma letra maiúscula.");
+    } else {
+      // Se atender todos os critérios
+        setPasswordStrength("Senha forte");
+    }
+  }; 
+
   async function handleSignUp(e) {
     e.preventDefault();
     setError("");
@@ -70,8 +93,12 @@ export function Register() {
             name="password"
             id="password"
             placeholder="********************"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              checkPasswordStrength(e.target.value);
+            }}
           />
+          {passwordStrength && <p className="password-strength">{passwordStrength}</p>}
         </div>
 
         <button onClick={handleSignUp} className="button">
