@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-  function Dashboard() {
+  function StatsDashboard() {
     return (
         <div className="App">
           <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>

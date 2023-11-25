@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FileText } from 'react-feather';
 
- // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  // import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-
-  import { FileText } from 'react-feather';
 function App() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
@@ -57,10 +54,26 @@ function App() {
   useEffect(() => {
     fetchData(); 
   }, []);
+
+  const DashboardButtons = () => {
+    return (
+      <div className="dashboard-buttons flex justify-center items-center">
+        <Link to="/infraction/graphics">
+          <button className="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded btn-primary mr-2">Gráficos</button>
+        </Link>
+        
+        <Link to="/infraction/dashboard">
+          <button className="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded btn-primary">Dashboard</button>
+        </Link>
+      </div>
+    );
+  };
   
     return (
       <div className="App">
         <h1 className='text-5xl mb-12 mt-16'> Informações de Tráfego</h1>
+        <br /><br /><br /><br /><br />
+      <DashboardButtons />
       </div>
     );
   };

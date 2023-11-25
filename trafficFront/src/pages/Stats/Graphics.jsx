@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FileText } from 'react-feather';
 
-function App() {
+function StatsGraphics() {
   const [data, setData] = useState([]);
   const [searchPlate, setSearchPlate] = useState('');
   const [accordionExpanded, setAccordionExpanded] = useState(false);

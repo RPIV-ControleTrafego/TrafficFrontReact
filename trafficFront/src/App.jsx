@@ -14,6 +14,8 @@ import AccidentGraphics from './pages/Accident/Dashboard';
 import AccidentDashboard from './pages/Accident/Graphics';
 import AdminPage from './pages/admin/AdminPage';
 import Stats from './pages/Stats/Stats';
+import StatsGraphics from './pages/Stats/Graphics';
+import StatsDashboard from './pages/Stats/Dashboard'
 
 function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -99,6 +101,20 @@ function App({loggedInUser}) {
     return null; 
   }
 
+  const renderStatsGraphicRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
+      return <Route path="/stats/graphics" element={<StatsGraphics />} />;
+    }
+    return null;
+  }
+
+  const renderStatsDashboardRoute = () => {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
+      return <Route path="/stats/dashboard" element={<StatsDashboard />} />;
+    }
+    return null; 
+  }
+
   return (
     <Router>
       <div className="App">
@@ -120,6 +136,8 @@ function App({loggedInUser}) {
             {renderAccidentDashboardRoute()}
             {renderAdminRoute()}
             {renderStatsRoute()}
+            {renderStatsGraphicRoute()}
+            {renderStatsDashboardRoute()}
             </Routes>
           </div>
         </main>

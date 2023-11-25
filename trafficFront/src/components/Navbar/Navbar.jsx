@@ -51,7 +51,7 @@ const Navbar = ({ loggedInUser }) => {
           aria-controls="navbar-default"
           aria-expanded="false"
         >
-          <span className="sr-only">Open main menu</span>
+          <span className="sr-only">Abrir menu principal</span>
           <svg
             className="w-5 h-5"
             aria-hidden="true"
@@ -91,7 +91,7 @@ const Navbar = ({ loggedInUser }) => {
                 activeClassName="bg-blue-700"
                 exact
               >
-                stats
+                Eventos
               </NavLink>
 
               {/* Botão de Logout */}
@@ -100,6 +100,8 @@ const Navbar = ({ loggedInUser }) => {
                   <button
                     onClick={confirmLogout}
                     className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                    activeClassName="bg-blue-700"
+                    exact
                   >
                     Logout
                   </button>
@@ -110,28 +112,28 @@ const Navbar = ({ loggedInUser }) => {
             {isAdmin && (
               <>
                 <li>
-                  <NavLink to="/infraction">Infraction</NavLink>
+                  <NavLink to="/infraction">Infraçoes</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/Accident">Accident</NavLink>
+                  <NavLink to="/Accident">Acidentes</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/admin">Admin Page</NavLink>
+                  <NavLink to="/admin">ADMIN</NavLink>
                 </li>
               </>
             )}
 
             {isPolice && !isAdmin && (
               <><li>
-                <NavLink to="/infraction">Infraction</NavLink>
+                <NavLink to="/infraction">Infrações</NavLink>
               </li><li>
-                  <NavLink to="/Accident">Accident</NavLink>
+                  <NavLink to="/Accident">Acidentes</NavLink>
                 </li></>
             )}
 
             {isFireman && !isAdmin && (
               <li>
-                <NavLink to="/Accident">Accident</NavLink>
+                <NavLink to="/Accident">Acidentes</NavLink>
               </li>
             )}
           </ul>
