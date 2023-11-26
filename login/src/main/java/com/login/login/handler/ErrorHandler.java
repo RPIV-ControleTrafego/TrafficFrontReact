@@ -14,12 +14,12 @@ public class ErrorHandler implements Handler {
 
     @Override
     public void handle(Map<String, String> request) {
-        LOGGER.log(Level.INFO, "Error: No previous handler could fix the request.");
+        LOGGER.log(Level.INFO, "Erro: Nenhum manipulador anterior pôde corrigir a solicitação.");
 
         if (nextHandler != null) {
             nextHandler.handle(request);
         } else {
-            LOGGER.log(Level.SEVERE, "Unhandled error: Request could not be processed.");
+            LOGGER.log(Level.SEVERE, "Erro não tratado: A solicitação não pôde ser processada.");
         }
     }
 }

@@ -6,11 +6,11 @@ import com.login.login.model.User;
 
 public class AuthorizationHandler implements Handler {
     private Handler nextHandler;
-    private UserRepository userRepository; 
-    
+    private UserRepository userRepository;
+
     public AuthorizationHandler(UserRepository userRepository) {
         if (userRepository == null) {
-            throw new IllegalArgumentException("UserRepository cannot be null");
+            throw new IllegalArgumentException("UserRepository não pode ser nulo");
         }
         this.userRepository = userRepository;
     }
@@ -30,7 +30,7 @@ public class AuthorizationHandler implements Handler {
 
         String role = getRole(username);
 
-        if (role != null && role.equals("admin")) {
+        if ("admin".equals(role)) {
             System.out.println("Usuário autorizado com permissão de administrador: " + username);
         } else {
             System.out.println("Usuário não autorizado para acessar este recurso: " + username);
@@ -41,7 +41,7 @@ public class AuthorizationHandler implements Handler {
         }
     }
 
-    public String getRole(String username) {
+    private String getRole(String username) {
         try {
             User user = userRepository.findUserByUsername(username);
 
