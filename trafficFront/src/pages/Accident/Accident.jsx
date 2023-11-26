@@ -95,16 +95,6 @@ import axios from 'axios';
           className={accordionExpanded ? "p-5 border border-b-0 border-gray-200 dark:border-gray-700" : "hidden"}
           aria-labelledby="accordion-collapse-heading-1"
         >
-          <div>
-              <p className='flex'>
-                Baixe os registros dos acidentes em formato CSV.
-              </p>
-            <button onClick={downloadCSV} className='flex items-center mt-5
-            '>
-              Baixar CSV
-              <FileText size={20} style={{ marginLeft: '0.5em' }} />
-            </button>
-          </div>
         </div>
         <h2 id="accordion-collapse-heading-2">
   <button
