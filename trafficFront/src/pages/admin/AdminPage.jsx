@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
-import AuthorizationHandler from '/home/arthur/Documentos/GitHub/TrafficFrontReact/login/src/main/java/com/login/login/handler/AuthorizationHandler.java';
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -11,11 +10,6 @@ const AdminPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const username = 'username';
-    const authHandler = new AuthorizationHandler(); 
-    const request = { username };
-    authHandler.handle(requescaminho/para/AuthorizationHandlert);
-
     loadUsers();
   }, []);
 
@@ -78,27 +72,6 @@ const AdminPage = () => {
         className="p-2 border border-gray-300 rounded mb-4"
       />
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border rounded">
-          <thead>
-            <tr>
-              <th className="border bg-gray-200 p-2">Nome</th>
-              <th className="border bg-gray-200 p-2">Papel</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users
-              .filter(user => user && user.username && user.username.toLowerCase().includes(searchTerm.toLowerCase()))
-              .map(user => (
-                <tr key={user.id} className="hover:bg-gray-100 cursor-pointer" onClick={() => { setSelectedUser(user.username); openModal(); }}>
-                  <td className="border p-2">{user.username}</td>
-                  <td className="border p-2">{user.role}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
-
       {isModalOpen && selectedUser && (
         <Modal closeModal={closeModal}>
           <h2 className="text-xl font-semibold mb-2 mt-6">Detalhes do Usuário: {selectedUser}</h2>
@@ -109,10 +82,6 @@ const AdminPage = () => {
             className="p-2 border border-gray-300 rounded mr-2 mt-4"
           >
             <option value="">Selecionar Papel</option>
-            <option value="policial">Policial</option>
-            <option value="bombeiro">Bombeiro</option>
-            <option value="admin">Admin</option>
-            <option value="user">Usuário</option>
           </select>
           <button onClick={changeUserRole} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">Alterar Papel</button>
           <button onClick={() => deleteUser(selectedUser)} className="bg-red-500 text-white py-2 px-4 rounded mt-4 ml-2">Deletar</button>
