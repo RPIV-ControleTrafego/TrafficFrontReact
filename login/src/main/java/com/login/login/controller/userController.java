@@ -35,65 +35,108 @@ import com.login.login.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 
-@Controller
+@RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:5173")
-
-
-class UserController {
+public class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private HttpSession httpSession;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
-    String username = requestBody.get("username");
-    String password = requestBody.get("password");
+    public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequest, HttpServletRequest request) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
 
-    // Obtém o papel do usuário
-    String role = userService.getRole(username).getRole();
-
-    // Verifica se o login é bem-sucedido
-    User loggedInUser = userService.login(username, password);
-
-    if (loggedInUser != null) {
-        jakarta.servlet.http.HttpSession session = request.getSession();
-        session.setAttribute("loggedInUser", loggedInUser);
-        session.setAttribute("role", role);
-        log.info("Novo usuário logado: " + username + " - Role: " + role);
-        
-        // Retorne o papel do usuário como parte da resposta
-        return ResponseEntity.ok(role);
-    } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        User loggedInUser = userService.login(username, password);
+        if (loggedInUser != null) {
+            String role = userService.getRole(username).getRole();
+            httpSession.setAttribute("loggedInUser", loggedInUser);
+            httpSession.setAttribute("role", role);
+            log.info("New user logged in: " + username + " - Role: " + role);
+            return ResponseEntity.ok(role);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
     }
 
     @PostMapping("/register")
-public ResponseEntity<String> register(@RequestBody Map<String, String> requestBody) {
-    String username = requestBody.get("username");
-    String password = requestBody.get("password");
-  
+    public ResponseEntity<String> register(@RequestBody RegistrationRequestDTO registrationRequest) {
+        String username = registrationRequest.getUsername();
+        String password = registrationRequest.getPassword();
 
-    // Verifique se o usuário já existe
-    if (userService.userExists(username)) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
+        if (userService.userExists(username)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+        }
+
+        String role = "user";
+        User newUser = userService.register(username, password, role);
+
+        if (newUser != null) {
+            return ResponseEntity.ok("User registered successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user");
+        }
     }
-    String role = "user"; 
-    // Crie o novo usuário
-    User newUser = userService.register(username, password, role); 
 
-    if (newUser != null) {
-        return ResponseEntity.ok("Usuário registrado com sucesso");
-    } else {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao registrar usuário");
+    @GetMapping("/getUsers")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/getRole/{username}")
+    public ResponseEntity<String> getRole(@PathVariable String username) {
+        try {
+            User user = userService.getRole(username);
+            if (user != null) {
+                return ResponseEntity.ok("Role: " + user.getRole());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
+    }
+
+    @PutMapping("/changeRole/{username}")
+    public ResponseEntity<String> changeRole(@PathVariable String username, @RequestBody RoleChangeRequestDTO request) {
+        String role = request.getRole();
+
+        if (role != null && userService.changeRole(username, role)) {
+            return ResponseEntity.ok("Role changed");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role change failed");
+        }
+    }
+
+    @DeleteMapping("/deleteUser/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable String username) {
+        if (userService.deleteUser(username)) {
+            log.info("User deleted: " + username);
+            return ResponseEntity.ok("User deleted");
+        } else {
+            log.info("User not deleted: " + username);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User deletion failed");
+        }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getProfile() {
+        User loggedInUser = (User) httpSession.getAttribute("loggedInUser");
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(loggedInUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
 }
-    
+
     @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getAllUsers();
