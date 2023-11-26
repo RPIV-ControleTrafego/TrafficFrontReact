@@ -32,13 +32,11 @@ public class AuthenticationHandler implements Handler {
         }
     }
 
-    public boolean isValidUser(String username, String password) {
+    private boolean isValidUser(String username, String password) {
         if (userRepository != null) {
             User user = userRepository.findUserByUsername(username);
 
-            if (user != null) {
-                return user.getPassword().equals(password);
-            }
+            return user != null && user.getPassword().equals(password);
         }
 
         return false;
