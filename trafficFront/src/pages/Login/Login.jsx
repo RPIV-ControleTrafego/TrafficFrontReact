@@ -35,6 +35,8 @@ export function Login() {
         setLoggedInUser({ username, role: response.data });
         localStorage.setItem("loggedInUser", JSON.stringify({ username, role: response.data }));
         
+        logLoginActivity(username);
+
         // Redirecione para a página inicial após o login bem-sucedido
         navigate('/');
       } else {
@@ -52,6 +54,18 @@ export function Login() {
 
   setTimeout(resetLoginAttempts, 30000);
   
+  // Função para registrar a atividade de login
+  const logLoginActivity = async (username) => {
+    try {
+      await axios.post("http://localhost:7000/user/log-login-activity", {
+        username: username,
+      });
+    } catch (error) {
+      console.error("Erro ao registrar a atividade de login:", error);
+      // Lide com o erro de acordo com as necessidades da sua aplicação
+    }
+  };
+
   return (
     <div className="container">
       <header className="header">

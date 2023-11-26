@@ -232,6 +232,13 @@ class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro durante o logout");
         }
     }
+
+    @PostMapping("/log-login-activity")
+    public ResponseEntity<String> logLoginActivity(@RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
+        authService.logLoginActivity(username);
+        return ResponseEntity.ok("Atividade de login registrada com sucesso.");
+    }
 }
 
 
