@@ -7,121 +7,120 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.login.login.model.User;
 import com.login.login.repository.UserRepository;
 import com.mongodb.client.result.UpdateResult;
 import javax.servlet.http.HttpSession;
 
 @Service
-
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    public User login(String username, String password) {
-        try {
-            User user = userRepository.findUserByUsername(username);
-    
-            if (user != null && user.getPassword().equals(password)) {
-                
-                return user;
 
-            } else {
-                return null;
-            }
+    @Transactional
+    public User login(String username, String password) {
+        boolean user = userRepository.deleteUserByUsername(username);
+        
+        if (user != null && passwordMatches(user, password)) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean passwordMatches(boolean user, String password) {
+        return user.getPassword().equals(password); 
+    }
+
+    @Transactional
+    public User register(String username, String password, String email) {
+        if (userRepository.deleteUserByUsername(username)) {
+            return null; // Username already exists
+        }
+
+        String hashedPassword = hashPassword(password);
+
+        User user = new User(username, hashedPassword, email, "user", "");
+        try {
+            return userRepository.save(user);
         } catch (Exception e) {
             return null;
         }
     }
-    // Método para verificar se um usuário está autenticado
-    public boolean isAuthenticated(HttpSession session) {
-        return session.getAttribute("user") != null;
+
+    private String hashPassword(String password) {
     }
 
-   
-    public void logout(HttpSession session) {
-        session.removeAttribute("user");
-        session.invalidate(); 
-    }
+    @Transactional
+    public boolean changePassword(String username, String newPassword) {
+        User user = userRepository.deleteUserByUsername(username);
 
-    public User register(String username, String password, String email) {
-        try {
-           
-            if (userRepository.findUserByUsername(username) != null) {
-                return null; // Usuário já existe, retorna null
-            }
-            String role = "user";
-            String cpf = "";
-          
-            User user = new User(username, password, email, role, cpf);
-            userRepository.save(user);
-    
-            return user; 
-        } catch (Exception e) {
-            return null; 
-        }
-    }
-
-    public boolean logout() {
-        // Implemente a lógica de logout, se necessário
-        return true;
-    }
-
-    public boolean changePassword(String username, String password) {
-        try {
-            User user = userRepository.findUserByUsername(username);
-            user.setPassword(password);
+        if (user != null) {
+            // Securely hash the new password before updating in the database
+            String hashedPassword = hashPassword(newPassword);
+            user.setPassword(hashedPassword);
             userRepository.save(user);
             return true;
-        } catch (Exception e) {
-            return false;
         }
-    }
-
-    public boolean changeEmail(String name, String email) {
-        try {
-            User user = userRepository.findUserByUsername(name);
-            user.setEmail(email);
-            userRepository.save(user);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-   @Autowired
-private MongoTemplate mongoTemplate;
-
-public boolean changeRole(String name, String role) {
-    try {
-        Query query = new Query(Criteria.where("username").is(name));
-        Update update = new Update().set("role", role);
-        UpdateResult result = mongoTemplate.updateFirst(query, update, User.class);
-
-        return result.wasAcknowledged(); // Retorna true se a atualização foi bem-sucedida
-    } catch (Exception e) {
         return false;
     }
-}
-    public boolean deleteUser(String username) {
-        try {
-            userRepository.
-            deleteUserByUsername(username);
+
+    @Transactional
+    public boolean changeEmail(String username, String newEmail) {
+        User user = userRepository.deleteUserByUsername(username);
+
+        if (user != null) {
+            user.setEmail(newEmail);
+            userRepository.save(user);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
+    @Transactional
+    public boolean changeUserRole(String username, String newRole) {
+        User user = userRepository.deleteUserByUsername(username);
+
+        if (user != null) {
+            user.setRole(newRole);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean deleteUserByUsername(String username) {
+        User user = userRepository.deleteUserByUsername(username);
+
+        if (user != null) {
+            userRepository.delete(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
     public boolean deleteAllUsers() {
         try {
             userRepository.deleteAll();
             return true;
         } catch (Exception e) {
+            // Handle specific exceptions (if needed) or log the error
             return false;
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    
+    // Other methods if needed
+}
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
