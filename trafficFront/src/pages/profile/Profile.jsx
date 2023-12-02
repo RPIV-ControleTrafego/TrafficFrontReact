@@ -12,8 +12,50 @@ const Profile = () => {
   const [selectedCurrency, setSelectedCurrency] = useState('real');
   const [totalFinePrice, setTotalFinePrice] = useState(0);
   const [latestInfraction, setLatestInfraction] = useState(null);
+  const [paidInfractions, setPaidInfractions] = useState([]);
+  const [nonPaidInfractions, setNonPaidInfractions] = useState([]);
 
+<<<<<<< HEAD
   const fetchData = async () => {
+=======
+  useEffect(() => {
+    fetchPaidInfractions();
+    fetchNonPaidInfractions();
+  }, [selectedCurrency]);
+
+  const fetchPaidInfractions = () => {
+    axios.get(`http://localhost:8086/infraction/list-paid/${selectedCurrency}/${user.cpf}`)
+      .then(response => {
+        setPaidInfractions(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao obter multas pagas:', error);
+      });
+  };
+
+  const fetchNonPaidInfractions = () => {
+    axios.get(`http://localhost:8086/infraction/list-non-paid/${selectedCurrency}/${user.cpf}`)
+      .then(response => {
+        setNonPaidInfractions(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao obter multas não pagas:', error);
+      });
+  };
+
+  const payIndividualFine = (fineId) => {
+    axios.post(`http://localhost:8086/infraction/pay/${fineId}`)
+      .then(() => {
+        // Atualizar a lista de multas pagas e não pagas após o pagamento individual
+        fetchPaidInfractions();
+        fetchNonPaidInfractions();
+      })
+      .catch(error => {
+        console.error('Erro ao pagar a multa:', error);
+      });
+  };
+  useEffect(() => {
+>>>>>>> main
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     if (loggedInUser) {
       setUser(loggedInUser);}
@@ -35,6 +77,7 @@ const Profile = () => {
       const totalFinePriceResponse = await axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${user.cpf}`);
       console.log('Total fine price data:', totalFinePriceResponse.data);
   
+<<<<<<< HEAD
       // Update state
       setUser(userResponse.data);
       setLatestInfraction(latestInfractionResponse.data);
@@ -42,6 +85,30 @@ const Profile = () => {
       setTotalFinePrice(totalFinePriceResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+=======
+  const intervalId = setInterval(() => {
+    fetchData();
+  }, 1000000000000);
+  
+
+  function toggleSelect(fineId, isGrid) {
+    if (isGrid) {
+      setSelectedGridFines((prevSelectedFines) => {
+        if (prevSelectedFines.includes(fineId)) {
+          return prevSelectedFines.filter((id) => id !== fineId);
+        } else {
+          return [...prevSelectedFines, fineId];
+        }
+      });
+    } else {
+      setSelectedFines((prevSelectedFines) => {
+        if (prevSelectedFines.includes(fineId)) {
+          return prevSelectedFines.filter((id) => id !== fineId);
+        } else {
+          return [...prevSelectedFines, fineId];
+        }
+      });
+>>>>>>> main
     }
   };
 
@@ -210,31 +277,36 @@ const Profile = () => {
       </div>
 
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {infractions.map((infraction) => (
-            <div
-              key={infraction.id}
-              className={`bg-gray-200 p-4 rounded-md ${
-                selectedGridFines.includes(infraction.id) ? 'border-2 border-blue-500' : ''
-              }`}
-              onClick={() => toggleSelect(infraction.id, true)}
-            >
-            <p className="font-bold mb-2">Descrição: {infraction.description}</p>
-            <p className="mb-2">Valor da Multa: {infraction.finePrice}</p>
-            <div className="additional-info">
-              <p>Placa do Carro: {infraction.carPlate}</p>
-              <p>Data: {infraction.date}</p>
-              <p>Tipo de Carro: {infraction.carType}</p>
+      <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Pagas</h2>
+      <ul className="list-none p-0">
+        {paidInfractions.map(fine => (
+          <li key={fine.id} className="mb-4">
+            {/* Renderizar as multas pagas */}
+            <div className="flex justify-between items-center">
+              <span className="text-lg font-semibold text-gray-800">{fine.description}</span>
+              <p className="text-gray-700">Valor: {fine.finePrice}</p>
             </div>
-            <button
-              onClick={() => payFine(infraction.id)}
-              className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-2"
-            >
-              Pagar Multa
-            </button>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
+
+      <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Não Pagas</h2>
+      <ul className="list-none p-0">
+        {nonPaidInfractions.map(fine => (
+          <li key={fine.id} className="mb-4">
+            {/* Renderizar as multas não pagas com botão de pagamento individual */}
+            <div className="flex justify-between items-center">
+              <span className="text-lg font-semibold text-gray-800">{fine.description}</span>
+              <button
+                onClick={() => payIndividualFine(fine.id)}
+                className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700"
+              >
+                Pagar Multa
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
         
 
 
