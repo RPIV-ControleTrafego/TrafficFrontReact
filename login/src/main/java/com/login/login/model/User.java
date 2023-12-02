@@ -15,5 +15,7 @@ public class User {
     String email;
     String role;   
     String cpf; 
+    boolean receiveEmail;
+    
 
 }

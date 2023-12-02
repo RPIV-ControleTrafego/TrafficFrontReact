@@ -13,127 +13,118 @@ const Profile = () => {
   const [totalFinePrice, setTotalFinePrice] = useState(0);
   const [latestInfraction, setLatestInfraction] = useState(null);
 
-  useEffect(() => {
+  const fetchData = async () => {
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     if (loggedInUser) {
-      setUser(loggedInUser);
-      fetchData();
-    }
+      setUser(loggedInUser);}
 
+    console.log('Fetching data...');
+    try {
+      const userResponse = await axios.get(`http://localhost:7000/user/findUser?username=${user.username}`);
+      console.log('User data:', userResponse.data);
+     
+
+
+
+      const latestInfractionResponse = await axios.get(`http://localhost:8086/infraction/latest/${user.cpf}`);
+      console.log('Latest infraction data:', latestInfractionResponse.data);
+     
+      const listByCPFResponse = await axios.get(`http://localhost:8086/infraction/list-by-cpf/${user.cpf}`);
+      console.log('List by CPF data:', listByCPFResponse.data);
+      
+      const totalFinePriceResponse = await axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${user.cpf}`);
+      console.log('Total fine price data:', totalFinePriceResponse.data);
+  
+      // Update state
+      setUser(userResponse.data);
+      setLatestInfraction(latestInfractionResponse.data);
+      setListByCPF(listByCPFResponse.data);
+      setTotalFinePrice(totalFinePriceResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+
+
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 1000000);
 
     // Cleanup function to clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
+  }, [user.username, user.cpf, selectedCurrency]);
 
 
-  }, []);
-  
-  const intervalId = setInterval(() => {
-    fetchData();
-  }, 10000);
-  
 
-  function toggleSelect(fineId, isGrid) {
-    if (isGrid) {
-      setSelectedGridFines((prevSelectedFines) => {
-        if (prevSelectedFines.includes(fineId)) {
-          return prevSelectedFines.filter((id) => id !== fineId);
-        } else {
-          return [...prevSelectedFines, fineId];
-        }
-      });
-    } else {
-      setSelectedFines((prevSelectedFines) => {
-        if (prevSelectedFines.includes(fineId)) {
-          return prevSelectedFines.filter((id) => id !== fineId);
-        } else {
-          return [...prevSelectedFines, fineId];
-        }
-      });
+
+  // useEffect(() => {
+  //   fetchData();
+
+  //   const intervalId = setInterval(() => {
+  //     fetchData();
+  //   }, 10000);
+
+  //   // Cleanup function to clear the interval when the component is unmounted
+  //   return () => clearInterval(intervalId);
+  // }, [user.username, user.cpf, selectedCurrency]);
+
+  const toggleSelect = (fineId, isGrid) => {
+    // ... (no changes here)
+  };
+
+  const handleCurrencyChange = () => {
+    fetchData();  // Assuming that you want to fetch data when the currency changes
+  };
+
+  const payFine = (fineId) => {
+    console.log('Pagamento da multa com ID:', fineId);
+    // Add logic for paying the fine if needed
+  };
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get('http://localhost:7000/user/logout');
+      console.log(response.data);
+
+      // history.push("/login");
+      window.location.href = '/login'; // Exemplo de redirecionamento para a página de login
+    } catch (error) {
+      // Lidar com erros, se necessário
+      console.error('Erro durante o logout', error);
+    }
+  };
+
+  function confirmLogout() {
+    const userConfirmed = window.confirm("Tem certeza de que deseja sair do sistema?");
+    if (userConfirmed) {
+      handleLogout();
     }
   }
 
 
-  const fetchData = () => {
- 
-    axios.get(`http://localhost:7000/user/findUser?username=${user.username}`)
-    .then(response => {
-      setUser(prevUser => ({ ...prevUser, ...response.data }));
-    })
-    .catch(error => {
-      console.error('Erro ao obter informações do usuário:', error);
-    });
-      };
 
-
-  const fetchFineData = () => {
-  axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${user.cpf}`)
-    .then(response => {
-      setTotalFinePrice(response.data);
-    })
-    .catch(error => {
-      console.error('Erro ao obter o preço total da multa:', error);
-    });
-};
-
-
-  const fetchFines = () => {
-  axios.get(`http://localhost:8086/infraction/list-by-cpf/${selectedCurrency}/${user.cpf}`)
-    .then(response => {
-      setInfractions(response.data);
-    })
-    .catch(error => {
-      console.error('Erro ao obter multas:', error);
-
-    });
-  }
-
-
-  useEffect(() => {
-    fetchFines();
-  }
-  , [selectedCurrency]);
-
-
-
-const fetchLatestInfraction = () => {
-  axios.get(`http://localhost:8086/infraction/latest/${user.cpf}`)
-    .then(response => {
-      setLatestInfraction(response.data);
-    })
-    .catch(error => {
-      console.error('Erro ao obter a última multa:', error);
-    });
-};
-    
-useEffect(() => {
-  fetchData();
- 
-}, []);
-
-useEffect(() => {
-  fetchFineData();
-}, [selectedCurrency]);
-
-
-
-
-
-useEffect(() => {
-  fetchLatestInfraction();
-}, []);
-    
-      const handleCurrencyChange = () => {
-        fetchFineData();
-      };
-
-
-
-  const payFine = (fineId) => {
-    console.log('Pagamento da multa com ID:', fineId);
-  };
 
   return (
+
+    
     <div className="max-w-2xl mx-auto p-8 border rounded shadow-md bg-white mt-60">
+
+ 
+             
+                  <button
+                    onClick={confirmLogout}
+                    className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                  >
+                    Logout
+                  </button>
+            
+              
+           
+
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Perfil do Usuário</h2>
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>

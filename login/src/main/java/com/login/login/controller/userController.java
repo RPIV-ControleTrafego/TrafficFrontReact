@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +40,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 
 
-@Controller
+@RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:5173")
 
@@ -81,6 +82,38 @@ class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
     }
+
+
+
+
+       @GetMapping("/logout")
+public ResponseEntity<String> logout(HttpServletRequest request) {
+    try {
+        jakarta.servlet.http.HttpSession session = request.getSession();
+        String username = null;
+
+        // Verifica se há um usuário logado na sessão
+        if (session.getAttribute("loggedInUser") != null) {
+            User loggedInUser = (User) session.getAttribute("loggedInUser");
+            username = loggedInUser.getUsername();
+            log.info("Usuário desconectado: " + username);
+        }
+
+        // Define username como uma string vazia
+        username = "";
+
+        // Invalida a sessão
+        session.invalidate();
+      
+
+        return ResponseEntity.ok("Logout realizado com sucesso para o usuário: " + username);
+    } catch (Exception e) {
+        log.error("Erro durante o logout", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro durante o logout");
+    }
+}
+
+
 
     @PostMapping("/register")
     @Operation(summary = "User Registration", description = "Register new user")
@@ -298,6 +331,24 @@ public ResponseEntity<String> payment(@PathVariable("cpf") String cpf) {
 }
 
 
+@GetMapping("/receiveEmail/{cpf}")
+@Operation(summary = "Receive email", description = "Receive email of fines")
+public ResponseEntity<Boolean> receiveEmail(@PathVariable("cpf") String cpf) {
+
+
+    try{
+        if(userService.receiveEmailIsTrue(cpf)){
+            return ResponseEntity.ok(true);
+        }
+        else{
+            return ResponseEntity.ok(false);
+        }
+    }catch(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+
+    }
+
+}
 
 }
 
