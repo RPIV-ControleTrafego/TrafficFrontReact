@@ -8,6 +8,7 @@ const AdminPage = () => {
   const [selectedRole, setSelectedRole] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar a exibição do modal
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
 
   useEffect(() => {
     loadUsers();
@@ -42,14 +43,23 @@ const AdminPage = () => {
     }
   };
 
+  // esse const aqui
   const deleteUser = (username) => {
-    axios.delete(`http://localhost:7000/user/deleteUser/${username}`)
+    setSelectedUser(username);
+    setIsDeleteConfirmationOpen(true);
+  };
+
+  const confirmDeleteUser = () => {
+    axios.delete(`http://localhost:7000/user/deleteUser/${selectedUser}`)
       .then(response => {
-        console.log('Usuário deletado:', username);
+        console.log('Usuário deletado:', selectedUser);
         loadUsers();
       })
       .catch(error => {
         console.error('Erro ao deletar o usuário:', error);
+      })
+      .finally(() => {
+        setIsDeleteConfirmationOpen(false);
       });
   };
 
@@ -59,6 +69,16 @@ const AdminPage = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const DeleteConfirmationModal = () => {
+    return (
+      <Modal closeModal={() => setIsDeleteConfirmationOpen(false)}>
+        <h2 className="text-xl font-semibold mb-2 mt-6">Confirmação de Exclusão</h2>
+        <p>Você tem certeza que deseja excluir o usuário {selectedUser}?</p>
+        <button onClick={() => confirmDeleteUser()} className="bg-red-500 text-white py-2 px-4 rounded mt-4">Confirmar Exclusão</button>
+      </Modal>
+    );
   };
 
   return (
@@ -113,6 +133,7 @@ const AdminPage = () => {
           <button onClick={() => deleteUser(selectedUser)} className="bg-red-500 text-white py-2 px-4 rounded mt-4 ml-2">Deletar</button>
         </Modal>
       )}
+            {isDeleteConfirmationOpen && <DeleteConfirmationModal />}
     </div>
   );
 };
