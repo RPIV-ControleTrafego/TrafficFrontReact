@@ -9,12 +9,16 @@ const AdminPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar a exibição do modal
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(''); // Estado para o tipo de filtro selecionado
+  const [filterValue, setFilterValue] = useState(''); // Estado para o valor do filtro
 
   useEffect(() => {
     loadUsers();
   }, []);
 
   const loadUsers = () => {
+    const params = { filter: selectedFilter, value: filterValue };
+
     axios.get('http://localhost:7000/user/getUsers')
       .then(response => {
         setUsers(response.data);
@@ -81,6 +85,10 @@ const AdminPage = () => {
     );
   };
 
+  const applyFilter = () => {
+    loadUsers();
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">Admin Page</h1>
@@ -114,6 +122,25 @@ const AdminPage = () => {
         </table>
       </div>
 
+      <select
+        value={selectedFilter}
+        onChange={(e) => setSelectedFilter(e.target.value)}
+        className="p-2 border border-gray-300 rounded mr-2 mt-4"
+      >
+        <option value="">Selecionar Filtro</option>
+        <option value="role">Papel</option>
+      </select>
+
+      <input
+        type="text"
+        placeholder="Valor do Filtro"
+        value={filterValue}
+        onChange={(e) => setFilterValue(e.target.value)}
+        className="p-2 border border-gray-300 rounded mr-2 mt-4"
+      />
+
+      <button onClick={applyFilter} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">Aplicar Filtro</button>
+      
       {isModalOpen && selectedUser && (
         <Modal closeModal={closeModal}>
           <h2 className="text-xl font-semibold mb-2 mt-6">Detalhes do Usuário: {selectedUser}</h2>
