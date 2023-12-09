@@ -5,20 +5,22 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 
+@Component
 public class UserLog {
 
-   
+
     private Logger logger;
 
-     public UserLog(Class<?> clazz) {
-        this.logger = LoggerFactory.getLogger(clazz);
+
+    public UserLog() {
+        this.logger = LoggerFactory.getLogger(UserLog.class);
     }
 
-  
     public void info(String message) {
-        logger.info(message); 
+        logger.info(message);
     }
 
     public void error(String message) {
@@ -26,11 +28,11 @@ public class UserLog {
     }
 
     public void error(String message, Exception exception) {
-        logger.error(message, exception); 
+        logger.error(message, exception);
     }
 
     public void error(String message, String exceptionMessage) {
-      
+
         logger.error(message + ": " + exceptionMessage);
     }
 
@@ -51,12 +53,12 @@ public class UserLog {
     public void info(String string, double finePrice, String violation) {
     }
 
-   
+
     public void warn(String string ){
         logger.warn(string);
 
     }
-    
+
 }
 
 

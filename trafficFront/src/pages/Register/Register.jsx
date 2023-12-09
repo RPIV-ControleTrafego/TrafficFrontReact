@@ -10,6 +10,9 @@ export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState({ email: "" });
+  const [cpf, setCpf] = useState("");
+  const [username, setUsername] = useState("");
 
   async function handleSignUp(e) {
     e.preventDefault();
@@ -17,13 +20,14 @@ export function Register() {
 
     try {
       const response = await axios.post("http://localhost:7000/user/register", {
-        username: email,
+        username: username,
         password: password,
-        email: email
+        email: email,
+        cpf: cpf
       });
 
       if (response.status === 200) {
-     
+
         navigate('/');
       } else {
         setError("Falha ao realizar o registro. Tente novamente.");
@@ -49,7 +53,7 @@ export function Register() {
             name="username"
             id="username"
             placeholder="johndoe"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="inputContainer">
@@ -73,6 +77,17 @@ export function Register() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+
+        <div className="inputContainer">
+          <label htmlFor="cpf">CPF</label>
+          <input
+            type="text"
+            name="cpf"
+            id="cpf"
+            placeholder="000.000.000-00"
+            onChange={(e) => setCpf(e.target.value)}
+          />
+          </div>
 
         <button onClick={handleSignUp} className="button">
           Cadastrar <img src={arrowImg} alt="->" />

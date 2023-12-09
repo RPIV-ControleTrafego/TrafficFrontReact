@@ -15,47 +15,7 @@ const Profile = () => {
   const [paidInfractions, setPaidInfractions] = useState([]);
   const [nonPaidInfractions, setNonPaidInfractions] = useState([]);
 
-<<<<<<< HEAD
   const fetchData = async () => {
-=======
-  useEffect(() => {
-    fetchPaidInfractions();
-    fetchNonPaidInfractions();
-  }, [selectedCurrency]);
-
-  const fetchPaidInfractions = () => {
-    axios.get(`http://localhost:8086/infraction/list-paid/${selectedCurrency}/${user.cpf}`)
-      .then(response => {
-        setPaidInfractions(response.data);
-      })
-      .catch(error => {
-        console.error('Erro ao obter multas pagas:', error);
-      });
-  };
-
-  const fetchNonPaidInfractions = () => {
-    axios.get(`http://localhost:8086/infraction/list-non-paid/${selectedCurrency}/${user.cpf}`)
-      .then(response => {
-        setNonPaidInfractions(response.data);
-      })
-      .catch(error => {
-        console.error('Erro ao obter multas não pagas:', error);
-      });
-  };
-
-  const payIndividualFine = (fineId) => {
-    axios.post(`http://localhost:8086/infraction/pay/${fineId}`)
-      .then(() => {
-        // Atualizar a lista de multas pagas e não pagas após o pagamento individual
-        fetchPaidInfractions();
-        fetchNonPaidInfractions();
-      })
-      .catch(error => {
-        console.error('Erro ao pagar a multa:', error);
-      });
-  };
-  useEffect(() => {
->>>>>>> main
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     if (loggedInUser) {
       setUser(loggedInUser);}
@@ -64,20 +24,19 @@ const Profile = () => {
     try {
       const userResponse = await axios.get(`http://localhost:7000/user/findUser?username=${user.username}`);
       console.log('User data:', userResponse.data);
-     
+
 
 
 
       const latestInfractionResponse = await axios.get(`http://localhost:8086/infraction/latest/${user.cpf}`);
       console.log('Latest infraction data:', latestInfractionResponse.data);
-     
+
       const listByCPFResponse = await axios.get(`http://localhost:8086/infraction/list-by-cpf/${user.cpf}`);
       console.log('List by CPF data:', listByCPFResponse.data);
-      
+
       const totalFinePriceResponse = await axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${user.cpf}`);
       console.log('Total fine price data:', totalFinePriceResponse.data);
-  
-<<<<<<< HEAD
+
       // Update state
       setUser(userResponse.data);
       setLatestInfraction(latestInfractionResponse.data);
@@ -85,30 +44,6 @@ const Profile = () => {
       setTotalFinePrice(totalFinePriceResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
-=======
-  const intervalId = setInterval(() => {
-    fetchData();
-  }, 1000000000000);
-  
-
-  function toggleSelect(fineId, isGrid) {
-    if (isGrid) {
-      setSelectedGridFines((prevSelectedFines) => {
-        if (prevSelectedFines.includes(fineId)) {
-          return prevSelectedFines.filter((id) => id !== fineId);
-        } else {
-          return [...prevSelectedFines, fineId];
-        }
-      });
-    } else {
-      setSelectedFines((prevSelectedFines) => {
-        if (prevSelectedFines.includes(fineId)) {
-          return prevSelectedFines.filter((id) => id !== fineId);
-        } else {
-          return [...prevSelectedFines, fineId];
-        }
-      });
->>>>>>> main
     }
   };
 
@@ -177,20 +112,20 @@ const Profile = () => {
 
   return (
 
-    
+
     <div className="max-w-2xl mx-auto p-8 border rounded shadow-md bg-white mt-60">
 
- 
-             
+
+
                   <button
                     onClick={confirmLogout}
                     className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                   >
                     Logout
                   </button>
-            
-              
-           
+
+
+
 
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Perfil do Usuário</h2>
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -205,9 +140,9 @@ const Profile = () => {
         <div className="flex items-center justify-end">
         </div>
       </div>
-  
+
       <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Dados de Multas</h2>
-  
+
               <div className="mb-8">
           <h3 className="text-3xl font-bold mb-4 text-red-500">Última multa do CPF</h3>
           <div className="mb-4">
@@ -221,7 +156,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-  
+
       <ul className="list-none p-0">
         {finesData.map(fine => (
           <li key={fine.id} className="mb-4">
@@ -237,7 +172,7 @@ const Profile = () => {
           </li>
         ))}
       </ul>
-  
+
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-2 text-gray-800">Dados</h2>
         <p className="text-gray-700"><span className="font-semibold">Nome:</span> {user.username}</p>
@@ -245,7 +180,7 @@ const Profile = () => {
         <p className="text-gray-700"><span className="font-semibold">Role:</span> {user.role}</p>
         <p className="text-gray-700"><span className="font-semibold">CPF:</span> {user.cpf}</p>
       </div>
-  
+
       <div className="mt-6 mb-4">
         <label className="block text-sm font-medium text-gray-700">Moeda:</label>
         <div className="flex items-center">
@@ -307,7 +242,7 @@ const Profile = () => {
           </li>
         ))}
       </ul>
-        
+
 
 
     </div>
