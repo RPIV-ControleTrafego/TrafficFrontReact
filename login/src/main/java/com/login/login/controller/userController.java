@@ -42,7 +42,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 
 
 class UserController {
@@ -75,7 +76,7 @@ class UserController {
         session.setAttribute("loggedInUser", loggedInUser);
         session.setAttribute("role", role);
         log.info("Novo usuário logado: " + username + " - Role: " + role);
-        
+
         // Retorne o papel do usuário como parte da resposta
         return ResponseEntity.ok(role);
     } else {
@@ -104,7 +105,7 @@ public ResponseEntity<String> logout(HttpServletRequest request) {
 
         // Invalida a sessão
         session.invalidate();
-      
+
 
         return ResponseEntity.ok("Logout realizado com sucesso para o usuário: " + username);
     } catch (Exception e) {
@@ -126,14 +127,14 @@ public ResponseEntity<String> logout(HttpServletRequest request) {
     if (userService.userExists(username)) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já existe");
     }
-    
+
     if(username == null || password == null || email == null || cpf == null){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Campos não podem ser nulos");
     }
 
 
     // Crie o novo usuário
-    User newUser = userService.register(username, password,email, cpf); 
+    User newUser = userService.register(username, password,email, cpf);
 
     if (newUser != null) {
         return ResponseEntity.ok("Usuário registrado com sucesso");
@@ -141,7 +142,7 @@ public ResponseEntity<String> logout(HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao registrar usuário");
     }
 }
-    
+
     @GetMapping("/getUsers")
     @Operation(summary = "Get users", description = "Get all users")
     public ResponseEntity<List<User>> getUsers() {
@@ -165,19 +166,19 @@ public ResponseEntity<String> logout(HttpServletRequest request) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     }
-    
+
     @PutMapping("/changeRole/{username}")
     @Operation(summary = "Change role", description = "Change role of user by username")
     public ResponseEntity<String> changeRole(@PathVariable String username, @RequestBody Map<String, String> requestBody) {
         String role = requestBody.get("role");
-        
+
         if (role != null && userService.changeRole(username, role)) {
             return ResponseEntity.ok("Role changed");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role change failed");
         }
     }
- 
+
     @DeleteMapping("/deleteUser/{username}")
     @Operation(summary = "Delete user", description = "Delete user by username")
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
@@ -196,15 +197,15 @@ public ResponseEntity<String> logout(HttpServletRequest request) {
 public ResponseEntity<User> getProfile(HttpServletRequest request) {
     jakarta.servlet.http.HttpSession session = request.getSession();
     User loggedInUser = (User) session.getAttribute("loggedInUser");
-    
+
     if (loggedInUser != null) {
         log.info("Profile accessed for user: " + loggedInUser.getUsername()); // Adicione esta linha
         return ResponseEntity.ok(loggedInUser);
     } else {
         log.warn("Unauthorized access to profile"); // Adicione esta linha
-        log.info("Profile accessed for user: " + loggedInUser.getUsername()); // 
+        log.info("Profile accessed for user: " + loggedInUser.getUsername()); //
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-       
+
     }
 }
 
@@ -326,7 +327,7 @@ public ResponseEntity<String> payment(@PathVariable("cpf") String cpf) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred in finding not paid fines");
     }
 
-  
+
 
 }
 

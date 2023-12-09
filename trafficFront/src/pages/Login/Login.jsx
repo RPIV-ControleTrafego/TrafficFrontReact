@@ -11,7 +11,7 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState({ username: "", role: "" });
+ 
 
   async function handleSignIn(e) {
     e.preventDefault();
@@ -23,12 +23,12 @@ export function Login() {
         password: password,
         role: role
       });
-  
+
       if (response.status === 200 && response.data !== "Login unsuccessful") {
         // Atualize setLoggedInUser com o username e o role do usuário
         setLoggedInUser({ username, role: response.data });
         localStorage.setItem("loggedInUser", JSON.stringify({ username, role: response.data }));
-        
+
         // Redirecione para a página inicial após o login bem-sucedido
         navigate('/');
       } else {
@@ -38,7 +38,7 @@ export function Login() {
       setError("Erro ao fazer login. Tente novamente mais tarde.");
     }
   }
-  
+
   return (
     <div className="container">
       <header className="header">

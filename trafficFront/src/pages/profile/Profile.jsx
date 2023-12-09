@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Profile = () => {
+  const [loggedInUser, setLoggedInUser] = useState({});
   const [user, setUser] = useState({});
   const [finesData, setFinesData] = useState([]);
   const [startDate, setStartDate] = useState('');
@@ -19,29 +20,37 @@ const Profile = () => {
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     if (loggedInUser) {
       setUser(loggedInUser);}
-
+      console.log('User data:', user);
     console.log('Fetching data...');
     try {
-      const userResponse = await axios.get(`http://localhost:7000/user/findUser?username=${user.username}`);
+      const userResponse = await axios.get(`http://localhost:7000/user/findUser?username=${loggedInUser.username}`);
       console.log('User data:', userResponse.data);
-
-
-
-
-      const latestInfractionResponse = await axios.get(`http://localhost:8086/infraction/latest/${user.cpf}`);
-      console.log('Latest infraction data:', latestInfractionResponse.data);
-
-      const listByCPFResponse = await axios.get(`http://localhost:8086/infraction/list-by-cpf/${user.cpf}`);
-      console.log('List by CPF data:', listByCPFResponse.data);
-
-      const totalFinePriceResponse = await axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${user.cpf}`);
-      console.log('Total fine price data:', totalFinePriceResponse.data);
-
-      // Update state
+      setLoggedInUser(userResponse.data);
+      console.log('cpf:', userResponse.data.cpf);
       setUser(userResponse.data);
-      setLatestInfraction(latestInfractionResponse.data);
-      setListByCPF(listByCPFResponse.data);
+
+      const totalFinePriceResponse = await axios.get(`http://localhost:8086/infraction/total-fine-price/${selectedCurrency}/${userResponse.data.cpf}`);
+      console.log('Total fine price data:', totalFinePriceResponse.data);
       setTotalFinePrice(totalFinePriceResponse.data);
+
+
+      const listByCPFResponse = await axios.get(`http://localhost:8086/infraction/list-by-cpf/real/${userResponse.data.cpf}`);
+      console.log('List by CPF data:', listByCPFResponse.data);
+      setInfractions(listByCPFResponse.data);
+
+
+
+
+
+      // const latestInfractionResponse = await axios.get(`http://localhost:8086/infraction/latest/${userResponse.data.cpf}`);
+      // console.log('Latest infraction data:', latestInfractionResponse.data);
+      // setLatestInfraction(latestInfractionResponse.data);
+
+
+
+
+
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -49,7 +58,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchData();
-
+    const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
     const intervalId = setInterval(() => {
       fetchData();
@@ -57,7 +66,7 @@ const Profile = () => {
 
     // Cleanup function to clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, [user.username, user.cpf, selectedCurrency]);
+  }, [loggedInUser.username, loggedInUser.cpf, selectedCurrency]);
 
 
 
@@ -131,10 +140,10 @@ const Profile = () => {
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <p className="text-gray-700">
-            <span className="font-semibold">Username:</span> {user.username}
+            <span className="font-semibold">Username:</span> {loggedInUser.username}
           </p>
           <p className="text-gray-700">
-            <span className="font-semibold">Email:</span> {user.email}
+            <span className="font-semibold">Email:</span> {loggedInUser.email}
           </p>
         </div>
         <div className="flex items-center justify-end">
@@ -175,10 +184,10 @@ const Profile = () => {
 
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-2 text-gray-800">Dados</h2>
-        <p className="text-gray-700"><span className="font-semibold">Nome:</span> {user.username}</p>
-        <p className="text-gray-700"><span className="font-semibold">Email:</span> {user.email}</p>
-        <p className="text-gray-700"><span className="font-semibold">Role:</span> {user.role}</p>
-        <p className="text-gray-700"><span className="font-semibold">CPF:</span> {user.cpf}</p>
+        <p className="text-gray-700"><span className="font-semibold">Nome:</span> {loggedInUser.username}</p>
+        <p className="text-gray-700"><span className="font-semibold">Email:</span> {loggedInUser.email}</p>
+        <p className="text-gray-700"><span className="font-semibold">Role:</span> {loggedInUser.role}</p>
+        <p className="text-gray-700"><span className="font-semibold">CPF:</span> {loggedInUser.cpf}</p>
       </div>
 
       <div className="mt-6 mb-4">
