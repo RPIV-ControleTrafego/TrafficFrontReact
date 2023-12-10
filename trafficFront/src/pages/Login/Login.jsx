@@ -1,3 +1,4 @@
+// Import necessary dependencies
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,9 +10,10 @@ export function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const [error, setError] = useState("");
- 
+
+  // Define loggedInUser state variable
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   async function handleSignIn(e) {
     e.preventDefault();
@@ -21,16 +23,18 @@ export function Login() {
       const response = await axios.post("http://localhost:7000/user/login", {
         username: username,
         password: password,
-        role: role
       });
 
       if (response.status === 200 && response.data !== "Login unsuccessful") {
-        // Atualize setLoggedInUser com o username e o role do usuário
+        // Update setLoggedInUser with the username and role of the user
         setLoggedInUser({ username, role: response.data });
-        localStorage.setItem("loggedInUser", JSON.stringify({ username, role: response.data }));
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ username, role: response.data })
+        );
 
-        // Redirecione para a página inicial após o login bem-sucedido
-        navigate('/');
+        // Redirect to the home page after successful login
+        navigate("/");
       } else {
         setError("Usuário não encontrado ou senha incorreta.");
       }
