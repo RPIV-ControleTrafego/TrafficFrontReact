@@ -21,6 +21,10 @@ function App({loggedInUser}) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('');
 
+  const axiosInstance = axios.create({
+    baseURL: 'http://localhost:7000',
+  });
+
  useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
@@ -114,6 +118,56 @@ function App({loggedInUser}) {
     }
     return null; 
   }
+  
+  const roleStrategies = {
+    policial: {
+      infraction: <Route path="/infraction" element={<Infraction />} />,
+      infractionGraphics: <Route path="/infraction/graphics" element={<InfractionGraphics />} />,
+      infractionDashboard: <Route path="/infraction/dashboard" element={<InfractionDashboard />} />,
+    },
+    bombeiro: {
+      accident: <Route path="/accident" element={<Accident />} />,
+      accidentGraphics: <Route path="/accident/graphics" element={<AccidentGraphics />} />,
+      accidentDashboard: <Route path="/accident/dashboard" element={<AccidentDashboard />} />,
+      stats: <Route path="/stats" element={<Stats />} />,
+      statsGraphics: <Route path="/stats/graphics" element={<StatsGraphics />} />,
+      statsDashboard: <Route path="/stats/dashboard" element={<StatsDashboard />} />,
+    },
+    admin: {
+      infraction: <Route path="/infraction" element={<Infraction />} />,
+      infractionGraphics: <Route path="/infraction/graphics" element={<InfractionGraphics />} />,
+      infractionDashboard: <Route path="/infraction/dashboard" element={<InfractionDashboard />} />,
+      accident: <Route path="/accident" element={<Accident />} />,
+      accidentGraphics: <Route path="/accident/graphics" element={<AccidentGraphics />} />,
+      accidentDashboard: <Route path="/accident/dashboard" element={<AccidentDashboard />} />,
+      adminPage: <Route path="/admin" element={<AdminPage />} />,
+      stats: <Route path="/stats" element={<Stats />} />,
+      statsGraphics: <Route path="/stats/graphics" element={<StatsGraphics />} />,
+      statsDashboard: <Route path="/stats/dashboard" element={<StatsDashboard />} />,
+    },
+    cop: {
+      infraction: <Route path="/infraction" element={<Infraction />} />,
+      infractionGraphics: <Route path="/infraction/graphics" element={<InfractionGraphics />} />,
+      infractionDashboard: <Route path="/infraction/dashboard" element={<InfractionDashboard />} />,
+    },
+    user: {
+      stats: <Route path="/stats" element={<Stats />} />,
+      statsGraphics: <Route path="/stats/graphics" element={<StatsGraphics />} />,
+      statsDashboard: <Route path="/stats/dashboard" element={<StatsDashboard />} />,
+    },
+  };
+
+  // Function to render routes based on user role
+  const renderRoleRoutes = (authenticated, loggedInUser) => {
+    if (authenticated && loggedInUser && loggedInUser.role) {
+      const role = loggedInUser.role;
+      if (roleStrategies[role]) {
+        return Object.values(roleStrategies[role]);
+      }
+    }
+    
+    return null;
+  };
 
   return (
     <Router>
