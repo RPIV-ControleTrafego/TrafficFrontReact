@@ -65,7 +65,7 @@
         const nonPaidInfractionsResponse = await makeRequest(BASE_URL_INFRACTION, `infraction/list-non-paid/${userResponse.cpf}`);
         setNonPaidInfractions(nonPaidInfractionsResponse);
 
-        console.log('Object id:', userResponse.id);
+        console.log('idInfraction:', userResponse.idInfraction);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -103,13 +103,12 @@
       fetchData();  // Assuming that you want to fetch data when the currency changes
     };
 
-    const payFine = (timestamp) => {
-      console.log('Trying to pay fine with timestamp:', timestamp);
+    const payFine = (idInfraction) => {
+      console.log('Trying to pay fine with idInfraction:', idInfraction);
 
-      axios.post(`http://localhost:8086/infraction/pay/${timestamp}`)
+      axios.post(`http://localhost:8086/infraction/pay/${idInfraction}`)
         .then((response) => {
           console.log('Payment successful:', response.data);
-          console.log("time")
           fetchData(); // Assuming you want to fetch data after successful payment
         })
         .catch((error) => {
@@ -148,10 +147,11 @@
                   <p className="text-lg font-semibold text-gray-800">{fine.violation}</p>
                   <p className="text-gray-700">Data: {fine.date}</p>
                   <p className="text-gray-700">Valor: {fine.finePrice}</p>
+                  {/* <p className="text-gray-700">Valor: {fine.idInfraction}</p> */}
                 </div>
                 {!fine.paid && (
                   <button
-                    onClick={() => fine.id && payFine(fine.id.timestamp)}
+                    onClick={() => fine.id && payFine(fine.idInfraction)}
                     className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700"
                   >
                     Pagar Multa
@@ -220,8 +220,8 @@
             <li key={fine.id} className="mb-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold text-gray-800">{fine.description}</span>
-                <button
-                  onClick={() => payFine(fine.id)}
+                                <button
+                  onClick={() => fine.idInfraction && payFine(fine.idInfraction)}
                   className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700"
                 >
                   Pagar Multa
@@ -260,7 +260,7 @@
           </div>
           <p className="mt-2 text-gray-700"><span className="font-semibold">Total a ser pago:</span> {totalFinePrice}</p>
           <button
-            onClick={() => payFine(fine.id)}
+            onClick={() => payFine(fine.idInfraction)}
             className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-4"
           >
             Pagar Multa
@@ -272,6 +272,7 @@
 
         <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Pagas</h2>
         {renderFineList(paidInfractions)}
+
 
         <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Não Pagas</h2>
         {renderFineList(nonPaidInfractions)}
