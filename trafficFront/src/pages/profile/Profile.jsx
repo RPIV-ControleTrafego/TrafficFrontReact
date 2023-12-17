@@ -28,6 +28,8 @@
     const [latestInfraction, setLatestInfraction] = useState(null);
     const [paidInfractions, setPaidInfractions] = useState([]);
     const [nonPaidInfractions, setNonPaidInfractions] = useState([]);
+    const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
+
 
     const fetchData = async () => {
       try {
@@ -103,18 +105,20 @@
       fetchData();  // Assuming that you want to fetch data when the currency changes
     };
 
-    const payFine = (idInfraction) => {
-      console.log('Trying to pay fine with idInfraction:', idInfraction);
+     const payFine = (idInfraction) => {
+    console.log('Trying to pay fine with idInfraction:', idInfraction);
 
-      axios.post(`http://localhost:8086/infraction/pay/${idInfraction}`)
-        .then((response) => {
-          console.log('Payment successful:', response.data);
-          fetchData(); // Assuming you want to fetch data after successful payment
-        })
-        .catch((error) => {
-          console.error('Error during payment:', error);
-        });
-    };
+    axios
+      .post(`http://localhost:8086/infraction/pay/${idInfraction}`)
+      .then((response) => {
+        console.log('Payment successful:', response.data);
+        fetchData(); // Assuming you want to fetch data after successful payment
+        setIsPaymentConfirmed(true); // Set the flag to show the payment confirmation message
+      })
+      .catch((error) => {
+        console.error('Error during payment:', error);
+      });
+  };
 
     const handleLogout = async () => {
       try {
@@ -171,7 +175,7 @@
     return (
 
 
-      <div className="max-w-2xl mx-auto p-8 border rounded shadow-md bg-white mt-60">
+      <div className="max-w-2xl mx-auto p-8 border rounded shadow-md bg-white mt-80 -mb-72">
 
 
 
@@ -265,18 +269,25 @@
           >
             Pagar Multa
           </button>
+          {isPaymentConfirmed && (
+            <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+              <p className="font-bold">Multa paga com sucesso!</p>
+            </div>
+          )}
 
 
         </div>
 
 
         <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Pagas</h2>
+      <div className="max-h-52 overflow-auto">
         {renderFineList(paidInfractions)}
+      </div>
 
-
-        <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Não Pagas</h2>
+      <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Multas Não Pagas</h2>
+      <div className="max-h-52 overflow-auto">
         {renderFineList(nonPaidInfractions)}
-
+      </div>
 
 
       </div>
