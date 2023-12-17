@@ -1,5 +1,6 @@
   import React, { useState, useEffect } from 'react';
   import axios from 'axios';
+  import { format } from 'date-fns';
 
   const BASE_URL_USER = 'http://localhost:7000'; // Set your base URL for user-related endpoints
   const BASE_URL_INFRACTION = 'http://localhost:8086'; // Set your base URL for infraction-related endpoints
@@ -149,7 +150,7 @@
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-semibold text-gray-800">{fine.violation}</p>
-                  <p className="text-gray-700">Data: {fine.date}</p>
+                  <p className="text-lg text-green-500">{format(new Date(latestInfraction?.date), 'dd/MM/yyyy')}</p>
                   <p className="text-gray-700">Valor: {fine.finePrice}</p>
                   {/* <p className="text-gray-700">Valor: {fine.idInfraction}</p> */}
                 </div>
@@ -255,20 +256,10 @@
               <option value="dollar">Dollar</option>
               <option value="euro">Euro</option>
             </select>
-            <button
-              onClick={handleCurrencyChange}
-              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 ml-2"
-            >
-              Atualizar Moeda
-            </button>
+
           </div>
           <p className="mt-2 text-gray-700"><span className="font-semibold">Total a ser pago:</span> {totalFinePrice}</p>
-          <button
-            onClick={() => payFine(fine.idInfraction)}
-            className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mt-4"
-          >
-            Pagar Multa
-          </button>
+
           {isPaymentConfirmed && (
             <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
               <p className="font-bold">Multa paga com sucesso!</p>
