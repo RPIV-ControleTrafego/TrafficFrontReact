@@ -15,11 +15,11 @@ export function Register() {
 
   const formatCPF = (value) => {
     return value
-      .replace(/\D/g, '') // Remove tudo o que não é dígito
-      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca ponto após o terceiro dígito
-      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca ponto após o sexto dígito
-      .replace(/(\d{3})(\d{1,2})/, '$1-$2') // Coloca traço antes dos últimos dois dígitos
-      .replace(/(-\d{2})\d+?$/, '$1'); // Permite apenas 11 dígitos
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2') 
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
   }
 
   const handleCPFChange = (e) => {
