@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> 
 	</parent>
 	<groupId>com.login</groupId>
 	<artifactId>login</artifactId>
@@ -48,13 +48,13 @@
 			<dependency>
 				<groupId>io.swagger.core.v3</groupId>
 				<artifactId>swagger-annotations</artifactId>
-				<version>2.1.10</version> <!-- Substitua pela versão mais recente disponível -->
+				<version>2.1.10</version>
 			</dependency>
 
 				<dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
-        <version>4.0.1</version> <!-- Use a versão mais recente disponível -->
+        <version>4.0.1</version>
     </dependency>
 	</dependencies>
 
