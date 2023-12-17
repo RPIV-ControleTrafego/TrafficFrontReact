@@ -10,9 +10,21 @@ export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState({ email: "" });
   const [cpf, setCpf] = useState("");
   const [username, setUsername] = useState("");
+
+  const formatCPF = (value) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo o que não é dígito
+      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca ponto após o terceiro dígito
+      .replace(/(\d{3})(\d)/, '$1.$2') // Coloca ponto após o sexto dígito
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2') // Coloca traço antes dos últimos dois dígitos
+      .replace(/(-\d{2})\d+?$/, '$1'); // Permite apenas 11 dígitos
+  }
+
+  const handleCPFChange = (e) => {
+    setCpf(formatCPF(e.target.value));
+  }
 
   async function handleSignUp(e) {
     e.preventDefault();
@@ -27,7 +39,6 @@ export function Register() {
       });
 
       if (response.status === 200) {
-
         navigate('/');
       } else {
         setError("Falha ao realizar o registro. Tente novamente.");
@@ -47,7 +58,7 @@ export function Register() {
       <form>
         {error && <p className="error-message">{error}</p>}
         <div className="inputContainer">
-          <label htmlFor="username">username</label>
+          <label htmlFor="username">Usuário</label>
           <input
             type="text"
             name="username"
@@ -85,9 +96,10 @@ export function Register() {
             name="cpf"
             id="cpf"
             placeholder="000.000.000-00"
-            onChange={(e) => setCpf(e.target.value)}
+            value={cpf}
+            onChange={handleCPFChange}
           />
-          </div>
+        </div>
 
         <button onClick={handleSignUp} className="button">
           Cadastrar <img src={arrowImg} alt="->" />
