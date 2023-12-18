@@ -233,7 +233,7 @@
       </div>
     </div>
   ) : (
-    <p>Sem multas emitidas para esse CPF.</p>
+    <p>Sem multas Emitidas ou todas as multas foram pagas para esse CPF</p>
   )}
 </div>
 
