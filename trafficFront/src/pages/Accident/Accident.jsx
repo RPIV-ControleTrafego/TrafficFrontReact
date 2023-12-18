@@ -54,6 +54,14 @@ import axios from 'axios';
   };
   return (
     <div className="App">
+
+    <iframe
+        src={acidentes}
+        frameBorder={0}
+        width={800}
+        height={600}
+        allowTransparency
+    />
       
     <h1 className='text-5xl mb-12 mt-16'> Informações de Acidentes</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
