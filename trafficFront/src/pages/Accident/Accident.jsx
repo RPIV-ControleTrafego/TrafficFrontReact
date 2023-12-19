@@ -88,7 +88,7 @@ import axios from 'axios';
     link.click();
   };
   return (
-    <div className="App">
+    <div className="App" >
 {/*
     <iframe
         src={}
@@ -98,7 +98,10 @@ import axios from 'axios';
         allowTransparency
     /> */}
 
-    <h1 className='text-5xl mb-12 mt-16'> Informações de Acidentes</h1>
+    <div>
+      <h1 className='text-5xl mb-12 mt-72 relative'> Informações de Acidentes</h1>
+    </div>
+    <h1 className='text-5xl mb-12 mt-72 relative'> Informações de Acidentes</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>
         <h2 id="accordion-collapse-heading-1">
           <button
