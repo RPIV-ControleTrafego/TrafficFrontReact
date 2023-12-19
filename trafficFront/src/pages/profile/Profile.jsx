@@ -262,20 +262,7 @@
         </div>
 
         <div className="mt-6 mb-4">
-          <label className="block text-sm font-medium text-gray-700">Moeda:</label>
-          <div className="flex items-center">
-            <select
-              value={selectedCurrency}
-              onChange={(e) => setSelectedCurrency(e.target.value)}
-              className="p-2 border rounded-md"
-            >
-              <option value="real">Real</option>
-              <option value="dollar">Dollar</option>
-              <option value="euro">Euro</option>
-            </select>
-
-          </div>
-          <p className="mt-2 text-gray-700"><span className="font-semibold">Total a ser pago:</span> {totalFinePrice}</p>
+      
 
           {isPaymentConfirmed && (
             <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
@@ -296,7 +283,21 @@
       <div className="max-h-52 overflow-auto">
         {renderFineList(nonPaidInfractions)}
       </div>
+      <label className="block text-sm font-medium text-gray-700">Moeda:</label>
+          <div className="flex items-center">
+            <select
+              value={selectedCurrency}
+              onChange={(e) => setSelectedCurrency(e.target.value)}
+              className="p-2 border rounded-md"
+            >
+              <option value="real">Real</option>
+              <option value="dollar">Dollar</option>
+              <option value="euro">Euro</option>
+            </select>
+               
+          <p className="mt-2 text-gray-700"><span className="font-semibold">Total a ser pago:</span> {totalFinePrice}</p>
 
+          </div>
 
       </div>
     );

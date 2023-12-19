@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import {
   Card as TailwindCard, // Renomeando o componente importado para evitar conflito de nomes
   CardBody,
@@ -18,7 +18,7 @@ const withStyling = (WrappedComponent) => {
   };
 };
 
-const Card = ({ title, content }) => {
+const Card = ({ title, content,link }) => {
   return (
     <TailwindCard className="mt-16 w-96 border border-indigo-100 rounded-lg">
       <CardBody>
@@ -32,6 +32,7 @@ const Card = ({ title, content }) => {
         <Typography>{content}</Typography>
       </CardBody>
       <CardFooter className="pt-0">
+      <Link to={link} className="inline-block">
         <a href="#" className="inline-block">
           <Button size="sm" variant="text" className="flex items-center gap-2">
             Acessar Dados
@@ -51,6 +52,7 @@ const Card = ({ title, content }) => {
             </svg>
           </Button>
         </a>
+        </Link>
       </CardFooter>
     </TailwindCard>
   );
@@ -83,14 +85,17 @@ function Home() {
         <CardWithStyling
           title="Dados Gerais Sobre Tráfego"
           content="Aqui voce pode encontrar dados gerais sobre o tráfego de veículos, como quais as cores, marcas e tipos de carros registrados."
+          link="/stats"
         />
         <CardWithStyling
           title="Dados Gerais Sobre Acidentes"
           content="Aqui voce pode encontrar dados gerais sobre os acidentes registrados no trânsito, com qual gravidade ferido e endereço."
+          link="/accident"
         />
         <CardWithStyling
           title="Dados Gerais Sobre Infrações"
           content="Aqui voce pode encontrar dados gerais sobre as infrações cometidas no trânsito, como quais as cores, marcas e tipos de carros registrados."
+          link="/infraction"
         />
       </div>
     </div>
