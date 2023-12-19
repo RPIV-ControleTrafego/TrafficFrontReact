@@ -75,6 +75,15 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
     link.click();
   };
 
+  // PAINEL METABASE -  INFRAÇÕES
+  <iframe
+    src="https://metabase.ayvu.net/public/dashboard/6aa7b180-17ae-4f6e-ae0f-8933c7f19e3c"
+    frameborder="0"
+    width="800"
+    height="600"
+    allowtransparency
+  ></iframe>
+  // PAINEL METABASE -  INFRAÇÕES
 
     return (
       <div className="App" style={{marginTop:800}}>

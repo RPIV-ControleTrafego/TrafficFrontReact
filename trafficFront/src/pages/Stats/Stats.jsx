@@ -97,12 +97,19 @@ function App() {
     link.download = 'data.csv';
     link.click();
   };
+
+  // PAINEL METABASE - TRÁFEGO GERAL
+  <iframe
+    src="https://metabase.ayvu.net/public/dashboard/4ebee3d7-67ee-4945-940f-5af14df14463"
+    frameborder="0"
+    width="800"
+    height="600"
+    allowtransparency
+  ></iframe>
+  // PAINEL METABASE - TRÁFEGO GERAL
   
   return (
     <div className="App">
-      
-      
-      
    
     <h1 className='text-5xl mb-12 mt-16'> Informações de Tráfego</h1>
       <div id="accordion-collapse" data-accordion="collapse" className='overflow-auto mb-96'>

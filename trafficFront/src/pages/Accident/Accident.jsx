@@ -55,6 +55,16 @@ import axios from 'axios';
 
 <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=6580ed52-163d-4e1e-8cf9-21e63a7a7230&maxDataAge=3600&theme=light&autoRefresh=true"></iframe> */}
 
+  // PAINEL METABASE - ACIDENTES
+  <iframe
+    src="https://metabase.ayvu.net/public/dashboard/f9a953bd-f263-40e7-8478-ead9cb3da497"
+    frameborder="0"
+    width="800"
+    height="600"
+    allowtransparency
+></iframe>
+  // PAINEL METABASE - ACIDENTES
+
   const charts = [
     'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=6580ebd1-6716-4ad9-8fdf-ef9da635ec28&maxDataAge=3600&theme=light&autoRefresh=true',
     'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=6580ec3c-613e-4c7b-8c19-8bf495096059&maxDataAge=3600&theme=light&autoRefresh=true',
