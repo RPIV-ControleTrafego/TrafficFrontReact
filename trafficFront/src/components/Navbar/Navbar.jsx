@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { FaUser } from 'react-icons/fa'; 
+import { FaUser } from 'react-icons/fa';
+import axios from 'axios';
+
 const Navbar = ({ loggedInUser }) => {
   const isAdmin = loggedInUser && loggedInUser.role === 'admin';
   const isPolice = loggedInUser && loggedInUser.role === 'policial';
