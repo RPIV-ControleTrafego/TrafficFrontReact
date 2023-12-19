@@ -55,11 +55,17 @@
         // Fetch list of infractions
         const listByCPFResponse = await makeRequest(BASE_URL_INFRACTION, `infraction/list-by-cpf/${selectedCurrency}/${userResponse.cpf}`);
         setInfractions(listByCPFResponse);
-
         // Fetch latest infraction
         const latestInfractionResponse = await makeRequest(BASE_URL_INFRACTION, `infraction/latest/${userResponse.cpf}`);
-        setLatestInfraction(latestInfractionResponse);
 
+        // Check for errors in the response
+        if (latestInfractionResponse.error) {
+          // Log or handle the error (you can choose not to do anything here)
+          console.error("Error fetching latest infraction:", latestInfractionResponse.message);
+        } else {
+          // Set the latest infraction only if there's no error
+          setLatestInfraction(latestInfractionResponse);
+}
         // Fetch paid infractions
         const paidInfractionsResponse = await makeRequest(BASE_URL_INFRACTION, `infraction/list-paid/${userResponse.cpf}`);
         setPaidInfractions(paidInfractionsResponse);
@@ -150,7 +156,7 @@
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-semibold text-gray-800">{fine.violation}</p>
-                  <p className="text-lg text-green-500">{format(new Date(latestInfraction?.date), 'dd/MM/yyyy')}</p>
+                  <p className="text-lg text-green-500">{format(new Date(fine?.date), 'dd/MM/yyyy')}</p>
                   <p className="text-gray-700">Valor: {fine.finePrice}</p>
                   {/* <p className="text-gray-700">Valor: {fine.idInfraction}</p> */}
                 </div>
@@ -206,19 +212,30 @@
 
         <h2 className="text-3xl font-bold mt-8 mb-6 text-gray-800">Dados de Multas</h2>
 
-                <div className="mb-8">
-            <h3 className="text-3xl font-bold mb-4 text-red-500">Última multa do CPF</h3>
-            <div className="mb-4">
-              <div className="flex items-center mb-2">
-                <p className="mr-2 font-semibold text-gray-700">Data:</p>
-                <p className="text-lg text-green-500">{latestInfraction?.date}</p>
-              </div>
-              <div className="flex items-center">
-                <p className="mr-2 font-semibold text-gray-700">Valor:</p>
-                <p className="text-lg text-green-500">{latestInfraction?.finePrice}</p>
-              </div>
-            </div>
-          </div>
+<div className="mb-8">
+  <h3 className="text-3xl font-bold mb-4 text-red-500">Última multa do CPF</h3>
+
+  {latestInfraction ? (
+    <div className="mb-4">
+      <div className="flex items-center mb-2">
+        <p className="mr-2 font-semibold text-gray-700">Data:</p>
+        <p className="text-lg text-green-500">
+          {latestInfraction.date
+            ? format(new Date(latestInfraction.date), 'dd/MM/yyyy')
+            : 'Sem Multas para esse CPF'}
+        </p>
+      </div>
+      <div className="flex items-center">
+        <p className="mr-2 font-semibold text-gray-700">Valor:</p>
+        <p className="text-lg text-green-500">
+          {latestInfraction.finePrice != null ? latestInfraction.finePrice : 'N/A'}
+        </p>
+      </div>
+    </div>
+  ) : (
+    <p>Sem multas Emitidas ou todas as multas foram pagas para esse CPF</p>
+  )}
+</div>
 
         <ul className="list-none p-0">
           {finesData.map(fine => (
