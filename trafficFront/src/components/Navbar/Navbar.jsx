@@ -30,7 +30,7 @@ const Navbar = ({ loggedInUser }) => {
   return (
     <nav
       className="bg-blue-500 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 right-0 z-10 mb-80"
-      style={{ zIndex: 1000 }}
+      style={{ zIndex: 1500 }}
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a className="flex items-center">
@@ -131,19 +131,7 @@ const Navbar = ({ loggedInUser }) => {
               </NavLink>
             </li>
 
-            {/* Botão de Logout */}
-            {loggedInUser && (
-                <li>
-                  <button
-                    onClick={confirmLogout}
-                    className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                    activeClassName="bg-blue-700"
-                    exact
-                  >
-                    Logout
-                  </button>
-                </li>
-              )}
+          
           </ul>
         </div>
       </div>
