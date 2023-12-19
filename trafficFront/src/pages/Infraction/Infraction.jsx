@@ -54,7 +54,7 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
       'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=65188dec-22d0-4915-81ba-a903b4337a48&maxDataAge=300&theme=light&autoRefresh=true',
       'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=657e7785-0a41-49cb-88e9-6eea37d9280c&maxDataAge=3600&theme=light&autoRefresh=true',
       'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=657e7749-e9c5-417d-8afe-ed24c7ab9ce9&maxDataAge=3600&theme=light&autoRefresh=true',
-      'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=657e7785-0a41-49cb-88e9-6eea37d9280c&maxDataAge=3600&theme=light&autoRefresh=true',
+      'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=657e7696-506b-448a-8b3c-a603a11fedca&maxDataAge=3600&theme=light&autoRefresh=true',
       'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=657e78ac-5a32-4327-878a-22e1c074908e&maxDataAge=3600&theme=light&autoRefresh=true',
       'https://charts.mongodb.com/charts-project-0-yqqda/embed/charts?id=657e79f8-5a32-469d-8cf6-22e1c0942ac6&maxDataAge=3600&theme=light&autoRefresh=true',
     ];
@@ -75,15 +75,7 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
     link.click();
   };
 
-  // PAINEL METABASE -  INFRAÇÕES
-  <iframe
-    src="https://metabase.ayvu.net/public/dashboard/6aa7b180-17ae-4f6e-ae0f-8933c7f19e3c"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-  ></iframe>
-  // PAINEL METABASE -  INFRAÇÕES
+
 
     return (
       <div className="App" style={{marginTop:800}}>
@@ -96,6 +88,15 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
             </div>
           ))}
         </div>
+      
+  <iframe
+    src="https://metabase.ayvu.net/public/dashboard/6aa7b180-17ae-4f6e-ae0f-8933c7f19e3c"
+    frameborder="0"
+    width="800"
+    height="600"
+    allowtransparency
+  ></iframe>
+
 
       <SpeedSearchLworGt />
       <SearchInfractionByDate />
