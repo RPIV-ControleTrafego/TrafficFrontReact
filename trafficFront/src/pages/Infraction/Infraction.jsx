@@ -77,12 +77,12 @@ import SearchFinePriceCPF from '../../components/FinePriceCPF/SearchFinePrice';
 
 
     return (
-      <div className="App">
-        <h1 className="text-5xl mt-72 px-5 vh">Informações de Infração</h1>
+      <div className="App" style={{marginTop:800}}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginTop: 600 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: 1000 }}>
+
           {charts.map((chart, index) => (
-            <div key={index} style={{ minWidth: '640px' }}>
+            <div key={index} style={{ minWidth: '400px' }}>
               <iframe style={chartStyle} src={chart}></iframe>
             </div>
           ))}
