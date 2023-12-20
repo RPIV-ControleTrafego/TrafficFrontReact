@@ -40,21 +40,21 @@ function App({loggedInUser}) {
 
 
   const renderInfractionRoute = () => {
-    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'policial' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' )) {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'policial' || loggedInUser.role === 'admin' || loggedInUser.role === 'cop' || loggedInUser.role === 'user' )) {
       return <Route path="/infraction" element={<Infraction />} />;
     }
     return null; 
   };
   
   const renderAccidentRoute = () => {
-    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin')) {
+    if (authenticated && loggedInUser && loggedInUser.role && (loggedInUser.role === 'bombeiro' || loggedInUser.role === 'admin' || loggedInUser.role === 'user')) {
       return <Route path="/accident" element={<Accident />} />;
     }
     return null; 
   };
   
   const renderAdminRoute = () => {
-    if (authenticated && loggedInUser && loggedInUser.role && loggedInUser.role === 'admin') {
+    if (authenticated && loggedInUser && loggedInUser.role && loggedInUser.role === 'admin' || loggedInUser.role === 'user') {
       return <Route path="/admin" element={<AdminPage />} />;
     }
     return null; 
