@@ -28,10 +28,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.HttpHeaders;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
-
-
-
-
 import com.login.login.model.User;
 import com.login.login.service.UserService;
 
@@ -55,36 +51,34 @@ class UserController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @PostMapping("/login")
-    @Operation(summary = "User Login", description = "Authenticate user and return user role")
+@PostMapping("/login")
+@Operation(summary = "User Login", description = "Authenticate user and return user role")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful login"),
         @ApiResponse(responseCode = "401", description = "Unauthorized")
 })
-    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
+public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
     String username = requestBody.get("username");
     String password = requestBody.get("password");
 
-    // Obtém o papel do usuário
-    String role = userService.getRole(username).getRole();
-
-    // Verifica se o login é bem-sucedido
+    // Obtém o usuário
     User loggedInUser = userService.login(username, password);
 
     if (loggedInUser != null) {
+        // Obtém a role do usuário como uma string
+        String role = loggedInUser.getRole();
+
         jakarta.servlet.http.HttpSession session = request.getSession();
         session.setAttribute("loggedInUser", loggedInUser);
         session.setAttribute("role", role);
         log.info("Novo usuário logado: " + username + " - Role: " + role);
 
-        // Retorne o papel do usuário como parte da resposta
+        // Retorna a role do usuário como parte da resposta
         return ResponseEntity.ok(role);
     } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
-        }
     }
-
-
+}
 
 
        @GetMapping("/logout")
@@ -308,27 +302,18 @@ public ResponseEntity<?> findUser(@RequestParam("username") String username) {
 @GetMapping("/NotPaid/{cpf}")
 @Operation(summary = "Payment", description = "Payment of fines")
 public ResponseEntity<String> payment(@PathVariable("cpf") String cpf) {
+    try {
+        String url = "http://localhost:8086/infraction/list-non-paid/" + cpf;
+        ResponseEntity<String> responseEntity = makeHttpRequest(url, HttpMethod.GET, null, String.class);
 
-    try{
-       String url = String.format("/list-non-paid/%s", cpf);
-         ResponseEntity<String> responseEntity = makeHttpRequest(url, HttpMethod.GET, null, String.class);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            // A resposta já é uma string, não há necessidade de conversão
             return ResponseEntity.ok(responseEntity.getBody());
-
         } else {
-            // Se não foi bem-sucedida, encaminhar o status e a mensagem de erro
             return ResponseEntity.status(responseEntity.getStatusCode()).body(responseEntity.getBody());
         }
-
-
-
-    }catch(Exception e){
+    } catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred in finding not paid fines");
     }
-
-
-
 }
 
 

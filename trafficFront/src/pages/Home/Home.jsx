@@ -81,23 +81,13 @@ function Home() {
         </div>
       </div>
 
-      <div className="flex space-x-4  mb-64 ml-52">
-        <CardWithStyling
-          title="Dados Gerais Sobre Tráfego"
-          content="Aqui voce pode encontrar dados gerais sobre o tráfego de veículos, como quais as cores, marcas e tipos de carros registrados."
-          link="/stats"
-        />
-        <CardWithStyling
-          title="Dados Gerais Sobre Acidentes"
-          content="Aqui voce pode encontrar dados gerais sobre os acidentes registrados no trânsito, com qual gravidade ferido e endereço."
-          link="/accident"
-        />
-        <CardWithStyling
-          title="Dados Gerais Sobre Infrações"
-          content="Aqui voce pode encontrar dados gerais sobre as infrações cometidas no trânsito, como quais as cores, marcas e tipos de carros registrados."
-          link="/infraction"
-        />
-      </div>
+      <iframe
+          src="https://metabase.ayvu.net/public/dashboard/6aa7b180-17ae-4f6e-ae0f-8933c7f19e3c"
+          frameBorder="0"
+          width="1600"
+          height="800"
+          allowTransparency
+        ></iframe>
     </div>
   );
 }

@@ -3,6 +3,8 @@ var jwt = require("jsonwebtoken");
 
 var METABASE_SITE_URL = "https://metabase.ayvu.net";
 var METABASE_SECRET_KEY = "cbde0c7ef441745e6d554c3760b94210518262f2c6d0acddd6ca8f27cae6b377";
+var METABASE_SECRET_KEY_DOIS = "cbde0c7ef441745e6d554c3760b94210518262f2c6d0acddd6ca8f27cae6b377";
+var METABASE_SECRET_KEY_TRES = "cbde0c7ef441745e6d554c3760b94210518262f2c6d0acddd6ca8f27cae6b377";
 
 var payload = {
     resource: { dashboard: 110 },

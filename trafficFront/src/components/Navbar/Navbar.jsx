@@ -6,6 +6,7 @@ const Navbar = ({ loggedInUser }) => {
   const isAdmin = loggedInUser && loggedInUser.role === 'admin';
   const isPolice = loggedInUser && loggedInUser.role === 'policial';
   const isFireman = loggedInUser && loggedInUser.role === 'bombeiro';
+  const isUser = loggedInUser && loggedInUser.role === 'user';
 
   const handleLogout = async () => {
     try {
@@ -96,7 +97,7 @@ const Navbar = ({ loggedInUser }) => {
               </NavLink>
               
             </li>
-            {isAdmin && (
+            {isAdmin && isUser && (
               <>
                 <li>
                   <NavLink to="/infraction">Infrações</NavLink>
